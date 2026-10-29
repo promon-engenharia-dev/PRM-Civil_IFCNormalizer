@@ -1,0 +1,36 @@
+# Regras de migração de schema (IFC2X3/IFC4 -> IFC4X3_ADD2).
+# A conversão IFC2X3 -> IFC4 usa as tabelas do IfcOpenShell; aqui ficam só os
+# complementos necessários para chegar ao IFC 4.3.
+
+# Classes do IFC4 que não existem no IFC4X3_ADD2 e sua equivalente.
+# Fonte: IFC 4.3.2.0, anexo "Changes" (entidades StandardCase/ElementedCase/Style removidas).
+ifc4_para_ifc4x3:
+  IfcBeamStandardCase: IfcBeam
+  IfcColumnStandardCase: IfcColumn
+  IfcMemberStandardCase: IfcMember
+  IfcPlateStandardCase: IfcPlate
+  IfcSlabStandardCase: IfcSlab
+  IfcSlabElementedCase: IfcSlab
+  IfcWallElementedCase: IfcWall
+  IfcDoorStandardCase: IfcDoor
+  IfcWindowStandardCase: IfcWindow
+  IfcOpeningStandardCase: IfcOpeningElement
+  IfcDoorStyle: IfcDoorType
+  IfcWindowStyle: IfcWindowType
+
+# Atributos que mudaram de nome na conversão de classe (classe de origem -> {atributo origem: atributo destino}).
+# IfcWindowStyleOperationEnum e IfcWindowTypePartitioningEnum têm os mesmos valores.
+atributos_renomeados:
+  IfcWindowStyle:
+    OperationType: PartitioningType
+  # IFC2X3 NumberOfRiser -> IFC4 NumberOfRisers (sem mapeamento no IfcOpenShell 0.9).
+  IfcStairFlight:
+    NumberOfRiser: NumberOfRisers
+
+# Valor usado quando um atributo obrigatório no schema de destino não tem
+# correspondente na origem. Todo uso é registrado no relatório.
+valores_padrao:
+  PredefinedType: NOTDEFINED
+  OperationType: NOTDEFINED
+  PartitioningType: NOTDEFINED
+  ParameterTakesPrecedence: false

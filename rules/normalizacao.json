@@ -1,0 +1,704 @@
+{
+  "versao": "0.1.0",
+  "descricao": "Regras de normalização para IFC4X3_ADD2. Regras com status 'proposta' só são aplicadas com --incluir-propostas; aprovar após avaliação com o BEP.",
+  "definicoes_pset": {
+    "PRM-Parametros": {
+      "Keynote": "IfcText",
+      "PRM_DescricaoAtividade": "IfcText",
+      "PRM_EAP": "IfcText",
+      "PRM_Comprimento": "IfcLengthMeasure",
+      "PRM_Largura": "IfcLengthMeasure",
+      "PRM_Altura": "IfcLengthMeasure",
+      "PRM_Espessura": "IfcLengthMeasure",
+      "PRM_Area": "IfcAreaMeasure",
+      "PRM_Quantidade": "IfcInteger",
+      "PRM_CodigoMaterial": "IfcText",
+      "PRM_CodigoAtividade": "IfcText",
+      "PRM_Avanco": "IfcReal"
+    }
+  },
+  "tipos": {
+    "reclassificar_com_elemento": true
+  },
+  "geometria": {
+    "tolerancia_angular_graus": 10,
+    "razao_alongamento_min": 3.0,
+    "razao_espessura_max": 0.25
+  },
+  "pendencias": {
+    "classes_genericas": [
+      "IfcBuildingElementProxy"
+    ],
+    "exigir_predefined_type": true,
+    "ignorar_classes": [
+      "IfcFeatureElement",
+      "IfcVirtualElement"
+    ]
+  },
+  "regras": [
+    {
+      "id": "TKL-FIX-001",
+      "status": "proposta",
+      "tema": "Tekla – fixadores",
+      "descricao": "Porcas exportadas pelo Tekla como IfcBeam",
+      "justificativa": "IfcMechanicalFastenerTypeEnum (IFC 4.3) não tem NUT: usar USERDEFINED com ObjectType.",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Tekla",
+        "classe": [
+          "IfcBeam",
+          "IfcColumn",
+          "IfcMember"
+        ],
+        "ou": [
+          {
+            "nome": {
+              "em": [
+                "NUT",
+                "PORCA"
+              ]
+            }
+          },
+          {
+            "descricao": {
+              "contem": "HEX_NUT"
+            }
+          }
+        ]
+      },
+      "entao": {
+        "classe": "IfcMechanicalFastener",
+        "predefined_type": "USERDEFINED",
+        "object_type": "PORCA"
+      },
+      "perguntas": [
+        "Porcas devem ser IfcMechanicalFastener (fixador mecânico) com ObjectType PORCA, como o IFC 4.3 orienta para itens sem tipo predefinido?",
+        "O BEP pede porcas, arruelas e parafusos no modelo, ou só o conjunto do parafuso?"
+      ]
+    },
+    {
+      "id": "TKL-FIX-002",
+      "status": "proposta",
+      "tema": "Tekla – fixadores",
+      "descricao": "Arruelas exportadas pelo Tekla como IfcBeam",
+      "justificativa": "IfcMechanicalFastenerTypeEnum (IFC 4.3) não tem WASHER: usar USERDEFINED com ObjectType.",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Tekla",
+        "classe": [
+          "IfcBeam",
+          "IfcColumn",
+          "IfcMember"
+        ],
+        "ou": [
+          {
+            "nome": {
+              "em": [
+                "ARRUELA",
+                "WASHER"
+              ]
+            }
+          },
+          {
+            "descricao": {
+              "contem": "WASHER"
+            }
+          }
+        ]
+      },
+      "entao": {
+        "classe": "IfcMechanicalFastener",
+        "predefined_type": "USERDEFINED",
+        "object_type": "ARRUELA"
+      },
+      "perguntas": [
+        "Arruelas devem ser IfcMechanicalFastener com ObjectType ARRUELA?",
+        "O BEP pede arruelas como peças individuais no modelo?"
+      ]
+    },
+    {
+      "id": "TKL-FIX-003",
+      "status": "proposta",
+      "tema": "Tekla – fixadores",
+      "descricao": "Chumbadores químicos exportados pelo Tekla como IfcBeam",
+      "justificativa": "Chumbador = ANCHORBOLT em IfcMechanicalFastenerTypeEnum.",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Tekla",
+        "classe": [
+          "IfcBeam",
+          "IfcColumn",
+          "IfcMember"
+        ],
+        "ou": [
+          {
+            "nome": {
+              "em": [
+                "QUIMICO",
+                "ANCHORROD"
+              ]
+            }
+          },
+          {
+            "descricao": {
+              "comeca_com": "QUIMICO"
+            }
+          }
+        ]
+      },
+      "entao": {
+        "classe": "IfcMechanicalFastener",
+        "predefined_type": "ANCHORBOLT"
+      },
+      "perguntas": [
+        "Os chumbadores químicos (QUIMICO, ANCHORROD) são chumbadores (ANCHORBOLT)?"
+      ]
+    },
+    {
+      "id": "TKL-EST-001",
+      "status": "proposta",
+      "tema": "Tekla – peças estruturais pelo nome",
+      "descricao": "Correntes e tirantes do Tekla -> barra de tração",
+      "justificativa": "Corrente (de terça/fechamento) e tirante trabalham à tração: IfcMember TIEBAR. Hoje a geometria classifica as correntes verticais como pilar.",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Tekla",
+        "classe": [
+          "IfcBeam",
+          "IfcColumn",
+          "IfcMember"
+        ],
+        "nome": {
+          "em": [
+            "CORRENTE",
+            "TIRANTE"
+          ]
+        }
+      },
+      "entao": {
+        "classe": "IfcMember",
+        "predefined_type": "TIEBAR"
+      },
+      "perguntas": [
+        "Correntes e tirantes são barras de tração (IfcMember TIEBAR)?",
+        "Há correntes que trabalham de outra forma e precisam de outra classificação?"
+      ]
+    },
+    {
+      "id": "TKL-EST-002",
+      "status": "proposta",
+      "tema": "Tekla – peças estruturais pelo nome",
+      "descricao": "Travamentos do Tekla -> contraventamento",
+      "justificativa": "Travamento = contraventamento: IfcMember BRACE. Hoje a geometria classifica os verticais como pilar e deixa os inclinados sem regra.",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Tekla",
+        "classe": [
+          "IfcBeam",
+          "IfcColumn",
+          "IfcMember"
+        ],
+        "nome": "TRAVAMENTO"
+      },
+      "entao": {
+        "classe": "IfcMember",
+        "predefined_type": "BRACE"
+      },
+      "perguntas": [
+        "Peças chamadas TRAVAMENTO são contraventamento (IfcMember BRACE)?"
+      ]
+    },
+    {
+      "id": "TKL-EST-003",
+      "status": "proposta",
+      "tema": "Tekla – peças estruturais pelo nome",
+      "descricao": "Diagonais do Tekla -> contraventamento",
+      "justificativa": "IfcMember BRACE. Validar: se forem diagonais de treliça (e não de contraventamento), a alternativa é IfcMember MEMBER.",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Tekla",
+        "classe": [
+          "IfcBeam",
+          "IfcColumn",
+          "IfcMember"
+        ],
+        "nome": "DIAGONAL"
+      },
+      "entao": {
+        "classe": "IfcMember",
+        "predefined_type": "BRACE"
+      },
+      "perguntas": [
+        "As DIAGONAIS são de contraventamento (BRACE) ou de treliça (MEMBER)?"
+      ]
+    },
+    {
+      "id": "TKL-EST-004",
+      "status": "proposta",
+      "tema": "Tekla – peças estruturais pelo nome",
+      "descricao": "Terças do Tekla -> terça",
+      "justificativa": "Terça de cobertura = IfcMember PURLIN. Comparação ignora acento (TERÇA = TERCA).",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Tekla",
+        "classe": [
+          "IfcBeam",
+          "IfcColumn",
+          "IfcMember"
+        ],
+        "nome": "TERÇA"
+      },
+      "entao": {
+        "classe": "IfcMember",
+        "predefined_type": "PURLIN"
+      },
+      "perguntas": [
+        "Peças chamadas TERÇA são terças de cobertura (IfcMember PURLIN)?"
+      ]
+    },
+    {
+      "id": "TKL-EST-005",
+      "status": "proposta",
+      "tema": "Tekla – peças estruturais pelo nome",
+      "descricao": "Longarinas do Tekla -> travessa de fechamento (USERDEFINED)",
+      "justificativa": "O IFC 4.3 não tem travessa de fechamento lateral (girt). Proposta: IfcMember USERDEFINED/LONGARINA. Alternativas a validar: IfcMember PURLIN (se forem terças) ou IfcMember STRINGER / IfcBeam BEAM (se forem longarinas de piso).",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Tekla",
+        "classe": [
+          "IfcBeam",
+          "IfcColumn",
+          "IfcMember"
+        ],
+        "nome": "LONGARINA"
+      },
+      "entao": {
+        "classe": "IfcMember",
+        "predefined_type": "USERDEFINED",
+        "object_type": "LONGARINA"
+      },
+      "perguntas": [
+        "O que é LONGARINA neste projeto: travessa de fechamento lateral, terça ou longarina de piso?",
+        "Qual classificação o BEP espera para essa peça?"
+      ]
+    },
+    {
+      "id": "TKL-PRM-001",
+      "status": "proposta",
+      "tema": "Parâmetros PRM",
+      "descricao": "Código de atividade do Tekla (barras) para PRM-Parametros",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Tekla",
+        "propriedades": {
+          "PROMON-BARRAS.ST3_COD_ATIV": {
+            "vazio": false
+          }
+        }
+      },
+      "entao": {
+        "propriedades": {
+          "PRM-Parametros": {
+            "PRM_CodigoAtividade": {
+              "copiar": "PROMON-BARRAS.ST3_COD_ATIV"
+            }
+          }
+        }
+      },
+      "perguntas": [
+        "O código ST3_COD_ATIV do Tekla é o mesmo Código de Atividade do BEP (PRM_CodigoAtividade)?"
+      ]
+    },
+    {
+      "id": "TKL-PRM-002",
+      "status": "proposta",
+      "tema": "Parâmetros PRM",
+      "descricao": "Código de atividade do Tekla (chapas) para PRM-Parametros",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Tekla",
+        "propriedades": {
+          "PROMON-CHAPAS.ST3_COD_ATIV": {
+            "vazio": false
+          }
+        }
+      },
+      "entao": {
+        "propriedades": {
+          "PRM-Parametros": {
+            "PRM_CodigoAtividade": {
+              "copiar": "PROMON-CHAPAS.ST3_COD_ATIV"
+            }
+          }
+        }
+      },
+      "perguntas": [
+        "O código ST3_COD_ATIV das chapas é o mesmo Código de Atividade do BEP?"
+      ]
+    },
+    {
+      "id": "RVT-PRM-001",
+      "status": "proposta",
+      "tema": "Parâmetros PRM",
+      "descricao": "PRM_Construtibilidade (Revit) para PRM-Parametros",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Revit",
+        "propriedades": {
+          "PRM_Construtibilidade.CodigoAtividade": {
+            "vazio": false
+          }
+        }
+      },
+      "entao": {
+        "propriedades": {
+          "PRM-Parametros": {
+            "PRM_CodigoAtividade": {
+              "copiar": "PRM_Construtibilidade.CodigoAtividade"
+            },
+            "PRM_DescricaoAtividade": {
+              "copiar": "PRM_Construtibilidade.DescricaoAtividade"
+            },
+            "PRM_EAP": {
+              "copiar": "PRM_Construtibilidade.EAP"
+            }
+          }
+        }
+      },
+      "perguntas": [
+        "CodigoAtividade, DescricaoAtividade e EAP do Revit são os mesmos dados que o BEP chama de PRM_CodigoAtividade, PRM_DescricaoAtividade e PRM_EAP?",
+        "O formato da EAP (ex.: 0610) é o esperado?",
+        "O grupo antigo PRM_Construtibilidade deve continuar no arquivo depois da cópia?"
+      ],
+      "justificativa": "Copia os valores como estão. Decisão (26/10/2026): CodigoAtividade = \"ASSOCIADO\" é mantido, pois reflete alinhamento do projeto."
+    },
+    {
+      "id": "RVT-PRM-002",
+      "status": "proposta",
+      "tema": "Parâmetros PRM",
+      "descricao": "PRM_Dimensoes (Revit, em metros) para PRM-Parametros",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Revit",
+        "propriedades": {
+          "PRM_Dimensoes.Altura": {
+            "vazio": false
+          }
+        }
+      },
+      "entao": {
+        "propriedades": {
+          "PRM-Parametros": {
+            "PRM_Altura": {
+              "copiar": "PRM_Dimensoes.Altura",
+              "unidade_origem": "m"
+            },
+            "PRM_Largura": {
+              "copiar": "PRM_Dimensoes.Largura",
+              "unidade_origem": "m"
+            },
+            "PRM_Espessura": {
+              "copiar": "PRM_Dimensoes.Espessura",
+              "unidade_origem": "m"
+            },
+            "PRM_Area": {
+              "copiar": "PRM_Dimensoes.Area",
+              "unidade_origem": "m"
+            }
+          }
+        }
+      },
+      "perguntas": [
+        "As dimensões de PRM_Dimensoes (Altura, Largura, Espessura, Área) estão em metros no Revit?",
+        "Copiar o valor do Revit ou calcular pela geometria do IFC?"
+      ]
+    },
+    {
+      "id": "RVT-HID-001",
+      "status": "proposta",
+      "tema": "Revit – hidráulica",
+      "descricao": "Bebedouro industrial modelado como Modelo Genérico (proxy com portas hidráulicas)",
+      "justificativa": "No IFC 4.3 só IfcDistributionElement pode ter portas. Alternativa: USERDEFINED/BEBEDOURO.",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Revit",
+        "classe": "IfcBuildingElementProxy",
+        "nome": {
+          "contem": "Bebedouro"
+        }
+      },
+      "entao": {
+        "classe": "IfcSanitaryTerminal",
+        "predefined_type": "SANITARYFOUNTAIN"
+      },
+      "perguntas": [
+        "O bebedouro deve ser aparelho sanitário com tipo SANITARYFOUNTAIN, ou USERDEFINED/BEBEDOURO?"
+      ]
+    },
+    {
+      "id": "C3D-PAV-001",
+      "status": "proposta",
+      "tema": "Civil 3D – pavimentação",
+      "descricao": "Revestimento (CodeName Pave1) do corredor Civil 3D",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Civil3D",
+        "classe": "IfcBuildingElementProxy",
+        "propriedades": {
+          "Corridor Shape Information.CodeName": {
+            "em": [
+              "Pave",
+              "Pave1",
+              "Pave2"
+            ]
+          }
+        }
+      },
+      "entao": {
+        "classe": "IfcCourse",
+        "predefined_type": "PAVEMENT",
+        "nome": "Revestimento"
+      },
+      "perguntas": [
+        "A camada Pave1 do corredor é o revestimento (IfcCourse PAVEMENT)?",
+        "Qual nome o BEP pede para essa camada?"
+      ]
+    },
+    {
+      "id": "C3D-PAV-002",
+      "status": "proposta",
+      "tema": "Civil 3D – pavimentação",
+      "descricao": "Base do pavimento (CodeName Base)",
+      "justificativa": "IfcCourseTypeEnum não tem BASE: USERDEFINED com ObjectType.",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Civil3D",
+        "classe": "IfcBuildingElementProxy",
+        "propriedades": {
+          "Corridor Shape Information.CodeName": "Base"
+        }
+      },
+      "entao": {
+        "classe": "IfcCourse",
+        "predefined_type": "USERDEFINED",
+        "object_type": "BASE",
+        "nome": "Base"
+      },
+      "perguntas": [
+        "A camada Base deve ser IfcCourse com ObjectType BASE?"
+      ]
+    },
+    {
+      "id": "C3D-PAV-003",
+      "status": "proposta",
+      "tema": "Civil 3D – pavimentação",
+      "descricao": "Sub-base do pavimento (CodeName SubBase)",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Civil3D",
+        "classe": "IfcBuildingElementProxy",
+        "propriedades": {
+          "Corridor Shape Information.CodeName": "SubBase"
+        }
+      },
+      "entao": {
+        "classe": "IfcCourse",
+        "predefined_type": "USERDEFINED",
+        "object_type": "SUB-BASE",
+        "nome": "Sub-base"
+      },
+      "perguntas": [
+        "A camada SubBase deve ser IfcCourse com ObjectType SUB-BASE?"
+      ]
+    },
+    {
+      "id": "C3D-PAV-004",
+      "status": "proposta",
+      "tema": "Civil 3D – pavimentação",
+      "descricao": "Guia (CodeName Curb)",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Civil3D",
+        "classe": "IfcBuildingElementProxy",
+        "propriedades": {
+          "Corridor Shape Information.CodeName": "Curb"
+        }
+      },
+      "entao": {
+        "classe": "IfcKerb",
+        "predefined_type": "NOTDEFINED",
+        "nome": "Guia"
+      },
+      "perguntas": [
+        "A peça Curb do corredor é guia (IfcKerb)?",
+        "E a peça 'Sarjeta, Curb' (sarjeta + guia), que hoje fica sem regra?"
+      ]
+    },
+    {
+      "id": "C3D-FER-001",
+      "status": "proposta",
+      "tema": "Civil 3D – ferrovia",
+      "descricao": "Trilho (CodeName Rail)",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Civil3D",
+        "classe": "IfcBuildingElementProxy",
+        "propriedades": {
+          "Corridor Shape Information.CodeName": "Rail"
+        }
+      },
+      "entao": {
+        "classe": "IfcRail",
+        "predefined_type": "RAIL",
+        "nome": "Trilho"
+      },
+      "perguntas": [
+        "A peça Rail do corredor é trilho (IfcRail RAIL)?"
+      ]
+    },
+    {
+      "id": "C3D-FER-002",
+      "status": "proposta",
+      "tema": "Civil 3D – ferrovia",
+      "descricao": "Lastro (CodeName Ballast)",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Civil3D",
+        "classe": "IfcBuildingElementProxy",
+        "propriedades": {
+          "Corridor Shape Information.CodeName": "Ballast"
+        }
+      },
+      "entao": {
+        "classe": "IfcCourse",
+        "predefined_type": "BALLASTBED",
+        "nome": "Lastro"
+      },
+      "perguntas": [
+        "A peça Ballast do corredor é lastro (IfcCourse BALLASTBED)?"
+      ]
+    },
+    {
+      "id": "C3D-GEO-001",
+      "status": "proposta",
+      "tema": "Civil 3D – terreno",
+      "descricao": "Superfície de terreno natural",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Civil3D",
+        "arquivo": {
+          "contem": "TERRENO-NATURAL"
+        },
+        "classe": "IfcBuildingElementProxy"
+      },
+      "entao": {
+        "classe": "IfcGeographicElement",
+        "predefined_type": "TERRAIN",
+        "nome": "Terreno natural"
+      },
+      "perguntas": [
+        "A superfície do arquivo TERRENO-NATURAL deve ser IfcGeographicElement TERRAIN?"
+      ]
+    },
+    {
+      "id": "C3D-TER-001",
+      "status": "proposta",
+      "tema": "Civil 3D – terraplenagem",
+      "descricao": "Superfície de terraplenagem (terreno projetado, com volumes de corte/aterro no Pset PROMON-TERRAPLENAGEM)",
+      "avaliacao_bep": "",
+      "quando": {
+        "origem": "Civil3D",
+        "arquivo": {
+          "contem": "TERRAPLENAGEM"
+        },
+        "classe": "IfcBuildingElementProxy"
+      },
+      "entao": {
+        "classe": "IfcGeographicElement",
+        "predefined_type": "TERRAIN",
+        "nome": "Terreno projetado"
+      },
+      "perguntas": [
+        "O elemento é uma superfície (IfcShellBasedSurfaceModel), não um sólido: IfcGeographicElement TERRAIN (terreno projetado) atende o BEP?",
+        "Alternativa: IfcEarthworksElement (terraplenagem genérica). IfcEarthworksFill/IfcEarthworksCut pedem um sólido por volume de aterro/corte, que o Civil 3D não exporta aqui.",
+        "Qual nome o BEP pede para essa superfície?"
+      ]
+    },
+    {
+      "id": "GEO-EST-001",
+      "status": "proposta",
+      "tema": "Geometria (em teste)",
+      "descricao": "TESTE – peça linear vertical em estrutura (ST3/ST4/S) -> pilar",
+      "justificativa": "Decisão: vertical -> IfcColumn. Heurística geométrica: conferir a aba Revisao_Geometrica antes de aprovar.",
+      "avaliacao_bep": "",
+      "quando": {
+        "disciplina": [
+          "ST3",
+          "ST4",
+          "S"
+        ],
+        "classe": [
+          "IfcBeam",
+          "IfcColumn",
+          "IfcMember"
+        ],
+        "geometria": "vertical"
+      },
+      "entao": {
+        "classe": "IfcColumn",
+        "predefined_type": "COLUMN"
+      },
+      "perguntas": [
+        "Peças lineares verticais em estrutura são pilares? Confira os grupos na aba Geometria_Revisao, principalmente peças curtas chamadas VIGA.",
+        "A tolerância de 10° em relação à vertical é adequada?"
+      ]
+    },
+    {
+      "id": "GEO-EST-002",
+      "status": "proposta",
+      "tema": "Geometria (em teste)",
+      "descricao": "TESTE – peça linear horizontal em estrutura (ST3/ST4/S) -> viga",
+      "justificativa": "Decisão: horizontal -> IfcBeam. Travamentos e correntes horizontais também caem aqui: conferir.",
+      "avaliacao_bep": "",
+      "quando": {
+        "disciplina": [
+          "ST3",
+          "ST4",
+          "S"
+        ],
+        "classe": [
+          "IfcBeam",
+          "IfcColumn",
+          "IfcMember"
+        ],
+        "geometria": "horizontal"
+      },
+      "entao": {
+        "classe": "IfcBeam",
+        "predefined_type": "BEAM"
+      },
+      "perguntas": [
+        "Peças lineares horizontais em estrutura são vigas? Confira os grupos na aba Geometria_Revisao (ex.: juntas de piso do Revit)."
+      ]
+    },
+    {
+      "id": "GEO-EST-003",
+      "status": "proposta",
+      "tema": "Geometria (em teste)",
+      "descricao": "TESTE – proxy plano horizontal em concreto (ST4) -> laje",
+      "justificativa": "Decisão: plano retangular -> IfcSlab. Sem PredefinedType (piso, cobertura, fundação) até validar.",
+      "avaliacao_bep": "",
+      "quando": {
+        "disciplina": "ST4",
+        "classe": "IfcBuildingElementProxy",
+        "geometria": "plano_horizontal"
+      },
+      "entao": {
+        "classe": "IfcSlab"
+      },
+      "perguntas": [
+        "Elementos genéricos planos e horizontais no ST4 são lajes? Na simulação, arruelas e graute caíram aqui."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Normalizador IFC – Promon Engenharia</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  /* Tema: segue o sistema operacional; a escolha manual (Claro/Escuro) fica guardada neste computador. */
+  try { const t = localStorage.getItem("tema"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+
+<header class="topo">
+  <!-- Grafismo de canto (arco azul + gota azul-céu), assinatura da página. -->
+  <svg class="grafismo" viewBox="0 0 100 110" width="27" height="30" aria-hidden="true">
+    <path class="arco" d="M50 6.25A43.75 43.75 0 0 0 42.4 93.09" fill="none" stroke="#004976" stroke-width="8.5"/>
+    <circle cx="50" cy="93.75" r="9.8" fill="#67C4D4"/>
+  </svg>
+  <img class="logo logo-positiva" src="assets/logo-promon.svg" alt="Promon Engenharia">
+  <img class="logo logo-negativa" src="assets/logo-promon-negativa.svg" alt="Promon Engenharia">
+  <div class="regua"></div>
+  <div>
+    <h1>Normalizador IFC</h1>
+    <p class="subtitulo">Padrão Promon · IFC 4.3 (buildingSMART)</p>
+  </div>
+  <nav class="abas-topo" role="tablist">
+    <button class="aba ativa" data-pagina="pagina-normalizar" role="tab">Normalização</button>
+    <button class="aba" data-pagina="pagina-visualizador" role="tab">Visualizador 3D</button>
+  </nav>
+  <div class="espaco"></div>
+  <span id="selo-regras" class="selo neutro">Regras: carregando…</span>
+  <button id="bt-tema" class="tema" title="Tema da interface: sistema operacional, claro ou escuro">Tema: sistema</button>
+</header>
+
+<main id="pagina-normalizar" class="pagina">
+  <div class="grade">
+    <div>
+      <!-- 1. Arquivos -->
+      <section class="cartao">
+        <div class="cabecalho-cartao">
+          <h2><span class="passo">1</span>Arquivos IFC</h2>
+          <button class="botao" id="bt-arquivos">Adicionar arquivos</button>
+          <button class="botao" id="bt-pasta">Adicionar pasta</button>
+          <button class="botao" id="bt-limpar">Limpar</button>
+        </div>
+        <div class="rolagem">
+          <table>
+            <thead><tr><th style="text-align:left">Arquivo</th><th>Origem</th><th>Versão IFC</th><th>Tamanho</th><th>Situação</th><th></th></tr></thead>
+            <tbody id="lista-arquivos"></tbody>
+          </table>
+          <div id="lista-vazia" class="vazio">Nenhum arquivo selecionado. Use <strong>Adicionar arquivos</strong> ou <strong>Adicionar pasta</strong>.</div>
+        </div>
+      </section>
+
+      <!-- Estrutura espacial e nomes (aplicados em Normalizar) -->
+      <section class="cartao" id="cartao-estrutura">
+        <div class="cabecalho-cartao">
+          <h2>Estrutura espacial e nomes</h2>
+          <button class="botao mini" id="bt-estrutura-recarregar" title="Volta aos valores do arquivo de regras">Recarregar</button>
+          <button class="botao mini" id="bt-estrutura-salvar" title="Grava estes nomes em rules\estrutura.json">Salvar nas regras</button>
+        </div>
+        <p class="dica">Aplicados ao <strong>Normalizar</strong>. Campo vazio mantém o nome do arquivo.
+          Os nomes seguem o BEP; ajustes aqui valem para esta execução, a menos que sejam salvos nas regras.</p>
+        <div class="estrutura-campos">
+          <span class="rotulo">IfcProject</span>
+          <input class="campo-texto" id="est-projeto-nome" placeholder="Nome (Name)">
+          <input class="campo-texto" id="est-projeto-longo" placeholder="Nome longo (LongName)">
+          <span class="rotulo">IfcSite</span>
+          <input class="campo-texto" id="est-site-nome" placeholder="Nome (Name)">
+          <input class="campo-texto" id="est-site-longo" placeholder="Nome longo (LongName)">
+        </div>
+        <div class="rolagem estrutura-predios">
+          <table>
+            <thead><tr><th style="text-align:left">Prédio (IfcBuilding)</th><th>Arquivos</th><th>Na seleção</th>
+              <th>Nome (Name)</th><th>Nome longo (LongName)</th></tr></thead>
+            <tbody id="est-predios"></tbody>
+          </table>
+        </div>
+        <div id="est-infra" class="info"></div>
+      </section>
+
+    </div>
+
+    <!-- 2. Opções -->
+    <aside>
+      <section class="cartao">
+        <h2><span class="passo">2</span>O que fazer</h2>
+        <p class="dica">Marque uma ou mais ações. Elas rodam nesta ordem: diagnóstico → normalizar/converter → coordenadas
+          (as coordenadas são conferidas nos arquivos gerados).</p>
+        <fieldset>
+          <div class="opcoes-acao" id="opcoes-acao">
+            <label class="opcao ativa"><input type="checkbox" name="acao" value="normalizar" checked>
+              <div><strong>Normalizar</strong><span>Converte para IFC 4.3 e aplica as regras Promon. Gera IFC e relatório de alterações e pendências.</span></div></label>
+            <label class="opcao"><input type="checkbox" name="acao" value="migrar">
+              <div><strong>Só converter para IFC 4.3</strong><span>Muda a versão do arquivo e registra tudo o que mudou na conversão.</span></div></label>
+            <label class="opcao"><input type="checkbox" name="acao" value="coordenadas">
+              <div><strong>Verificar coordenadas</strong><span>Confere se o eixo de referência de cada prédio (padrão A×1) está no zero-zero e na mesma posição em todos os modelos. Permite corrigir.</span></div></label>
+            <label class="opcao"><input type="checkbox" name="acao" value="diagnostico">
+              <div><strong>Diagnóstico</strong><span>Somente leitura. Planilha comparativa dos arquivos, base para o de-para.</span></div></label>
+          </div>
+        </fieldset>
+
+        <fieldset id="grupo-regras">
+          <legend>Regras</legend>
+          <div id="caixa-regras" class="info">Carregando…</div>
+          <label class="marcar"><input type="checkbox" id="ck-propostas">
+            <div>Incluir regras propostas (simulação)<small>Aplica também regras ainda não aprovadas no BEP, para avaliar o efeito.</small></div></label>
+        </fieldset>
+
+        <fieldset id="grupo-validar">
+          <label class="marcar"><input type="checkbox" id="ck-validar" checked>
+            <div>Validar o arquivo final<small>Confere o resultado contra o esquema IFC 4.3. Em arquivos grandes leva alguns minutos.</small></div></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Pasta de saída</legend>
+          <div class="campo-pasta">
+            <input id="pasta-saida" readonly placeholder="Definida ao adicionar arquivos">
+            <button class="botao" id="bt-saida">Escolher…</button>
+          </div>
+        </fieldset>
+
+        <button class="botao primario grande" id="bt-processar" disabled>Processar</button>
+        <div class="progresso oculto" id="progresso">
+          <div class="barra"><div id="barra"></div></div>
+          <p id="progresso-texto"></p>
+        </div>
+      </section>
+    </aside>
+  </div>
+    <!-- 3. Resultados -->
+    <section class="cartao largura-total" id="cartao-resultados">
+      <div class="cabecalho-cartao">
+        <h2><span class="passo">3</span>Resultados</h2>
+        <button class="botao oculto" id="bt-abrir-saida">Abrir pasta de saída</button>
+      </div>
+      <div class="abas-resultado oculto" id="abas-resultado" role="tablist"></div>
+      <div id="ajuda-coordenadas" class="info oculto" style="margin-bottom:12px">
+        <strong>Como ler o quadro:</strong> X, Y e Z são as coordenadas do cruzamento dos eixos de referência no arquivo (em metros);
+        “Direção” é o ângulo do eixo em planta. Δ é a diferença para o modelo de referência (arquitetura).
+        Nos modelos divergentes, confira o alvo e o giro (já preenchidos com a sugestão), marque “Corrigir” e use
+        <strong>Aplicar correção</strong>: a ferramenta grava uma cópia corrigida na pasta de saída e confere o resultado.
+        O arquivo de origem não é alterado.
+        <div class="acoes" style="margin-top:8px"><button class="botao primario" id="bt-corrigir" disabled>Aplicar correção nos marcados</button></div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><p class="rotulo">Arquivos</p><div class="valor" id="k-arquivos">–</div><small id="k-arquivos-sub">processados</small></div>
+        <div class="kpi"><p class="rotulo">Alterações</p><div class="valor" id="k-alteracoes">–</div><small id="k-alteracoes-sub">em elementos</small></div>
+        <div class="kpi"><p class="rotulo">Pendências</p><div class="valor acento" id="k-pendencias">–</div><small>para avaliar no de-para</small></div>
+        <div class="kpi"><p class="rotulo">Erros de esquema</p><div class="valor" id="k-erros">–</div><small>no arquivo final</small></div>
+      </div>
+      <div class="rolagem">
+        <table>
+          <thead id="cab-resultados"></thead>
+          <tbody id="lista-resultados"></tbody>
+        </table>
+        <div id="resultados-vazio" class="vazio">Os resultados aparecem aqui ao processar.</div>
+      </div>
+      <details class="registro">
+        <summary>Registro de execução</summary>
+        <pre id="registro"></pre>
+      </details>
+    </section>
+</main>
+
+<!-- Visualizador 3D (somente leitura) -->
+<main id="pagina-visualizador" class="pagina oculto">
+  <div class="vis-grade">
+    <aside class="cartao vis-lateral">
+      <h2>Modelos</h2>
+      <div class="vis-carregar">
+        <select id="vis-lista" title="Arquivos da lista e arquivos gerados"></select>
+        <button class="botao" id="vis-bt-carregar">Carregar</button>
+      </div>
+      <button class="botao" id="vis-bt-abrir" style="width:100%;margin-top:6px">Abrir outro IFC…</button>
+      <label class="marcar"><input type="checkbox" id="vis-armaduras">
+        <div>Incluir armaduras<small>Barras e telas de aço deixam o carregamento bem mais lento.</small></div></label>
+      <div id="vis-progresso" class="progresso oculto"><div class="barra"><div id="vis-barra"></div></div><p id="vis-progresso-texto"></p></div>
+      <ul id="vis-modelos" class="vis-modelos"></ul>
+      <h2 style="margin-top:16px">Classes IFC</h2>
+      <div class="vis-classes-acoes"><button class="link" id="vis-classes-todas">Mostrar todas</button></div>
+      <ul id="vis-classes" class="vis-classes"></ul>
+    </aside>
+
+    <section class="cartao vis-centro">
+      <div class="vis-barra-ferramentas">
+        <button class="botao mini" id="vis-enquadrar" title="Enquadrar tudo o que está visível (tecla F)">Enquadrar</button>
+        <span class="separador"></span>
+        <button class="botao mini" data-vista="iso">Iso</button>
+        <button class="botao mini" data-vista="topo">Topo</button>
+        <button class="botao mini" data-vista="frente">Frente</button>
+        <button class="botao mini" data-vista="lateral">Lateral</button>
+        <span class="separador"></span>
+        <button class="botao mini" id="vis-isolar" disabled>Isolar seleção</button>
+        <button class="botao mini" id="vis-ocultar" disabled>Ocultar seleção</button>
+        <button class="botao mini" id="vis-mostrar">Mostrar tudo</button>
+        <label class="marcar mini"><input type="checkbox" id="vis-raiox">Raio-X</label>
+        <div class="espaco"></div>
+        <span id="vis-contagem" class="vis-contagem"></span>
+      </div>
+      <div class="vis-tela" id="vis-tela">
+        <canvas id="vis-canvas"></canvas>
+        <div id="vis-vazio" class="vis-vazio">Escolha um modelo e clique em <strong>Carregar</strong>.<br>
+          Vários modelos podem ser carregados juntos para conferir a sobreposição.</div>
+        <div class="vis-ajuda">Botão esquerdo: girar · direito ou do meio: deslocar · roda: zoom ·
+          clique: selecionar (Ctrl soma) · duplo clique: enquadrar elemento · Esc: limpar seleção</div>
+      </div>
+    </section>
+
+    <aside class="cartao vis-lateral">
+      <h2>Propriedades</h2>
+      <div id="vis-propriedades" class="vis-propriedades"><div class="vazio">Clique em um elemento para ver as propriedades.</div></div>
+    </aside>
+  </div>
+</main>
+
+<footer class="rodape">
+  <strong>Promon Engenharia</strong><span>·</span><span id="rodape-versao">Normalizador IFC</span>
+  <span>·</span><span>Os arquivos de origem nunca são alterados.</span>
+</footer>
+
+<script src="viewer.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

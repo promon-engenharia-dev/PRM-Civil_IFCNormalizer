@@ -1,0 +1,246 @@
+<title>Comparativo de ferramentas IFC</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: cabeçalho de documento Promon, três cartões de papel, tabelas por grupo de função com filtro. */
+:root{
+  --bg:#EDF1F4; --surface:#FFFFFF; --head:#F1F5F8; --line:#E2E8EC; --line-strong:#CDD9E0;
+  --fg:#333F48; --fg-2:#5B6770; --azul:#004976; --laranja:#E35205; --laranja-fg:#BE531C; --laranja-bg:#FDEEE5;
+  --ok-bg:#E4F1EA; --ok-fg:#2E7D5B; --warn-bg:#FBF0DD; --warn-fg:#8A5A00; --nd-bg:#EDF1F4; --nd-fg:#7C878E;
+  --q-bg:#E8EEF7; --q-fg:#3B5A8A; --hover:#EAF2F8;
+  --font:'Mulish',Tahoma,Arial,sans-serif; --mono:'IBM Plex Mono',Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#141A20; --surface:#1D252D; --head:#22303B; --line:#33404B; --line-strong:#3E4C57;
+  --fg:#E6EBEF; --fg-2:#A2AAAD; --azul:#8DBBD3; --laranja:#FF671F; --laranja-fg:#FF9D6E; --laranja-bg:#2E231D;
+  --ok-bg:#16301F; --ok-fg:#7CC99E; --warn-bg:#33291A; --warn-fg:#F2AB1C; --nd-bg:#222B33; --nd-fg:#8F9AA1;
+  --q-bg:#1E2A3A; --q-fg:#9DB8E0; --hover:#243442; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#141A20; --surface:#1D252D; --head:#22303B; --line:#33404B; --line-strong:#3E4C57;
+  --fg:#E6EBEF; --fg-2:#A2AAAD; --azul:#8DBBD3; --laranja:#FF671F; --laranja-fg:#FF9D6E; --laranja-bg:#2E231D;
+  --ok-bg:#16301F; --ok-fg:#7CC99E; --warn-bg:#33291A; --warn-fg:#F2AB1C; --nd-bg:#222B33; --nd-fg:#8F9AA1;
+  --q-bg:#1E2A3A; --q-fg:#9DB8E0; --hover:#243442; color-scheme:dark; }
+
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--fg); font-family:var(--font); font-size:14px; line-height:1.5; font-weight:500}
+.wrap{max-width:1180px; margin:0 auto; padding-block:28px 56px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px));
+  display:flex; flex-direction:column; gap:28px}
+header{display:flex; flex-direction:column; gap:6px; border-bottom:3px solid var(--laranja); padding-bottom:16px}
+.eyebrow{font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--fg-2); font-weight:700}
+h1{margin:0; font-size:26px; font-weight:800; color:var(--azul); text-wrap:balance; line-height:1.2}
+h2{margin:0; font-size:17px; font-weight:800; color:var(--azul); text-wrap:balance}
+.lead{margin:0; max-width:72ch; color:var(--fg)}
+.meta{font-family:var(--mono); font-size:12px; color:var(--fg-2)}
+
+.roles{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px}
+.role{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px 18px; display:flex; flex-direction:column; gap:8px; min-width:0}
+.role.ours{border-top:3px solid var(--laranja)}
+.role h3{margin:0; font-size:15px; font-weight:800}
+.role .tag{font-size:11.5px; color:var(--fg-2); font-weight:700; text-transform:uppercase; letter-spacing:.06em}
+.role p{margin:0; color:var(--fg)}
+@media (max-width:820px){ .roles{grid-template-columns:minmax(0,1fr)} }
+
+.toolbar{display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between}
+.filters{display:flex; flex-wrap:wrap; gap:6px}
+.filters button{font:inherit; font-size:13px; font-weight:700; border:1px solid var(--line-strong); background:var(--surface); color:var(--fg-2);
+  padding:6px 12px; border-radius:999px; cursor:pointer}
+.filters button:hover{background:var(--hover)}
+.filters button[aria-pressed="true"]{background:var(--azul); border-color:var(--azul); color:var(--surface)}
+.filters button:focus-visible{outline:2px solid var(--laranja); outline-offset:2px}
+.legend{display:flex; flex-wrap:wrap; gap:10px; font-size:12.5px; color:var(--fg-2)}
+.legend span{display:inline-flex; gap:6px; align-items:center}
+
+.group{display:flex; flex-direction:column; gap:10px}
+.scroll{overflow-x:auto; background:var(--surface); border:1px solid var(--line); border-radius:6px}
+table{border-collapse:collapse; width:100%; min-width:760px}
+th,td{text-align:left; vertical-align:top; padding:9px 12px; border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+thead th{background:var(--head); font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--fg-2); font-weight:800}
+thead th.ours{color:var(--laranja-fg)}
+td.ours{background:color-mix(in srgb, var(--laranja-bg) 45%, transparent)}
+th:first-child,td:first-child{width:30%}
+th:not(:first-child),td:not(:first-child){width:23.3%}
+tbody tr:hover td{background:var(--hover)}
+.cell{display:flex; flex-direction:column; gap:3px; align-items:flex-start}
+.note{font-size:12.5px; color:var(--fg-2)}
+.mark{display:inline-block; font-size:11.5px; font-weight:800; padding:1px 8px; border-radius:999px; white-space:nowrap}
+.m-s{background:var(--ok-bg); color:var(--ok-fg)}
+.m-p{background:var(--warn-bg); color:var(--warn-fg)}
+.m-n{background:var(--nd-bg); color:var(--nd-fg)}
+.m-q{background:var(--q-bg); color:var(--q-fg)}
+.m-x{background:var(--nd-bg); color:var(--fg-2)}
+.empty{padding:14px; color:var(--fg-2)}
+
+.findings{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px}
+.box{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px 18px; min-width:0}
+.box h3{margin:0 0 8px; font-size:14.5px; font-weight:800}
+.box ul,.box ol{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:6px}
+@media (max-width:820px){ .findings{grid-template-columns:minmax(0,1fr)} }
+footer{font-size:12.5px; color:var(--fg-2); max-width:80ch}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">PRM-BIM · IFC Normalizer · Comparativo de ferramentas</span>
+    <h1>Normalizador × IFC Monitor × Editor Federado da Forzy</h1>
+    <p class="lead">O Normalizador é o único que <strong>corrige automaticamente</strong> e migra para IFC 4.3 (IFC4X3_ADD2). O IFC Monitor é o melhor para <strong>entender o arquivo por dentro</strong>; o Editor da Forzy, para <strong>coordenar e auditar</strong> vários modelos juntos.</p>
+    <span class="meta">Levantamento de 28/10/2026 · ferramentas testadas no navegador com os exemplos IFC 4.3 da buildingSMART</span>
+  </header>
+
+  <section class="roles" aria-label="Papel de cada ferramenta">
+    <article class="role ours">
+      <span class="tag">Promon · .exe local + CLI</span>
+      <h3>Normalizador IFC</h3>
+      <p>Recebe IFCs de Revit, Tekla e Civil 3D e devolve uma cópia no padrão Promon/BEP, com relatório de cada alteração. Regras como dados, GlobalId preservado, resultado determinístico.</p>
+    </article>
+    <article class="role">
+      <span class="tag">OpenBIM Academy · navegador</span>
+      <h3>IFC Monitor</h3>
+      <p>Explora e edita o arquivo: texto STEP, diagrama de instâncias e 3D ligados, validação de schema e um painel de qualidade dos dados. Edição manual, um arquivo por vez.</p>
+    </article>
+    <article class="role">
+      <span class="tag">Forzy · navegador</span>
+      <h3>Editor Federado</h3>
+      <p>Abre vários modelos juntos e audita contra um plano de BEP: nome do arquivo, atributos mínimos por disciplina, checklist. Tem quantitativos, BCF, interferências e comparação de revisões.</p>
+    </article>
+  </section>
+
+  <div class="toolbar">
+    <div class="filters" role="group" aria-label="Filtrar funções">
+      <button type="button" id="f-all" data-f="all" aria-pressed="true">Todas</button>
+      <button type="button" id="f-only" data-f="only">Só o Normalizador tem</button>
+      <button type="button" id="f-gap" data-f="gap">O Normalizador não tem</button>
+    </div>
+    <div class="legend" aria-label="Legenda">
+      <span><i class="mark m-s">Sim</i> tem</span>
+      <span><i class="mark m-p">Parcial</i> tem em parte</span>
+      <span><i class="mark m-n">Não</i> não tem</span>
+      <span><i class="mark m-q">A confirmar</i> não confirmado no teste</span>
+    </div>
+  </div>
+
+  <div id="groups" class="group-list" style="display:flex;flex-direction:column;gap:24px"></div>
+
+  <section class="findings" aria-label="Conclusões">
+    <div class="box">
+      <h3>Exclusivo do Normalizador</h3>
+      <ul>
+        <li>Migração IFC2X3/IFC4 → IFC 4.3 com relatório do que mudou.</li>
+        <li>Correção automática com rastreabilidade (antes, depois, regra).</li>
+        <li>Regras WHERE do EXPRESS e regras normativas da buildingSMART.</li>
+        <li>Reclassificação por regra (de-para) e cópia para o Pset PRM-Parametros.</li>
+        <li>Verificação e correção do zero-zero entre modelos.</li>
+        <li>Fluxo de aprovação das regras (proposta → aprovada) com planilha para o BEP.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>Lacunas que valem preencher, nesta ordem</h3>
+      <ol>
+        <li>Ler o plano de BEP da Forzy (nome do arquivo, atributos mínimos por disciplina) com os mesmos ids de regra.</li>
+        <li>Exportar as pendências em BCF.</li>
+        <li>Acrescentar a matriz Pset × classe e a identificação do arquivo ao relatório.</li>
+      </ol>
+      <p class="note" style="margin:10px 0 0">Não vale copiar a edição manual nem o visualizador federado: as duas ferramentas já cobrem isso, e a edição manual vai contra os princípios de regras como dados e rastreabilidade.</p>
+    </div>
+  </section>
+
+  <footer>Não confirmado no teste: schemas aceitos pelo Editor da Forzy e desfazer no IFC Monitor. A comparação de revisões da Forzy não foi testada, porque precisa de duas revisões abertas.</footer>
+</div>
+
+<script>
+// Marca: s = sim, p = parcial, n = não, q = a confirmar, x = não se aplica. [marca, observação]
+const GROUPS = [
+  ["Entrada, uso e distribuição", [
+    ["Onde roda", ["x",".exe local + linha de comando"], ["x","Navegador, local, sem enviar o arquivo"], ["x","Navegador, local, sem enviar o arquivo"]],
+    ["Schemas aceitos", ["s","IFC2X3, IFC4, IFC4X3"], ["s","IFC2X3, IFC4, IFC4X3 + outro .exp carregado"], ["q","IFC4 nos exemplos; outros não confirmados"]],
+    ["Vários arquivos de uma vez", ["s","Lote, um a um"], ["n","Um por vez"], ["s","Modelo federado"]],
+    ["Abrir do Autodesk Forma", ["n",""], ["n",""], ["s",""]],
+    ["Criar IFC do zero", ["n",""], ["s",""], ["n",""]],
+  ]],
+  ["Visualização e exploração", [
+    ["Visualizador 3D", ["s","Com propriedades"], ["s","Caixa de corte e filtro de classes"], ["s","Federado"]],
+    ["Texto STEP do arquivo", ["n",""], ["s","Ligado ao 3D"], ["n",""]],
+    ["Diagrama das instâncias e relações", ["n",""], ["s","Exporta PDF/SVG/PNG/draw.io"], ["p","Aba Diagrama"]],
+    ["Grafo 3D do modelo inteiro", ["n",""], ["s",""], ["n",""]],
+    ["Árvore espacial, classes, grupos e conjuntos", ["n",""], ["p","Estrutura no Dashboard"], ["s",""]],
+    ["Busca de comandos e elementos", ["n",""], ["s","Texto, GUID ou #id"], ["s","Ctrl+K"]],
+    ["Assistente de perguntas", ["n",""], ["n",""], ["s","Local, sem IA"]],
+  ]],
+  ["Edição e correção", [
+    ["Edição manual de atributos", ["n","Por princípio"], ["s",""], ["s","Inclusive em massa"]],
+    ["Editar hierarquia espacial", ["p","Por regra (IH → IfcSite/IfcRoad)"], ["p","Cards e relações"], ["s",""]],
+    ["Desfazer / refazer", ["n",""], ["q",""], ["s",""]],
+    ["Migração para IFC 4.3 com relatório", ["s",""], ["n",""], ["n",""]],
+    ["Reclassificação por regras (de-para)", ["s","24 regras propostas"], ["n",""], ["n",""]],
+    ["Copiar parâmetros para o Pset PRM", ["s","Por regra"], ["n",""], ["p","Manual, em massa"]],
+    ["Correção automática de schema e obsoletos (IFC102, tipos, layers…)", ["s",""], ["n",""], ["n",""]],
+    ["Nomes de Project/Site/Building", ["s","Regra + tela"], ["p","Manual"], ["p","Manual"]],
+    ["Verificação e correção de coordenadas (zero-zero)", ["s",""], ["n",""], ["p","Só verifica a origem (regra desativada)"]],
+    ["Preserva o GlobalId", ["s","Garantido"], ["x","Edição livre"], ["x","Edição livre"]],
+  ]],
+  ["Verificação e validação", [
+    ["Sintaxe STEP (#id repetido, referência quebrada)", ["s",""], ["s",""], ["n",""]],
+    ["Schema: atributos, tipos, inversos", ["s",""], ["s",""], ["n",""]],
+    ["Regras WHERE do EXPRESS", ["s",""], ["n","Ele mesmo avisa que não faz"], ["n",""]],
+    ["Regras normativas da buildingSMART", ["p","7 de 95 + aba de cobertura"], ["n",""], ["n",""]],
+    ["GlobalId único / válido", ["s",""], ["s",""], ["s",""]],
+    ["Elementos sem geometria, nome ou contenção", ["p","Nos relatórios de análise"], ["s",""], ["p","Geometria"]],
+    ["Auditoria de BEP (plano com item e página do BEP)", ["n",""], ["n",""], ["s",""]],
+    ["Atributos mínimos por disciplina", ["n",""], ["n",""], ["s",""]],
+    ["Nome do arquivo conforme o BEP", ["n",""], ["n",""], ["s",""]],
+    ["Checklist manual de processo", ["n",""], ["n",""], ["s","19 itens"]],
+    ["Validar só as alterações", ["n",""], ["s",""], ["n",""]],
+  ]],
+  ["Análise e quantidades", [
+    ["Identificação do arquivo (MVD, origem, autor, unidades)", ["p","No perfilamento"], ["s",""], ["p","Resumo da federação"]],
+    ["Completude por classe (Pset, material, tipo…)", ["s","xlsx"], ["s","Tela"], ["p",""]],
+    ["Matriz Pset × classe", ["n",""], ["s",""], ["n",""]],
+    ["Materiais, classificação, tipos de representação", ["n",""], ["s",""], ["p","Materiais"]],
+    ["Famílias de entidades (estilo NIST IFA)", ["s",""], ["p","Composição por categoria"], ["n",""]],
+    ["Quantitativos (volume, área, comprimento)", ["n",""], ["n",""], ["s","Por classe, pavimento, material, disciplina"]],
+    ["Origem do valor (arquivo × geometria)", ["n",""], ["n",""], ["s",""]],
+    ["Interferências (clash)", ["n",""], ["n",""], ["s",""]],
+    ["Comparar revisões", ["n",""], ["n",""], ["s","Não testado (precisa de duas revisões)"]],
+    ["Revisão das classificações feitas pela forma da peça", ["s",""], ["n",""], ["n",""]],
+  ]],
+  ["Saídas e processo", [
+    ["IFC corrigido", ["s","Cópia, origem intacta"], ["s","Salvar alterações"], ["s","Salvar"]],
+    ["Relatório de cada alteração (antes/depois/regra)", ["s","xlsx"], ["n",""], ["p","Conta edições"]],
+    ["Relatório de pendências", ["s","xlsx"], ["p","Lista na tela + baixar relatório"], ["s","HTML, CSV, PDF"]],
+    ["Issues em BCF", ["n",""], ["n",""], ["s",""]],
+    ["Regras como dados versionados (proposta/aprovada)", ["s",""], ["n",""], ["s","Plano JSON (cópia editável)"]],
+    ["Planilha de validação das regras com o BEP", ["s",""], ["n",""], ["n",""]],
+    ["Determinístico (mesma entrada = mesma saída)", ["s",""], ["x","Não se aplica (manual)"], ["x","Não se aplica (manual)"]],
+  ]],
+];
+const LABEL = {s:"Sim", p:"Parcial", n:"Não", q:"A confirmar", x:"—"};
+const has = m => m === "s" || m === "p";
+const FILTERS = {
+  all: () => true,
+  only: r => has(r[1][0]) && !has(r[2][0]) && !has(r[3][0]),
+  gap: r => r[1][0] === "n" && (has(r[2][0]) || has(r[3][0])),
+};
+const esc = s => s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function cell([m, note], ours){
+  const mark = m === "x" ? "" : `<span class="mark m-${m}">${LABEL[m]}</span>`;
+  return `<td${ours ? ' class="ours"' : ""}><div class="cell">${mark}${note ? `<span class="note">${esc(note)}</span>` : ""}</div></td>`;
+}
+function render(f){
+  const out = GROUPS.map(([title, rows]) => {
+    const keep = rows.filter(FILTERS[f]);
+    if (!keep.length) return "";
+    return `<section class="group"><h2>${esc(title)}</h2><div class="scroll"><table>
+      <thead><tr><th>Função</th><th class="ours">Normalizador</th><th>IFC Monitor</th><th>Editor Forzy</th></tr></thead>
+      <tbody>${keep.map(r => `<tr><td>${esc(r[0])}</td>${cell(r[1], true)}${cell(r[2])}${cell(r[3])}</tr>`).join("")}</tbody>
+    </table></div></section>`;
+  }).join("");
+  document.getElementById("groups").innerHTML = out || '<p class="empty">Nenhuma função neste filtro.</p>';
+  document.querySelectorAll(".filters button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.f === f)));
+  try { localStorage.setItem("filtro", f); } catch (e) {}
+}
+document.querySelectorAll(".filters button").forEach(b => b.addEventListener("click", () => render(b.dataset.f)));
+let start = "all";
+try { const v = localStorage.getItem("filtro"); if (v && FILTERS[v]) start = v; } catch (e) {}
+render(start);
+</script>

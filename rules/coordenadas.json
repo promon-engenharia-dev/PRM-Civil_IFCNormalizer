@@ -1,0 +1,26 @@
+{
+  "versao": "0.1.0",
+  "descricao": "Verificação e correção de coordenadas: o ponto de referência de cada prédio (cruzamento de eixos, padrão A x 1) deve estar no zero-zero do modelo e na mesma posição em todos os modelos do prédio.",
+  "tolerancia_posicao_m": 0.02,
+  "tolerancia_rotacao_graus": 0.05,
+  "eixos_padrao": ["A", "1"],
+  "disciplinas_referencia": ["AQ", "A"],
+  "predios": [
+    {
+      "id": "ZTO-13-04",
+      "descricao": "Oficina – módulo do torno",
+      "arquivos": "ZTO-13-04-*",
+      "eixos": ["F", "7"]
+    },
+    {"id": "0313", "descricao": "Apoio / escritório", "arquivos": "*_0313_*"},
+    {"id": "0601", "descricao": "Administrativo", "arquivos": "*_0601_*"},
+    {"id": "0610", "descricao": "Vestiário", "arquivos": "*_0610_*"}
+  ],
+  "pilares": {
+    "classe": ["IfcColumn"],
+    "ou": [
+      {"nome": {"contem": "PILAR"}},
+      {"nome": {"em": ["COLUNA", "MONTANTE"]}}
+    ]
+  }
+}

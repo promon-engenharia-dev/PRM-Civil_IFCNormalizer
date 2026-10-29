@@ -1,0 +1,31 @@
+{
+  "versao": "0.1.0",
+  "descricao": "Estrutura espacial e nomes de IfcProject, IfcSite e IfcBuilding, aplicados na normalização. Nome vazio = manter o do arquivo. Os nomes vêm do BEP; a interface mostra estes valores e permite ajustar antes de processar.",
+  "projeto": {"nome": "", "nome_longo": ""},
+  "site": {"nome": "", "nome_longo": ""},
+  "predios": [
+    {"id": "ZTO-13-04", "arquivos": "ZTO-13-04-*", "nome": "", "nome_longo": ""},
+    {"id": "0313", "arquivos": "*_0313_*", "nome": "", "nome_longo": ""},
+    {"id": "0601", "arquivos": "*_0601_*", "nome": "", "nome_longo": ""},
+    {"id": "0610", "arquivos": "*_0610_*", "nome": "", "nome_longo": ""}
+  ],
+  "infraestrutura": [
+    {
+      "id": "EST-IH-001",
+      "status": "aprovada",
+      "descricao": "Civil 3D exporta IfcProject → IfcBuilding; terreno e infraestrutura ficam no IfcSite (IFC 4.3). O IfcBuilding vira IfcSite (mesmo GlobalId e posicionamento).",
+      "quando": {"origem": "Civil3D"},
+      "acao": "building_para_site"
+    },
+    {
+      "id": "EST-IH-002",
+      "status": "aprovada",
+      "descricao": "Pavimentação do Civil 3D dentro de um IfcRoad agregado ao IfcSite.",
+      "quando": {"origem": "Civil3D", "arquivo": {"contem": "PAVIMENTACAO"}},
+      "acao": "instalacao",
+      "classe": "IfcRoad",
+      "predefined_type": "NOTDEFINED",
+      "nome": "Pavimentação"
+    }
+  ]
+}

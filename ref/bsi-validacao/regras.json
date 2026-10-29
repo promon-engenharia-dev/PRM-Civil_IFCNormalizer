@@ -1,0 +1,6193 @@
+{
+ "fonte": "buildingSMART ifc-gherkin-rules (regras do IFC Validation Service)",
+ "repositorio": "https://github.com/buildingSMART/ifc-gherkin-rules",
+ "commit": "893f8275049b8960c3ce0c7379b4b57aefeaa8f9",
+ "commit_data": "2026-07-29",
+ "consultado_em": "2026-10-28",
+ "licenca": "MIT (ver LICENSE-ifc-gherkin-rules.txt)",
+ "observacao": "Texto das regras (cenários Gherkin e tabelas de exemplos) convertido para JSON, sem alteração de conteúdo.",
+ "regras": [
+  {
+   "id": "ALB000",
+   "titulo": "Alignment layout",
+   "arquivo": "ALB000_Alignment-layout.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALB",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to define the business logic, or layout, of an alignment. IfcAlignment can be nested by instances of IfcAlignmentHorizontal, IfcAlignmentVertical, IfcAlignmentCant, IfcReferent, or \"child\" instances of IfcAlignment. However, IfcAlignmentHorizontal is always present in any definition of an alignment layout, regardless of the presence or absence of other related entities.",
+   "cenarios": [
+    {
+     "nome": "Check for activation",
+     "passos": [
+      "Given a model with Schema 'IFC4.3'",
+      "Given an .IfcAlignment.",
+      "Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcAlignmentHorizontal.",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALB002",
+   "titulo": "Alignment Layout Relationships",
+   "arquivo": "ALB002_Alignment-layout-relationships.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALB",
+    "version1"
+   ],
+   "descricao": "The rule verifies that nesting and decomposition relationships are used correctly with alignment layouts. Background: Given A model with Schema 'IFC4.3'",
+   "cenarios": [
+    {
+     "nome": "IfcAlignment can only be decomposed by other \"children\" IfcAlignment instances",
+     "passos": [
+      "Given an .IfcAlignment.",
+      "Given its attribute .IsDecomposedBy.",
+      "Given its attribute .RelatedObjects.",
+      "Then [its entity type] ^is^ 'IfcAlignment'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement of structure of alignment segments",
+     "passos": [
+      "Given an .<entity>.",
+      "Given its attribute .IsNestedBy.",
+      "Given its attribute .RelatedObjects.",
+      "Then [its entity type] ^is^ 'IfcAlignmentSegment'"
+     ],
+     "exemplos": [
+      {
+       "entity": "IfcAlignmentHorizontal"
+      },
+      {
+       "entity": "IfcAlignmentVertical"
+      },
+      {
+       "entity": "IfcAlignmentCant"
+      }
+     ]
+    },
+    {
+     "nome": "Agreement of the segments of alignment",
+     "passos": [
+      "Given an .<entity>.",
+      "Given its attribute .IsNestedBy.",
+      "Given its attribute .RelatedObjects.",
+      "Given its attribute .DesignParameters.",
+      "Then [its entity type] ^is^ '<SegmentType>'"
+     ],
+     "exemplos": [
+      {
+       "entity": "IfcAlignmentHorizontal",
+       "SegmentType": "IfcAlignmentHorizontalSegment"
+      },
+      {
+       "entity": "IfcAlignmentVertical",
+       "SegmentType": "IfcAlignmentVerticalSegment"
+      },
+      {
+       "entity": "IfcAlignmentCant",
+       "SegmentType": "IfcAlignmentCantSegment"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ALB003",
+   "titulo": "Alignment Nesting",
+   "arquivo": "ALB003_Alignment-nesting.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALB",
+    "version1"
+   ],
+   "descricao": "The rule verifies that an Alignment has a nesting relationship with its components (i.e., Horizontal, Vertical, Cant layouts) or with Referents (e.g., mileage markers). And not with any other entity.",
+   "cenarios": [
+    {
+     "nome": "Agreement on nested elements of IfcAlignment",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given an .IfcAlignment.",
+      "Then It [must be nested by only the following entities]: .IfcAlignmentHorizontal, IfcAlignmentVertical, IfcAlignmentCant, IfcReferent."
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALB004",
+   "titulo": "Alignment in spatial structure relationships",
+   "arquivo": "ALB004_Alignment-in-spatial-structure-relationships.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALB",
+    "version1"
+   ],
+   "descricao": "The rule verifies that each IfcAlignment must be related to IfcProject using the IfcRelAggregates relationship - either directly or indirectly. The indirect case is when a child alignment is aggregated to a parent alignment. In this case, only the parent alignment shall be related to the project.",
+   "cenarios": [
+    {
+     "nome": "Agreement on each IfcAlignment being aggregated to IfcProject",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given an .IfcAlignment.",
+      "Then It must be aggregated to IfcProject directly or indirectly"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALB005",
+   "titulo": "Positioning of referents",
+   "arquivo": "ALB005_Positioning-of-referents.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": true,
+   "tags": [
+    "implementer-agreement",
+    "ALB",
+    "version1",
+    "disabled"
+   ],
+   "descricao": "The rule verifies that IfcReferents (typed POSITION or STATION) linked to IfcAlignments need a IfcRelPositions relationship",
+   "cenarios": [
+    {
+     "nome": "Agreement on each IfcAlignment being aggregated to IfcProject and not contained in IfcSpatialElement",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given an .IfcReferent.",
+      "Given .PredefinedType. ^=^ 'POSITION' or 'STATION'",
+      "Then It must be positioned to IfcAlignment directly"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALB010",
+   "titulo": "Alignment Nesting Referents",
+   "arquivo": "ALB010_Alignment-nesting-referents.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "industry-practice",
+    "ALB",
+    "version2"
+   ],
+   "descricao": "The rule verifies that each horizontal alignment nests at least one IfcReferent, such as stations or mileage points. These can be used as semantic entities holding information about locations along the alignment. IfcReferent is associated to IfcAlignment via the IfcRelNests relationship.",
+   "cenarios": [
+    {
+     "nome": "Agreement on each IfcAlignment nesting at least one IfcReferent when that alignment nests an IfcAlignmentHorizontal",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given an .IfcAlignmentHorizontal.",
+      "Given its attribute .Nests.",
+      "Given its attribute .RelatingObject.",
+      "Then a relationship .IfcRelNests. ^must exist^ from .IfcAlignment. to .IfcReferent."
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALB012",
+   "titulo": "Alignment vertical segment radius of curvature",
+   "arquivo": "ALB012_Alignment-vertical-segment-radius-of-curvature.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALB",
+    "version2"
+   ],
+   "descricao": "The rule verifies the 'RadiusOfCurvature' design parameter for vertical alignment segments. Where specified, an absolute tolerance value in the length unit of the model is used for the comparison. Background: Given A model with Schema 'IFC4.3' Given An .IfcAlignmentVertical. Given A relationship .IfcRelNests. from .IfcAlignmentVertical. to .IfcAlignmentSegment. and following that Given Its attribute .DesignParameters. Given [Its entity type] ^is^ 'IfcAlignmentVerticalSegment'",
+   "cenarios": [
+    {
+     "nome": "Validating the absence of curvature radius for specific predefined types of vertical segment",
+     "passos": [
+      "Given .PredefinedType. ^!=^ 'CIRCULARARC' or 'PARABOLICARC'",
+      "Then The value of attribute .RadiusOfCurvature. must be ^empty^"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating the radius of curvature for parabolic segments",
+     "passos": [
+      "Given .PredefinedType. ^=^ 'PARABOLICARC'",
+      "Then The value of attribute .RadiusOfCurvature. must be ^equal to^ the expression: [HorizontalLength / ( EndGradient - StartGradient )] [within a tolerance of] 1E-3"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALB015",
+   "titulo": "Alignment business logic zero length final segment",
+   "arquivo": "ALB015_Alignment-business-logic-zero-length-final-segment.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALB",
+    "version2"
+   ],
+   "descricao": "The rule verifies that each layout (horizontal, vertical, cant) of the alignment business logic ends with a segment of length = 0.",
+   "cenarios": [
+    {
+     "nome": "Validating final segment of horizontal alignment business logic",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given An .IfcAlignmentHorizontal.",
+      "Given A relationship .IfcRelNests. from .IfcAlignmentHorizontal. to .IfcAlignmentSegment. and following that",
+      "Given Its final element at depth 1",
+      "Given Its attribute .DesignParameters.",
+      "Then The SegmentLength of the IfcAlignmentHorizontalSegment must be 0"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating final segment of vertical alignment business logic",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given An .IfcAlignmentVertical.",
+      "Given A relationship .IfcRelNests. from .IfcAlignmentHorizontal. to .IfcAlignmentSegment. and following that",
+      "Given Its final element at depth 1",
+      "Given Its attribute .DesignParameters.",
+      "Then The HorizontalLength of the IfcAlignmentVerticalSegment must be 0"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating final segment of cant alignment business logic",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given An .IfcAlignmentCant.",
+      "Given A relationship .IfcRelNests. from .IfcAlignmentCant. to .IfcAlignmentSegment. and following that",
+      "Given Its final element at depth 1",
+      "Given Its attribute .DesignParameters.",
+      "Then The HorizontalLength of the IfcAlignmentCantSegment must be 0"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALB021",
+   "titulo": "Alignment overall agreement of business logic and geometry",
+   "arquivo": "ALB021_Alignment-overall-agreement-of-business-logic-and-geometry.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALB",
+    "version2"
+   ],
+   "descricao": "The rule verifies that when an Alignment has both business logic and geometry (representation), the representation entity type must correspond to the layouts present in the business logic. Background: Selecting an alignment that has both business logic and geometric representation Given A model with Schema 'IFC4.3' Given An .IfcAlignment. [with business logic and geometric representation]",
+   "cenarios": [
+    {
+     "nome": "Validating the presence of cant layout for IfcSegmentedReferenceCurve",
+     "passos": [
+      "Then  A representation by .IfcSegmentedReferenceCurve. requires the ^presence^ of .IfcAlignmentCant. in the business logic"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating the presence of vertical layout for IfcGradientCurve",
+     "passos": [
+      "Then  A representation by .IfcGradientCurve. requires the ^presence^ of .IfcAlignmentVertical. in the business logic"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating the absence of vertical and cant layout for IfcCompositeCurve as Axis",
+     "passos": [
+      "Then A representation by .IfcCompositeCurve as Axis. requires the ^absence^ of .IfcAlignmentVertical and IfcAlignmentCant. in the business logic"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating the absence of cant layout for IfcGradientCurve",
+     "passos": [
+      "Then A representation by .IfcGradientCurve. requires the ^absence^ of .IfcAlignmentCant. in the business logic"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALB022",
+   "titulo": "Alignment agreement on number of segments",
+   "arquivo": "ALB022_Alignment-agreement-on-number-of-segments.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALB",
+    "version1"
+   ],
+   "descricao": "The rule verifies that when an Alignment has both business logic and geometry (representation), the number of segments in the representation must correspond to the number of segments indicated by the business logic. Background: Validating overall agreement on number of segments Given A model with Schema 'IFC4.3'",
+   "cenarios": [
+    {
+     "nome": "Validating the same number of segments for horizontal layout and representation",
+     "passos": [
+      "Given An .IfcAlignmentHorizontal.",
+      "Then  The representation must have the correct number of segments indicated by the layout"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating the same number of segments for vertical layout and representation",
+     "passos": [
+      "Given An .IfcAlignmentVertical.",
+      "Then  The representation must have the correct number of segments indicated by the layout"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating the same number of segments for cant layout and representation",
+     "passos": [
+      "Given An .IfcAlignmentCant.",
+      "Then  The representation must have the correct number of segments indicated by the layout"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALB023",
+   "titulo": "Alignment same segment types in business logic and geometry",
+   "arquivo": "ALB023_Alignment-same-segment-types-in-business-logic-and-geometry.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALB",
+    "version2"
+   ],
+   "descricao": "The rule verifies that when an Alignment has both business logic and geometry (representation), the geometry type of each segments in the business logic must be the same as its corresponding segment in the representation. Background: Validating schema version Given A model with Schema 'IFC4.3'",
+   "cenarios": [
+    {
+     "nome": "Validating the same geometry types for representation of the alignment",
+     "passos": [
+      "Given An .IfcAlignment.",
+      "Given Its attribute .Representation.",
+      "Given Its attribute .Representations.",
+      "Given Its attribute .Item.",
+      "Then  Each segment must have the same geometry type as its corresponding segment in the applicable IfcAlignment layout"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating the same geometry type for representation of the horizontal layout",
+     "passos": [
+      "Given An .IfcAlignmentHorizontal.",
+      "Given Its attribute .Representation.",
+      "Given Its attribute .Representations.",
+      "Given Its attribute .Items.",
+      "Then  Each segment must have the same geometry type as its corresponding segment in the horizontal layout"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating the same geometry type for representation of the vertical layout",
+     "passos": [
+      "Given An .IfcAlignmentVertical.",
+      "Given Its attribute .Representation.",
+      "Given Its attribute .Representations.",
+      "Given Its attribute .Items.",
+      "Then  Each segment must have the same geometry type as its corresponding segment in the vertical layout"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating the same geometry type for representation of the cant layout",
+     "passos": [
+      "Given An .IfcAlignmentCant.",
+      "Given Its attribute .Representation.",
+      "Given Its attribute .Representations.",
+      "Given Its attribute .Items.",
+      "Then  Each segment must have the same geometry type as its corresponding segment in the cant layout"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating the same geometry type for representation of the individual segments",
+     "passos": [
+      "Given An .IfcAlignmentSegment.",
+      "Given Its attribute .Representation.",
+      "Given Its attribute .Representations.",
+      "Given Its attribute .Items.",
+      "Then  Each segment must have the same geometry type as its corresponding alignment segment"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALB030",
+   "titulo": "Alignment local placement",
+   "arquivo": "ALB030_Alignment-local-placement.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALB",
+    "version1"
+   ],
+   "descricao": "The rule verifies that the ObjectPlacement attribute of every instance of IfcAlignment is of type IfcLocalPlacement. While the schema allows other placement types (Grid or Linear), this rule ensures that IfcLocalPlacement is used for all alignments.",
+   "cenarios": [
+    {
+     "nome": "Every instance of IfcAlignment must have an ObjectPlacement of type IfcLocalPlacement",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given An .IfcAlignment.",
+      "Given Its attribute .ObjectPlacement.",
+      "Then [Its Entity Type] ^is^ 'IfcLocalPlacement'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALB031",
+   "titulo": "Alignment Layouts Default Case",
+   "arquivo": "ALB031_Alignment-layouts-default-case.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALB",
+    "version1"
+   ],
+   "descricao": "The rule verifies that alignments are nested in accordance with Concept Template 4.1.4.4.1.1 which represents the default case for nesting alignment layouts. Alignment layouts are abbreviated as follows: horiz = IfcAlignmentHorizontal, vert = IfcAlignmentVertical, and cant = IfcAlignmentCant",
+   "cenarios": [
+    {
+     "nome": "Agreement on IfcAlignment layout nesting per 4.1.4.4.1.1.",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given an .IfcAlignment.",
+      "Given a relationship .IfcRelAggregates. ^does not exist^ from .IfcAlignment. to .IfcAlignment. and following that",
+      "Given a relationship .IfcRelAggregates. ^does not exist^ to .IfcAlignment. from .IfcAlignment. and following that",
+      "Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.",
+      "Then the alignment layouts must include [1 horiz] or [1 horiz and 1 vert] or [1 horiz and 1 vert and 1 cant]"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALB032",
+   "titulo": "Alignment Layouts Reusing Horizontal",
+   "arquivo": "ALB032_Alignment-layouts-reusing-horizontal.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALB",
+    "version1"
+   ],
+   "descricao": "The rule verifies that alignments are nested in accordance with Concept Template 4.1.4.4.1.2 which represents the case of a horizontal layout being reused by vertical layouts. Alignment layouts are abbreviated as follows: horiz = IfcAlignmentHorizontal, vert = IfcAlignmentVertical, and cant = IfcAlignmentCant Background: Given A model with Schema 'IFC4.3' Given an .IfcAlignment.",
+   "cenarios": [
+    {
+     "nome": "Agreement on IfcAlignment layout nesting per 4.1.4.4.1.2 for \"parent\" alignment",
+     "passos": [
+      "Given a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment.",
+      "Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.",
+      "Then the alignment layouts must include [1 horiz]"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on IfcAlignment layout nesting per 4.1.4.4.1.2 for \"child\" alignment",
+     "passos": [
+      "Given a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that",
+      "Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcObject.",
+      "Then the alignment layouts must include [1 vert] or [1 vert and 1 cant]"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Alignment aggregation does not go deeper than one level per 4.1.4.4.1.2",
+     "passos": [
+      "Given a relationship .IfcRelAggregates. from .IfcAlignment. to .IfcAlignment. and following that",
+      "Then a relationship .IfcRelAggregates. ^must not exist^ from .IfcAlignment. to .IfcAlignment."
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALS000",
+   "titulo": "Alignment Geometry",
+   "arquivo": "ALS000_Alignment-geometry.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALS",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to represent the geometry of an alignment. Concept template 4.1.7.1.1 illustrates that alignment geometry is exchanged via shape representation(s).",
+   "cenarios": [
+    {
+     "nome": "Check for activation",
+     "passos": [
+      "Given a model with Schema 'IFC4.3'",
+      "Given an .IfcAlignment.",
+      "Given its attribute .Representation.",
+      "Given its attribute .Representations.",
+      "Given .Items. ^is not^ empty",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALS004",
+   "titulo": "Alignment segment shape representation",
+   "arquivo": "ALS004_Alignment-segment-shape-representation.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALS",
+    "version2"
+   ],
+   "descricao": "The rule verifies that each IfcAlignmentSegment uses correct representation. Background: Given A model with Schema 'IFC4.3' Given An .IfcAlignmentSegment. Given Its attribute .Representation. Given Its attribute .Representations.",
+   "cenarios": [
+    {
+     "nome": "Agreement on each IfcAlignmentSegment using correct value for RepresentationIdentifier",
+     "passos": [
+      "Then .RepresentationIdentifier. ^is^ 'Axis'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on each IfcAlignmentSegment using correct value for RepresentationType",
+     "passos": [
+      "Then .RepresentationType. ^is^ 'Segment'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on each IfcAlignmentSegment using correct entity type for Items",
+     "passos": [
+      "Given Its attribute .Items.",
+      "Then [Its entity type] ^is^ 'IfcCurveSegment'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALS005",
+   "titulo": "Alignment shape representation",
+   "arquivo": "ALS005_Alignment-shape-representation.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "3",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALS",
+    "version3"
+   ],
+   "descricao": "The rule verifies that each IfcAlignment uses correct representation. Checks for entity types are based upon the supported shape representations of IfcAlignment listed in 5.4.3.1. Background: Given A model with Schema 'IFC4.3' Given An .IfcAlignment. Given Its attribute .Representation. Given Its attribute .Representations.",
+   "cenarios": [
+    {
+     "nome": "Agreement on each IfcAlignment using correct representation - Value",
+     "passos": [
+      "Then .RepresentationIdentifier. ^is^ 'FootPrint' or 'Axis'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on each IfcAlignment using correct representation - horizontal only",
+     "passos": [
+      "Given .RepresentationIdentifier. ^is^ 'Axis'",
+      "Given .RepresentationType. ^is^ 'Curve2D'",
+      "Given Its attribute .Items.",
+      "Then [Its entity type] ^is^ 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on each IfcAlignment using correct representation - vertical or cant",
+     "passos": [
+      "Given .RepresentationIdentifier. ^is^ 'Axis'",
+      "Given .RepresentationType. ^is^ 'Curve3D'",
+      "Given Its attribute .Items.",
+      "Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on each IfcAlignment using correct representation - identifier = 'FootPrint'",
+     "passos": [
+      "Given .RepresentationIdentifier. ^is^ 'FootPrint'",
+      "Then .RepresentationType. ^is^ 'Curve2D'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on each IfcAlignment using correct representation items - Type",
+     "passos": [
+      "Given Its attribute .Items.",
+      "Then [Its entity type] ^is^ 'IfcGradientCurve' or 'IfcSegmentedReferenceCurve' or 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline' or 'IfcOffsetCurveByDistances'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALS006",
+   "titulo": "Alignment horizontal shape representation",
+   "arquivo": "ALS006_Alignment-horizontal-shape-representation.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALS",
+    "version1"
+   ],
+   "descricao": "The rule verifies that IfcAlignmentHorizontal is represented correctly with representation type Curve2D and representation item either IfcCompositeCurve or IfcIndexedPolycurve or IfcPolyline. Background: Given A model with Schema 'IFC4.3' Given An .IfcAlignmentHorizontal. Given Its attribute .Representation. Given Its attribute .Representations.",
+   "cenarios": [
+    {
+     "nome": "Agreement on each IfcAlignmentHorizontal using correct representation - Value",
+     "passos": [
+      "Then The value of attribute .RepresentationIdentifier. must be 'Axis'",
+      "Then The value of attribute .RepresentationType. must be 'Curve2D'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on each IfcAlignmentHorizontal using correct representation - Type",
+     "passos": [
+      "Then The type of attribute .Items. must be 'IfcCompositeCurve' or 'IfcIndexedPolycurve' or 'IfcPolyline'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALS007",
+   "titulo": "Alignment vertical shape representation",
+   "arquivo": "ALS007_Alignment-vertical-shape-representation.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALS",
+    "version2"
+   ],
+   "descricao": "The rule verifies that IfcAlignmentVertical is represented correctly with representation type Curve3D and representation item IfcGradientCurve. Background: Given A model with Schema 'IFC4.3' Given An .IfcAlignmentVertical. Given Its attribute .Representation. Given Its attribute .Representations. @version3",
+   "cenarios": [
+    {
+     "nome": "Agreement on each IfcAlignmentVertical using correct representation - Type",
+     "passos": [
+      "Given its attribute .Items.",
+      "Then  The type must be 'IfcGradientCurve'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on each IfcAlignmentVertical using correct representation - Value",
+     "passos": [
+      "Given its attribute .RepresentationIdentifier.",
+      "Then The value must be 'Axis'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on each IfcAlignmentVertical using correct representation - Type",
+     "passos": [
+      "Given its attribute .RepresentationType.",
+      "Then The value must be 'Curve3D'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALS008",
+   "titulo": "Alignment cant shape representation",
+   "arquivo": "ALS008_Alignment-cant-shape-representation.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALS",
+    "version1"
+   ],
+   "descricao": "The rule verifies that IfcAlignmentCant is represented correctly with representation type Curve3D and representation item IfcSegmentedReferenceCurve. Background: Given A model with Schema 'IFC4.3' Given An .IfcAlignmentCant. Given Its attribute .Representation. Given Its attribute .Representations.",
+   "cenarios": [
+    {
+     "nome": "Agreement on each IfcAlignmentCant using correct representation - Value",
+     "passos": [
+      "Given its attribute .RepresentationIdentifier.",
+      "Then The value must be 'Axis'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on each IfcAlignmentCant using correct representation - Type",
+     "passos": [
+      "Given its attribute .RepresentationType.",
+      "Then The value must be 'Curve3D'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on each IfcAlignmentCant using correct representation items - Type",
+     "passos": [
+      "Given its attribute .Items.",
+      "Then  The type must be 'IfcSegmentedReferenceCurve'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALS010",
+   "titulo": "Alignment segment shape representation has the correct number of items",
+   "arquivo": "ALS010_Alignment-segment-shape-representation-has-the-correct-number-of-items.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALS",
+    "version1"
+   ],
+   "descricao": "The rule verifies that a shape representation of IfcAlignmentSegment has the correct number of items",
+   "cenarios": [
+    {
+     "nome": "Agreement on shape representation of IfcAlignmentSegment having the correct number of items",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given An .IfcAlignmentSegment.",
+      "Then A representation must have 2 items for PredefinedType of HELMERTCURVE and 1 item for all other values of PredefinedType"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALS011",
+   "titulo": "Alignment segment entity type consistency",
+   "arquivo": "ALS011_Alignment-segment-entity-type-consistency.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "3",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALS",
+    "version3"
+   ],
+   "descricao": "The rule verifies that the same entity type is used for all segments and that IfcCurveSegment is used with IfcSegmentedReferenceCurve and IfcGradientCurve The rule is similar to GEM011, except that it requires the presence of an IfcAlignment. Background: Given a model with Schema 'IFC4.3' Given an .IfcAlignment. Given its attribute .Representation. Given its attribute .Representations. Given its attribute .Items.",
+   "cenarios": [
+    {
+     "nome": "Consistent entity types used - direct representation",
+     "passos": [
+      "Given [its entity type] ^is^ '<entity>' ^excluding subtypes^",
+      "Given its attribute .Segments.",
+      "Given its entity type",
+      "Then The values must be identical at depth 3"
+     ],
+     "exemplos": [
+      {
+       "entity": "IfcCompositeCurve"
+      },
+      {
+       "entity": "IfcGradientCurve"
+      },
+      {
+       "entity": "IfcSegmentedReferenceCurve"
+      }
+     ]
+    },
+    {
+     "nome": "Consistent entity types used - capture parent curve in case it is not a direct representation",
+     "passos": [
+      "Given [its entity type] ^is^ '<entity>'",
+      "Given its attribute .BaseCurve.",
+      "Given [its entity type] ^is^ '<entity_parent>' ^excluding subtypes^",
+      "Given its attribute .Segments.",
+      "Given its entity type",
+      "Then The values must be identical at depth 3"
+     ],
+     "exemplos": [
+      {
+       "entity": "IfcGradientCurve",
+       "entity_parent": "IfcCompositeCurve"
+      },
+      {
+       "entity": "IfcSegmentedReferenceCurve",
+       "entity_parent": "IfcCompositeCurve"
+      }
+     ]
+    },
+    {
+     "nome": "IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGradientCurve",
+     "passos": [
+      "Given [its entity type] ^is^ '<entity>'",
+      "Given its attribute .Segments.",
+      "Given its entity type",
+      "Then The value must be 'IfcCurveSegment'"
+     ],
+     "exemplos": [
+      {
+       "entity": "IfcGradientCurve"
+      },
+      {
+       "entity": "IfcSegmentedReferenceCurve"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ALS012",
+   "titulo": "Alignment segment start and length attribute types",
+   "arquivo": "ALS012_Alignment-segment-start-and-length-attribute-types.feature",
+   "tipo": "informal-proposition",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "informal-proposition",
+    "ALS",
+    "version1"
+   ],
+   "descricao": "The rule verifies that an alignment segment uses the correct IfcLengthMeasure type for attributes SegmentStart and SegmentLength. Ref: [Issue #141](https://github.com/buildingSMART/ifc-gherkin-rules/issues/141)",
+   "cenarios": [
+    {
+     "nome": "Correct entity type used for SegmentStart and Segment Length",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given An .IfcAlignment.",
+      "Given Its attribute .Representation.",
+      "Given Its attribute .Representations.",
+      "Given All referenced instances",
+      "Given [Its Entity Type] ^is^ '<entity>'",
+      "Given its attribute .Segments.",
+      "Given [Its Entity Type] ^is^ 'IfcCurveSegment'",
+      "Then The type of attribute .<attribute>. must be 'IfcLengthMeasure'"
+     ],
+     "exemplos": [
+      {
+       "entity": "IfcCompositeCurve",
+       "attribute": "SegmentStart"
+      },
+      {
+       "entity": "IfcCompositeCurve",
+       "attribute": "SegmentLength"
+      },
+      {
+       "entity": "IfcGradientCurve",
+       "attribute": "SegmentStart"
+      },
+      {
+       "entity": "IfcGradientCurve",
+       "attribute": "SegmentLength"
+      },
+      {
+       "entity": "IfcSegmentedReferenceCurve",
+       "attribute": "SegmentStart"
+      },
+      {
+       "entity": "IfcSegmentedReferenceCurve",
+       "attribute": "SegmentLength"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ALS015",
+   "titulo": "Alignment representation zero length final segment",
+   "arquivo": "ALS015_Alignment-representation-zero-length-final-segment.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "3",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ALS",
+    "version3"
+   ],
+   "descricao": "The rule verifies that the alignment geometry (representation) curve ends with a discontinuous segment with length = 0. Background: Validating final segment of alignment geometry (representation). Given A model with Schema 'IFC4.3' Given An .IfcAlignment. Given Its attribute .Representation. Given Its attribute .Representations. Given its attribute .Items. Given its attribute .Segments. Given Its final element at depth 3",
+   "cenarios": [
+    {
+     "nome": "Validating that the final alignment geometry segment is of length 0.0.",
+     "passos": [
+      "Then The SegmentLength of the segment must be 0"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating that the final alignment geometry segment is discontinuous.",
+     "passos": [
+      "Given Its attribute .Transition.",
+      "Then The value must be 'DISCONTINUOUS'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALS016",
+   "titulo": "Alignment horizontal segment geometric continuity",
+   "arquivo": "ALS016_Alignment-horizontal-segment-geometric-continuity.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "3",
+   "desativada": false,
+   "tags": [
+    "industry-practice",
+    "ALS",
+    "version3"
+   ],
+   "descricao": "The rule verifies that there is geometric continuity between segments in an IfcCompositeCurve. The calculated end position and tangent vector of segment `n` is compared to the provided placement of segment `n + 1`. A warning is emitted if the calculated difference is greater than the applicable tolerance. The tolerance for positional continuity is taken from the precision of the applicable geometric context. The tolerance for tangential continuity is taken from the precision of the applicable geometric context and adjusted based on the length of the alignment segment. Background: Given A model with Schema 'IFC4.3' Given An .IfcAlignment. Given Its attribute .Representation. Given Its attribute .Representations. Given .RepresentationType. ^is^ 'Curve2D' Given All referenced instances Given [Its Entity Type] ^is^ 'IfcCompositeCurve' Given Its attribute .Segments. Given [Its Entity Type] ^is^ 'IfcCurveSegment' Given The values grouped pairwise at depth 3",
+   "cenarios": [
+    {
+     "nome": "Geometric continuity in position",
+     "passos": [
+      "Then Each segment must have geometric continuity in ^position^"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Geometric continuity in tangency",
+     "passos": [
+      "Then Each segment must have geometric continuity in ^tangency^"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ALS017",
+   "titulo": "Alignment vertical segment geometric continuity",
+   "arquivo": "ALS017_Alignment-vertical-segment-geometric-continuity.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "4",
+   "desativada": false,
+   "tags": [
+    "industry-practice",
+    "ALS",
+    "version4"
+   ],
+   "descricao": "The rule verifies that there is geometric continuity between segments in an IfcGradientCurve. The calculated end position and tangent vector of segment `n` is compared to the provided placement of segment `n + 1`. A warning is emitted if the calculated difference is greater than the applicable tolerance. The tolerance for positional and gradient continuity is taken from the precision of the applicable geometric context. Background: Given A model with Schema 'IFC4.3' Given An .IfcAlignment. Given Its attribute .Representation. Given Its attribute .Representations. Given .RepresentationType. ^is^ 'Curve3D' Given All referenced instances Given [Its Entity Type] ^is^ 'IfcGradientCurve' Given Its attribute .Segments. Given [Its Entity Type] ^is^ 'IfcCurveSegment' Given The values grouped pairwise at depth 3",
+   "cenarios": [
+    {
+     "nome": "Geometric continuity in position",
+     "passos": [
+      "Then Each segment must have geometric continuity in ^position^"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Geometric continuity in vertical gradient",
+     "passos": [
+      "Then Each segment must have geometric continuity in ^vertical gradient^"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ANN000",
+   "titulo": "Annotations",
+   "arquivo": "ANN000_Annotations.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ANN",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to add annotations to elements and spaces, such as labels, notes, and dimensions. In IFC, annotations are also used to represent survey elements (i.e., points, lines, areas) https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Product_Shape/Product_Geometric_Representation/Annotation_Geometry/content.html",
+   "cenarios": [
+    {
+     "nome": "Check for activation",
+     "passos": [
+      "Given an .IfcAnnotation.",
+      "Given its attribute .Representation.",
+      "Given its attribute .Representations.",
+      "Given .RepresentationIdentifier. ^is^ 'Annotation'",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "ASM000",
+   "titulo": "Composed elements",
+   "arquivo": "ASM000_Composed-elements.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "ASM",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to model elements composed of / constructed by other elements. For example, a roof might be assembled from a series of prefabricated truss components. https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Composition/Aggregation/Element_Composition/content.html",
+   "cenarios": [
+    {
+     "nome": "Check for activation",
+     "passos": [
+      "Given an .IfcElement.",
+      "Given its attribute .Decomposes.",
+      "Given [its entity type] ^is^ 'IfcRelAggregates'",
+      "Given its attribute .RelatingObject.",
+      "Given [its entity type] ^is^ 'IfcElement' ^including subtypes^",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "AXG000",
+   "titulo": "Axis Geometry",
+   "arquivo": "AXG000_Axis-Geometry.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "AXG",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to representing the geometry using a set of axes, where each axis consists of a position in 3D space and a direction vector. This can be useful for representing geometry that follows a certain pattern or direction, such as walls, beams, columns, or other elements. In IFC, axis geometry can be represented using the IfcCartesianPoint and IfcDirection classes, which define the position and direction of the axes, respectively.",
+   "cenarios": [
+    {
+     "nome": "Check for activation",
+     "passos": [
+      "Given an .IfcProduct.",
+      "Given its attribute .Representation.",
+      "Given its attribute .Representations.",
+      "Given .RepresentationIdentifier. ^is^ 'Axis'",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "BBX000",
+   "titulo": "Bounding Box",
+   "arquivo": "BBX000_Bounding-box.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "BBX",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to define an orthogonal box, oriented parallel to the axes of the object coordinate system which defines the spatial extent of the latter.",
+   "cenarios": [
+    {
+     "nome": "Check for activation",
+     "passos": [
+      "Given an .IfcProduct.",
+      "Given Its attribute .Representation.",
+      "Given Its attribute .Representations.",
+      "Given .RepresentationType. ^is^ 'BoundingBox'",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "BBX001",
+   "titulo": "Bounding Box Shape Representation",
+   "arquivo": "BBX001_Bounding-box-shape-representation.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "BBX",
+    "version1"
+   ],
+   "descricao": "The rule verifies the correct use of Bounding Box as shape representation. Background: Given an .IfcProduct. Given Its attribute .Representation. Given Its attribute .Representations.",
+   "cenarios": [
+    {
+     "nome": "Correct Type",
+     "passos": [
+      "Given .RepresentationIdentifier. ^is^ 'Box'",
+      "Then .RepresentationType. ^is^ 'BoundingBox'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Correct Identifier",
+     "passos": [
+      "Given .RepresentationType. ^is^ 'BoundingBox'",
+      "Then .RepresentationIdentifier. ^is^ 'Box'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "BLT000",
+   "titulo": "Built Elements",
+   "arquivo": "BLT000_Built-elements.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "BLT",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to represent various building and infrastructure elements, including walls, floors, roofs, stairs, doors, windows, columns, road pavements, bridge decks, railway track elements, etc.",
+   "cenarios": [
+    {
+     "nome": "Check for activation - IFC4X3",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given an .IfcBuiltElement.",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Check for activation - IFC2X3 or IFC4",
+     "passos": [
+      "Given A model with Schema 'IFC2X3' or 'IFC4'",
+      "Given an .IfcBuildingElement.",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "BLT001",
+   "titulo": "Correct use of operation type attributes for doors",
+   "arquivo": "BLT001_Correct-use-of-operation-type-attributes-for-doors.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "BLT",
+    "version1"
+   ],
+   "descricao": "The rule verifies that attribute UserDefinedOperationType is provided only when the value of the attribute OperationType is set to USERDEFINED. Additionally, when an IfcDoor is assigned an IfcDoorType, the type should dictate the OperationType, and the instance should not override it.",
+   "cenarios": [
+    {
+     "nome": "Correct values for OperationType and UserDefinedOperationType",
+     "passos": [
+      "Given an .<entity>.",
+      "Given .UserDefinedOperationType. ^is not^ empty",
+      "Given .IsTypedBy. ^is^ empty",
+      "Then .OperationType. ^is^ 'USERDEFINED'"
+     ],
+     "exemplos": [
+      {
+       "entity": "IfcDoor"
+      },
+      {
+       "entity": "IfcDoorType"
+      }
+     ]
+    },
+    {
+     "nome": "Correct IfcOperationType with relating type object",
+     "passos": [
+      "Given an .IfcDoor.",
+      "Given a relationship .IfcRelDefinesByType. to .IfcDoor. from .IfcDoorType.",
+      "Then .OperationType. ^is^ empty"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "BLT002",
+   "titulo": "Correct use of partitioning type attributes for windows",
+   "arquivo": "BLT002_Correct-use-of-partitioning-type-attributes-for-windows.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "BLT",
+    "version1"
+   ],
+   "descricao": "The rule verifies that attribute UserDefinedPartitioningType is provided only when the value of the attribute PartitioningType is set to USERDEFINED. Additionally, when an IfcWindow is assigned an IfcWindowType, the type should dictate the PartitioningType, and the instance should not override it.",
+   "cenarios": [
+    {
+     "nome": "Correct values for PartitioningType and UserDefinedPartitioningType",
+     "passos": [
+      "Given an .<entity>.",
+      "Given .UserDefinedPartitioningType. ^is not^ empty",
+      "Given .IsTypedBy. ^is^ empty",
+      "Then .PartitioningType. ^is^ 'USERDEFINED'"
+     ],
+     "exemplos": [
+      {
+       "entity": "IfcWindow"
+      },
+      {
+       "entity": "IfcWindowType"
+      }
+     ]
+    },
+    {
+     "nome": "Correct IfcPartitioningType with relating type object",
+     "passos": [
+      "Given an .IfcWindow.",
+      "Given a relationship .IfcRelDefinesByType. to .IfcWindow. from .IfcWindowType.",
+      "Then .PartitioningType. ^is^ empty"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "BLT003",
+   "titulo": "Stair decomposition",
+   "arquivo": "BLT003_Stair-decomposition.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "BLT",
+    "industry-practice",
+    "version2"
+   ],
+   "descricao": "The rule verifies that stair elements are properly aggregated in accordance with the Stair Decomposition Table, as outlined in the best practices. The possible allowed breakdown can be found in the csv file in the folder 'features/resources/stair_DecompositionTable.csv'",
+   "cenarios": [
+    {
+     "nome": "Agreement on IfcStair being decomposed as per stair composition table.",
+     "passos": [
+      "Given An .IfcStair.",
+      "Then It must be aggregated as per stair_CompositionTable.csv"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "BRP001",
+   "titulo": "Polyhedral IfcFace boundary no self-intersections",
+   "arquivo": "BRP001_Polyhedral-IfcFace-boundary-no-self-intersections.feature",
+   "tipo": "informal-proposition",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": true,
+   "tags": [
+    "disabled",
+    "informal-proposition",
+    "BRP",
+    "version2"
+   ],
+   "descricao": "The rule verifies that IfcFace instances do not have any self-intersections in their boundaries. IfcFace with polygonal loops are used in IFC's Boundary Representation (BRep) mechanism.",
+   "cenarios": [
+    {
+     "nome": "Validating that polyhedral IfcFace instances do not have self-intersections in their boundaries",
+     "passos": [
+      "Given An .IfcFace.",
+      "Given Its attribute .Bounds.",
+      "Given Its attribute .Bound.",
+      "Given [Its Entity Type] ^is^ 'IfcPolyLoop'",
+      "Then There must be no self-intersections"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "BRP002",
+   "titulo": "Single component in connected faceset",
+   "arquivo": "BRP002_Single-component-in-connected-faceset.feature",
+   "tipo": "informal-proposition",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "informal-proposition",
+    "BRP",
+    "version2"
+   ],
+   "descricao": "The rule verifies that for connected facesets (open- and closed shells) their union of the domains of the faces and their bounding loops shall be arcwise connected.",
+   "cenarios": [
+    {
+     "nome": "IfcConnectedFaceSet components",
+     "passos": [
+      "Given An .IfcConnectedFaceSet.",
+      "Then all edges must form a single connected component"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "BRP003",
+   "titulo": "Planar faces are planar",
+   "arquivo": "BRP003_Planar-faces-are-planar.feature",
+   "tipo": "informal-proposition",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "informal-proposition",
+    "BRP",
+    "version2"
+   ],
+   "descricao": "The rule verifies that polygonal faces of open and closed shells, which do not have an explicit underlying surface geometry, are planar within the tolerance measure set in the geometric representation context.",
+   "cenarios": [
+    {
+     "nome": "IfcFace",
+     "passos": [
+      "Given an .IfcFace. ^without subtypes^",
+      "Then the boundaries of the face must conform to the implicit plane fitted through the boundary points"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "CLS000",
+   "titulo": "Classification Association",
+   "arquivo": "CLS000_Classification-association.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "CLS",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to classify elements, materials, and systems according to various classification systems, such as the UNIFORMAT or Omniclass classification systems. https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Association/Classification_Association/content.html",
+   "cenarios": [
+    {
+     "nome": "Check for activation of Classification Association",
+     "passos": [
+      "Given an .IfcObjectDefinition.",
+      "Given its attribute .HasAssociations.",
+      "Given [its entity type] ^is^ 'IfcRelAssociatesClassification'",
+      "Given its attribute .RelatingClassification.",
+      "Given [its entity type] ^is^ 'IfcClassificationReference'",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "CTX000",
+   "titulo": "Presentation colours and textures",
+   "arquivo": "CTX000_Presentation-colours-and-textures.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "CTX",
+    "version2"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to assign colour, texture and other presentation appearance information to objects. https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Product_Shape/Product_Geometry_Colour/content.html",
+   "cenarios": [
+    {
+     "nome": "Check for activation - RepresentationItem attributes",
+     "passos": [
+      "Given an .IfcRepresentationItem.",
+      "Given Its attribute .<attribute>.",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": [
+      {
+       "attribute": "StyledByItem"
+      },
+      {
+       "attribute": "HasColours"
+      }
+     ]
+    },
+    {
+     "nome": "Check for activation - Styled Materials",
+     "passos": [
+      "Given an .IfcObjectDefinition.",
+      "Given its attribute .HasAssociations.",
+      "Given [its entity type] ^is^ 'IfcRelAssociatesMaterial'",
+      "Given its attribute .RelatingMaterial.",
+      "Given all referenced instances",
+      "Given [its entity type] ^is^ 'IfcMaterial'",
+      "Given its attribute .HasRepresentation.",
+      "Given its attribute .Representations.",
+      "Given its attribute .Items.",
+      "Given [its entity type] ^is^ 'IfcStyledItem'",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "DOC000",
+   "titulo": "Document information",
+   "arquivo": "DOC000_Document-information.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "DOC",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to define external documents, which may be used to attach arbitrary information to objects. https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project_Context/Project_Document_Information/content.html",
+   "cenarios": [
+    {
+     "nome": "IFC model with external document references",
+     "passos": [
+      "Given an .<entity type>.",
+      "Given its attribute .HasAssociations.",
+      "Given [its entity type] ^is^ 'IfcRelAssociatesDocument'",
+      "Then The IFC model contains information on external documents"
+     ],
+     "exemplos": [
+      {
+       "entity type": "IfcContext"
+      },
+      {
+       "entity type": "IfcObject"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "GDP000",
+   "titulo": "Grid Placement",
+   "arquivo": "GDP000_Grid-placement.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "GDP",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to define the placement of a product in relation to a design grid.",
+   "cenarios": [
+    {
+     "nome": "Check for activation",
+     "passos": [
+      "Given an .IfcProduct.",
+      "Given its attribute .ObjectPlacement.",
+      "Given [Its entity type] ^is^ 'IfcGridPlacement'",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GEM001",
+   "titulo": "Closed shell edge usage",
+   "arquivo": "GEM001_Closed-shell-edge-usage.feature",
+   "tipo": "informal-proposition",
+   "categoria": "normativa",
+   "versao": "4",
+   "desativada": false,
+   "tags": [
+    "informal-proposition",
+    "GEM",
+    "version4"
+   ],
+   "descricao": "The rule verifies that closed faceted shells and closed facesets edges are referenced correctly.",
+   "cenarios": [
+    {
+     "nome": "IfcClosedShell",
+     "passos": [
+      "Given An .IfcClosedShell.",
+      "Given The instance is used in the context of an .IfcFacetedBrep.",
+      "Then <Statement>"
+     ],
+     "exemplos": [
+      {
+       "Statement": "Every edge must be referenced exactly 2 time(s) by the loops of the face"
+      },
+      {
+       "Statement": "Every oriented edge must be referenced exactly 1 time(s) by the loops of the face"
+      }
+     ]
+    },
+    {
+     "nome": "Check constraints for FaceSets; TriangulatedFaceSet and PolygonalFaceSet",
+     "passos": [
+      "Given An .<entity>.",
+      "Given .Closed. ^is^ True",
+      "Then <Statement>"
+     ],
+     "exemplos": [
+      {
+       "entity": "IfcTriangulatedFaceSet",
+       "Statement": "Every edge must be referenced exactly 2 time(s) by the loops of the face"
+      },
+      {
+       "entity": "IfcTriangulatedFaceSet",
+       "Statement": "Every oriented edge must be referenced exactly 1 time(s) by the loops of the face"
+      },
+      {
+       "entity": "IfcPolygonalFaceSet",
+       "Statement": "Every edge must be referenced exactly 2 time(s) by the loops of the face"
+      },
+      {
+       "entity": "IfcPolygonalFaceSet",
+       "Statement": "Every oriented edge must be referenced exactly 1 time(s) by the loops of the face"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "GEM002",
+   "titulo": "Space representation",
+   "arquivo": "GEM002_Space-representation.feature",
+   "tipo": "informal-proposition",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "informal-proposition",
+    "GEM",
+    "version2"
+   ],
+   "descricao": "The rule verifies that all IfcSpaces have a correct Body shape representation.",
+   "cenarios": [
+    {
+     "nome": "Agreement152_1 - Agreement that all spaces must have a body shape representation",
+     "passos": [
+      "Given An .IfcSpace.",
+      "Then There must be one Body shape representation",
+      "Then The Body shape representation has RepresentationType \"SweptSolid, Clipping, Brep, Tessellation\""
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement152_2 - Agreement that all spaces that have a body shape representation type Brep must also have a Footprint representation",
+     "passos": [
+      "Given An .IfcSpace.",
+      "Given The Body shape representation has RepresentationType \"Brep\"",
+      "Then There must be one FootPrint shape representation"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GEM003",
+   "titulo": "Unique Representation Identifier",
+   "arquivo": "GEM003_Unique-representation-identifier.feature",
+   "tipo": "informal-proposition",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "informal-proposition",
+    "GEM",
+    "version1"
+   ],
+   "descricao": "The rule verifies that Shape Representation identifier is unique within the product representation of an IfcProduct element.",
+   "cenarios": [
+    {
+     "nome": "A Shape Representation identifier must not be used twice within the product representation of an IfcProduct element",
+     "passos": [
+      "Given An .IfcProduct.",
+      "Given Its attribute .Representation.",
+      "Given Its attribute .Representations.",
+      "Given its attribute .RepresentationIdentifier.",
+      "Then The values must be unique at depth 1"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GEM004",
+   "titulo": "Constraints on representation identifiers",
+   "arquivo": "GEM004_Constraints-on-representation-identifiers.feature",
+   "tipo": "informal-proposition",
+   "categoria": "normativa",
+   "versao": "3",
+   "desativada": false,
+   "tags": [
+    "informal-proposition",
+    "GEM",
+    "version3"
+   ],
+   "descricao": "The rule verifies that shape representations adhere to the permissible values outlined in the CSV files found in the 'features/resources/{attribute}.csv' folder, as specified in the documentation.",
+   "cenarios": [
+    {
+     "nome": "Shape Representation Identifier must be valid",
+     "passos": [
+      "Given An .IfcProduct.",
+      "Given Its attribute .Representation.",
+      "Given Its attribute .Representations.",
+      "Given Its attribute .RepresentationIdentifier.",
+      "Then The values must be in 'valid_ShapeRepresentationIdentifier.csv'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Shape Representation Type must be valid",
+     "passos": [
+      "Given An .IfcProduct.",
+      "Given Its attribute .Representation.",
+      "Given Its attribute .Representations.",
+      "Given [Its entity type] ^is^ 'IfcShapeRepresentation'",
+      "Given Its attribute .RepresentationType.",
+      "Then The values must be in 'valid_ShapeRepresentationType.csv'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Topology Representation Type must be valid",
+     "passos": [
+      "Given An .IfcProduct.",
+      "Given Its attribute .Representation.",
+      "Given Its attribute .Representations.",
+      "Given [Its entity type] ^is^ 'IfcTopologyRepresentation'",
+      "Given Its attribute .RepresentationType.",
+      "Then The values must be in 'valid_TopologyRepresentationType.csv'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GEM005",
+   "titulo": "Building shape representation",
+   "arquivo": "GEM005_Building-shape-representation.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": true,
+   "tags": [
+    "implementer-agreement",
+    "GEM",
+    "version2",
+    "disabled"
+   ],
+   "descricao": "The rule verifies that an IfcBuilding has a correct representation",
+   "cenarios": [
+    {
+     "nome": "Agreement on empty IfcBuilding using correct representation",
+     "passos": [
+      "Given An .IfcBuilding.",
+      "Given .ContainsElements. ^is^ empty",
+      "Given .IsDecomposedBy. ^is^ empty",
+      "Given Its attribute .Representation.",
+      "Given Its attribute .Representations.",
+      "Then The value of attribute .RepresentationIdentifier. must be 'Body'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GEM011",
+   "titulo": "Curve segments consistency",
+   "arquivo": "GEM011_Curve-segments-consistency.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "GEM",
+    "version2"
+   ],
+   "descricao": "The rule verifies that the same entity type is used for all segments and that IfcCurveSegment is used with IfcSegmentedReferenceCurve and IfcGradientCurve The rule is identical to ALS011, except that it does not require the presence of an IfcAlignment. Background: Given a model with Schema 'IFC4.3' Given an .IfcProduct. Given [its entity type] ^is not^ 'IfcAlignment' Given its attribute .Representation. Given its attribute .Representations. Given its attribute .Items.",
+   "cenarios": [
+    {
+     "nome": "Consistent entity types used",
+     "passos": [
+      "Given [its entity type] ^is^ '<entity>'",
+      "Given its attribute .Segments.",
+      "Given its entity type",
+      "Then The values must be identical at depth 3"
+     ],
+     "exemplos": [
+      {
+       "entity": "IfcCompositeCurve"
+      },
+      {
+       "entity": "IfcGradientCurve"
+      },
+      {
+       "entity": "IfcSegmentedReferenceCurve"
+      }
+     ]
+    },
+    {
+     "nome": "IfcCurveSegment used for IfcSegmentedReferenceCurve and IfcGradientCurve",
+     "passos": [
+      "Given [its entity type] ^is^ '<entity>'",
+      "Given its attribute .Segments.",
+      "Given its entity type",
+      "Then The value must be 'IfcCurveSegment'"
+     ],
+     "exemplos": [
+      {
+       "entity": "IfcGradientCurve"
+      },
+      {
+       "entity": "IfcSegmentedReferenceCurve"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "GEM051",
+   "titulo": "Presence of Geometric Context",
+   "arquivo": "GEM051_Presence-of-geometric-context.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "industry-practice",
+    "GEM",
+    "version2"
+   ],
+   "descricao": "The rule verifies that a geometric context is present in the model, that its attribute ContextType is provided (not empty) and its value is valid.",
+   "cenarios": [
+    {
+     "nome": "Agreement on having at least one geometric representation context",
+     "passos": [
+      "Given A model with Schema <Schema>",
+      "Given An .<Entity>.",
+      "Given Its attribute .RepresentationContexts.",
+      "Then Assert existence",
+      "Then [Its entity type] ^is^ 'IfcGeometricRepresentationContext' ^including subtypes^"
+     ],
+     "exemplos": [
+      {
+       "Schema": "'IFC2X3'",
+       "Entity": "IfcProject"
+      },
+      {
+       "Schema": "'IFC4' or 'IFC4.3'",
+       "Entity": "IfcContext"
+      }
+     ]
+    },
+    {
+     "nome": "Agreement on correct context types",
+     "passos": [
+      "Given A model with Schema <Schema>",
+      "Given An .<Entity>.",
+      "Given Its attribute .RepresentationContexts.",
+      "Then .ContextType. ^is^ 'Model' or 'Plan' or 'NotDefined'"
+     ],
+     "exemplos": [
+      {
+       "Schema": "'IFC2X3'",
+       "Entity": "IfcProject"
+      },
+      {
+       "Schema": "'IFC4' or 'IFC4.3'",
+       "Entity": "IfcContext"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "GEM052",
+   "titulo": "Correct geometric subcontexts",
+   "arquivo": "GEM052_Correct-geometric-subcontexts.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "industry-practice",
+    "GEM",
+    "version2"
+   ],
+   "descricao": "The rule verifies that there is a minimum of at least one subcontext per context, that its attribute ContextIdentifier is provided (not empty) and its value is one of the allowed values in the list of shape representation identifiers. Reference: https://github.com/buildingSMART/Sample-Test-Files/issues/137.",
+   "cenarios": [
+    {
+     "nome": "Each geometric context must have a subcontext",
+     "passos": [
+      "Given a model with Schema 'IFC4' or 'IFC4.3'",
+      "Given an .IfcGeometricRepresentationContext. ^without subtypes^",
+      "Then .HasSubContexts. ^is not^ empty"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Constraints on context identifier",
+     "passos": [
+      "Given a model with Schema 'IFC4' or 'IFC4.3'",
+      "Given An .IfcGeometricRepresentationSubContext.",
+      "Given Its attribute .ContextIdentifier.",
+      "Then The values must be in 'valid_ShapeRepresentationIdentifier.csv'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Context identifier must not be empty",
+     "passos": [
+      "Given a model with Schema 'IFC4' or 'IFC4.3'",
+      "Given An .IfcGeometricRepresentationSubContext.",
+      "Then .ContextIdentifier. ^is not^ empty"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GEM111",
+   "titulo": "No duplicated points within a polyloop or polyline",
+   "arquivo": "GEM111_No-duplicated-points-within-a-polyloop-or-polyline.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "GEM",
+    "version1"
+   ],
+   "descricao": "The rule verifies, that all the polyloops and polylines will have no duplicate points, unless it's the first and last point of a closed polyline. In that case, it must be identical by reference (referencing the same instance), not just having the same coordinates. Two points are considered to be duplicates if the distance between them is less than the Precision factor of the applicable geometric context.",
+   "cenarios": [
+    {
+     "nome": "Agreement on no duplicated points within a polyloop",
+     "passos": [
+      "Given An .IfcPolyLoop.",
+      "Then It must have no duplicate points including first and last point"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on no duplicated points within a polyline",
+     "passos": [
+      "Given An .IfcPolyLine.",
+      "Given It forms an open curve",
+      "Then It must have no duplicate points including first and last point"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on no duplicated points within a polyline",
+     "passos": [
+      "Given An .IfcPolyLine.",
+      "Given It forms a closed curve",
+      "Then It must have no duplicate points excluding first and last point"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on first and last point of IfcPolyline being identical by reference (referencing the same instance of IfcCartesianPoint)",
+     "passos": [
+      "Given An .IfcPolyline.",
+      "Given It forms a closed curve",
+      "Then Its first and last point must be identical by reference"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GEM112",
+   "titulo": "No duplicated points within an indexed poly curve",
+   "arquivo": "GEM112_No-duplicated-points-within-an-indexed-poly-curve.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "GEM",
+    "version1"
+   ],
+   "descricao": "The rule verifies that all indexed poly curves will have no duplicate points. Two points are considered to be duplicates if the distance between them is less than the Precision factor of the applicable geometric context.",
+   "cenarios": [
+    {
+     "nome": "Agreement on no duplicated points within an indexed poly curve",
+     "passos": [
+      "Given An .IfcIndexedPolyCurve.",
+      "Then It must have no consecutive points that are coincident after taking the Precision factor into account"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GEM113",
+   "titulo": "Indexed poly curve arcs must not be defined using colinear points",
+   "arquivo": "GEM113_Indexed-poly-curve-arcs-must-not-be-defined-using-colinear-points.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "GEM",
+    "version2"
+   ],
+   "descricao": "The rule verifies that all the three points of any IfcArcIndex segment of an IfcIndexedPolyCurve are not colinear after taking the Precision factor into account",
+   "cenarios": [
+    {
+     "nome": "No poly curve arcs using colinear points",
+     "passos": [
+      "Given An .IfcIndexedPolyCurve.",
+      "Then It must have no arc segments that use colinear points after taking the Precision factor into account"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GRF000",
+   "titulo": "Georeferencing",
+   "arquivo": "GRF000_Georeferencing.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "GRF",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to define the geographic location and orientation of the model relative to a coordinate reference system. The simple attributes on IfcSite: RefLatitude, RefLongitude and RefElevation are not considered proper georeferencing in the context of this rule. Background: Given A model with Schema 'IFC4' or 'IFC4.3'",
+   "cenarios": [
+    {
+     "nome": "Georeferencing defined with a reference coordinate system",
+     "passos": [
+      "Given An .IfcCoordinateReferenceSystem.",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GRF001",
+   "titulo": "Identical coordinate operations",
+   "arquivo": "GRF001_Identical-coordinate-operations.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "GRF",
+    "version2"
+   ],
+   "descricao": "The rule verifies that if multiple instances of IfcGeometricRepresentationContext are provided to the IfcProject, all contexts must share an identical instance of IfcCoordinateOperation, each referring to the same instance of IfcCoordinateReferenceSystem. Additionally, the schema allows the attribute for coordinate operations within the context to be empty. Currently, for GRF001, this is only permitted if (1) there is a single context or (2) the attribute is empty across all contexts within the file.",
+   "cenarios": [
+    {
+     "nome": "IfcGeometricRepresentationContext",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given All instances of IfcGeometricRepresentationContext without subtypes",
+      "Given Its Attribute .HasCoordinateOperation.",
+      "Given Its values excluding SourceCRS",
+      "Then The values must be identical at depth 0"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GRF002",
+   "titulo": "EPSG code in coordinate reference system",
+   "arquivo": "GRF002_EPSG-code-in-coordinate-reference-system.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "1",
+   "desativada": true,
+   "tags": [
+    "industry-practice",
+    "GRF",
+    "version1",
+    "disabled"
+   ],
+   "descricao": "The rule verifies that the name of the coordinate reference system refers to a valid EPSG code from the official EPSG geodetic parameter dataset. EPSG code validation is performed using the pyproj library, which includes a local copy of the official EPSG dataset (https://epsg.org) maintained by IOGP. https://pyproj4.github.io/pyproj/stable/api/database.html",
+   "cenarios": [
+    {
+     "nome": "Validate EPSG code in IfcCoordinateReferenceSystem",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given An .IfcCoordinateReferenceSystem.",
+      "Given Its attribute .Name.",
+      "Then The value must refer to a valid EPSG code"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GRF003",
+   "titulo": "CRS presence with spatial entities",
+   "arquivo": "GRF003_CRS-presence-with-spatial-entities.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "industry-practice",
+    "no-activation",
+    "GRF",
+    "version1"
+   ],
+   "descricao": "The rule verifies that proper georeferencing using a coordinate reference system is established when facilities such as buildings or bridges are present in a model. Models containing IfcFacility must contain a IfcProjectedCRS or IfcGeographicCRS.",
+   "cenarios": [
+    {
+     "nome": "CRS required when IfcBuilding is present",
+     "passos": [
+      "Given a model with Schema 'IFC4'",
+      "Given an .IfcBuilding.",
+      "Then There must be at least 1 instance(s) of .IfcProjectedCRS."
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "CRS required when IfcFacility is present",
+     "passos": [
+      "Given a model with Schema 'IFC4.3'",
+      "Given an .IfcFacility.",
+      "Then There must be at least 1 instance(s) of .IfcCoordinateReferenceSystem."
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GRF004",
+   "titulo": "Valid EPSG prefix in coordinate reference system",
+   "arquivo": "GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "GRF",
+    "version1"
+   ],
+   "descricao": "The rule verifies that if the name of a CRS starts with \"EPSG:\", it must refer to a valid code from the official EPSG geodetic parameter dataset. EPSG code validation is performed using the pyproj library, which includes a local copy of the official EPSG dataset (https://epsg.org) maintained by IOGP. For reference: https://pyproj4.github.io/pyproj/stable/api/database.html Background: Given A model with Schema 'IFC4' or 'IFC4.3'",
+   "cenarios": [
+    {
+     "nome": "Validate EPSG code in IfcCoordinateReferenceSystem",
+     "passos": [
+      "Given An .IfcCoordinateReferenceSystem.",
+      "Given Its attribute .<attribute>.",
+      "Given Its value ^starts^ with 'EPSG:'",
+      "Then The value must refer to a valid EPSG code"
+     ],
+     "exemplos": [
+      {
+       "attribute": "Name"
+      },
+      {
+       "attribute": "GeodeticDatum"
+      }
+     ]
+    },
+    {
+     "nome": "Validate EPSG code for the vertical datum of IfcProjectedCRS",
+     "passos": [
+      "Given An .IfcProjectedCRS.",
+      "Given Its attribute .VerticalDatum.",
+      "Given Its value ^starts^ with 'EPSG:'",
+      "Then The value must refer to a valid EPSG code"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GRF005",
+   "titulo": "CRS unit type differences",
+   "arquivo": "GRF005_CRS-unit-type-differences.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "industry-practice",
+    "GRF",
+    "version1",
+    "E00100"
+   ],
+   "descricao": "The rule verifies that the Scale attribute of IfcMapConversion is used when the units of the CRS are not identical to the units of the engineering coordinate system. If omitted, the value of 1.0 is assumed. If the units of the referenced source location engineering coordinate system are different from the units of the referenced target coordinate system, then this attribute must be included and must have the value of the scale from the source to the target units",
+   "cenarios": [
+    {
+     "nome": "In cases where the length unit of the local CRS differs from the length unit of the external CRS, the map conversion scale must reflect the factor between the two units.",
+     "passos": [
+      "Given A model with Schema 'IFC4' or 'IFC4.3'",
+      "Given An .IfcMapConversion.",
+      "Then The map conversion scale must be the quotient of the project length units and the target CRS length units"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GRF006",
+   "titulo": "WKT specification for missing EPSG",
+   "arquivo": "GRF006_WKT-specification-for-missing-EPSG.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "GRF",
+    "version2"
+   ],
+   "descricao": "The rule verifies that if an ESPG code does not exist for the coordinate reference system, this CRS shall be further speciied using the IfcWellKnownText entity https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcCoordinateReferenceSystem.htm#8.18.3.2.3-Attributes Background: Given a Model with Schema 'IFC4.3' Given an .IfcCoordinateReferenceSystem.",
+   "cenarios": [
+    {
+     "nome": "WKT specification for missing ESPG in the name",
+     "passos": [
+      "Given Its .Name. attribute ^does not start^ with 'EPSG:'",
+      "Then The value of attribute .WellKnownText. must be ^not empty^",
+      "Then The value of attribute .Name. must be 'WKT'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "WKT specification linked to 'WKT' in CRS name",
+     "passos": [
+      "Given .Name. ^is^ 'WKT'",
+      "Then The value of attribute .WellKnownText. must be ^not empty^"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "WKT attribute linked to specification",
+     "passos": [
+      "Given .WellKnownText. ^is not^ empty",
+      "Then The value of attribute .Name. must be 'WKT'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GRF007",
+   "titulo": "Valid vertical datum CRS type",
+   "arquivo": "GRF007_valid-vertical-datum-crs-type.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "GRF",
+    "version1"
+   ],
+   "descricao": "The rule verifies that any coordinate reference system (CRS) assigned as a vertical datum is either a vertical CRS or a compound CRS containing a vertical component, to ensure valid height referencing. https://pyproj4.github.io/pyproj/stable/api/crs/crs.html",
+   "cenarios": [
+    {
+     "nome": "WKT specification for missing EPSG in the name",
+     "passos": [
+      "Given A model with Schema 'IFC4' or 'IFC4.3'",
+      "Given an .IfcProjectedCRS.",
+      "Given Its attribute .VerticalDatum.",
+      "Given The value refers to a valid EPSG code",
+      "Then The CRS should define a vertical component"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GRF008",
+   "titulo": "Rigid operation units",
+   "arquivo": "GRF008_Rigid-operation-units.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "GRF",
+    "version1"
+   ],
+   "descricao": "The rule verifies that correct unit types are assigned to rigid operation coordinates",
+   "cenarios": [
+    {
+     "nome": "Correct rigid operation coordinate units",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given an .IfcRigidOperation.",
+      "Then The type of attribute .<attribute>. must be 'IfcLengthMeasure' or 'IfcPlaneAngleUnit'"
+     ],
+     "exemplos": [
+      {
+       "attribute": "FirstCoordinate"
+      },
+      {
+       "attribute": "SecondCoordinate"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "GRP000",
+   "titulo": "Groups",
+   "arquivo": "GRP000_Groups.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "GRP",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to define a group as a logical collection of objects.",
+   "cenarios": [
+    {
+     "nome": "4.1.1.4 Group Assignment",
+     "passos": [
+      "Given an .IfcObject. ^including subtypes^",
+      "Given a relationship .IfcRelAssignsToGroup. from .IfcGroup. to .IfcObject.",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "GRP001",
+   "titulo": "Acyclic groups",
+   "arquivo": "GRP001_Acyclic-groups.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "GRP",
+    "version1"
+   ],
+   "descricao": "The rule verifies that an IfcGroup does not reference itself, not even through intermediary entities.",
+   "cenarios": [
+    {
+     "nome": "Agreement on IfcGroup (and hence systems) being acyclic",
+     "passos": [
+      "Given an .IfcGroup.",
+      "Then It must not be referenced by itself directly or indirectly"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "IFC101",
+   "titulo": "Only official IFC versions allowed",
+   "arquivo": "IFC101_Only-official-ifc-versions-allowed.feature",
+   "tipo": "critical",
+   "categoria": "schema",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "critical",
+    "version1"
+   ],
+   "descricao": "The rule verifies that the IFC model has a schema identifier corresponding to any of the official versions released by buildingSMART. Specifically, IFC2x3 TC1 (version 2.3.0.1), IFC4 ADD2 TC1 (version 4.0.2.1), or IFC4.3 ADD2 (version 4.3.2.0).",
+   "cenarios": [
+    {
+     "nome": "Verifying Current Schema Identifier for IFC version",
+     "passos": [
+      "Given An IFC model",
+      "Then The Schema Identifier of the model must be 'IFC2X3' or 'IFC4' or 'IFC4X3_ADD2'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "IFC102",
+   "titulo": "Absence of deprecated entities",
+   "arquivo": "IFC102_Absence-of-deprecated-entities.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "5",
+   "desativada": false,
+   "tags": [
+    "IFC",
+    "version5",
+    "implementer-agreement"
+   ],
+   "descricao": "The rule verifies that the IFC model does not have deprecated entities, attributes or enumerators. By definition, a deprecated entity shall not be exported by applications. Complying interpreters shall still be able to import deprecated definitions. IFC2X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/deprecated_constructs.htm IFC4X3: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/content/introduction.htm#List-of-known-backward-incompatibilities-of-this-document-with-ISO-16739-1-2018 IFC4: https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/",
+   "cenarios": [
+    {
+     "nome": "Check for deprecated entities - IFC4.3",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given An IFC model",
+      "Then There must be less than 1 instance(s) of .<Entity>. ^excluding subtypes^"
+     ],
+     "exemplos": [
+      {
+       "Entity": "IfcBuildingSystem"
+      },
+      {
+       "Entity": "IfcCivilElement"
+      },
+      {
+       "Entity": "IfcCivilElementType"
+      },
+      {
+       "Entity": "IfcDoorLiningProperties"
+      },
+      {
+       "Entity": "IfcDoorPanelProperties"
+      },
+      {
+       "Entity": "IfcElectricDistributionBoard"
+      },
+      {
+       "Entity": "IfcElectricDistributionBoardType"
+      },
+      {
+       "Entity": "IfcFaceBasedSurfaceModel"
+      },
+      {
+       "Entity": "IfcMaterialClassificationRelationship"
+      },
+      {
+       "Entity": "IfcMaterialList"
+      },
+      {
+       "Entity": "IfcPermeableCoveringProperties"
+      },
+      {
+       "Entity": "IfcPostalAddress"
+      },
+      {
+       "Entity": "IfcRelConnectsPortToElement"
+      },
+      {
+       "Entity": "IfcRelCoversBldgElements"
+      },
+      {
+       "Entity": "IfcRelServicesBuildings"
+      },
+      {
+       "Entity": "IfcRelCoversSpaces"
+      },
+      {
+       "Entity": "IfcTelecomAddress"
+      },
+      {
+       "Entity": "IfcTextLiteral"
+      },
+      {
+       "Entity": "IfcTrapeziumProfileDef"
+      },
+      {
+       "Entity": "IfcWallStandardCase"
+      },
+      {
+       "Entity": "IfcWindowLiningProperties"
+      },
+      {
+       "Entity": "IfcWindowPanelProperties"
+      },
+      {
+       "Entity": "IfcWindowStandardCase"
+      }
+     ]
+    },
+    {
+     "nome": "Check for deprecated entities - IFC4",
+     "passos": [
+      "Given An IFC model",
+      "Given A model with Schema 'IFC4'",
+      "Then There must be less than 1 instance(s) of .<Entity>. ^excluding subtypes^"
+     ],
+     "exemplos": [
+      {
+       "Entity": "Ifc2DCompositeCurve"
+      },
+      {
+       "Entity": "IfcBeamStandardCase"
+      },
+      {
+       "Entity": "IfcConnectionPortGeometry"
+      },
+      {
+       "Entity": "IfcColumnStandardCase"
+      },
+      {
+       "Entity": "IfcDoorStandardCase"
+      },
+      {
+       "Entity": "IfcDoorStyle"
+      },
+      {
+       "Entity": "IfcDoorStyleOperationEnum"
+      },
+      {
+       "Entity": "IfcElectricalElement"
+      },
+      {
+       "Entity": "IfcEquipmentElement"
+      },
+      {
+       "Entity": "IfcFaceBasedSurfaceModel"
+      },
+      {
+       "Entity": "IfcMaterialClassificationRelationship"
+      },
+      {
+       "Entity": "IfcMaterialList"
+      },
+      {
+       "Entity": "IfcMemberStandardCase"
+      },
+      {
+       "Entity": "IfcNullStyle"
+      },
+      {
+       "Entity": "IfcObjectTypeEnum"
+      },
+      {
+       "Entity": "IfcOpeningStandardCase"
+      },
+      {
+       "Entity": "IfcPlateStandardCase"
+      },
+      {
+       "Entity": "IfcPresentationStyleAssignment"
+      },
+      {
+       "Entity": "IfcProxy"
+      },
+      {
+       "Entity": "IfcRelCoversBldgElements"
+      },
+      {
+       "Entity": "IfcRelCoversSpaces"
+      },
+      {
+       "Entity": "IfcSlabElementedCase"
+      },
+      {
+       "Entity": "IfcSlabStandardCase"
+      },
+      {
+       "Entity": "IfcTextLiteral"
+      },
+      {
+       "Entity": "IfcWallElementedCase"
+      },
+      {
+       "Entity": "IfcWallStandardCase"
+      },
+      {
+       "Entity": "IfcWindowStandardCase"
+      },
+      {
+       "Entity": "IfcWindowStyle"
+      },
+      {
+       "Entity": "IfcWindowStyleOperationEnum"
+      }
+     ]
+    },
+    {
+     "nome": "Check for deprecated entities - IFC2X3",
+     "passos": [
+      "Given An IFC model",
+      "Given A model with Schema 'IFC2X3'",
+      "Then There must be less than 1 instance(s) of .<Entity>. ^excluding subtypes^"
+     ],
+     "exemplos": [
+      {
+       "Entity": "Ifc2DCompositeCurve"
+      },
+      {
+       "Entity": "IfcConnectionPortGeometry"
+      },
+      {
+       "Entity": "IfcElectricalElement"
+      },
+      {
+       "Entity": "IfcEquipmentElement"
+      },
+      {
+       "Entity": "IfcObjectTypeEnum"
+      },
+      {
+       "Entity": "IfcTextLiteral"
+      }
+     ]
+    },
+    {
+     "nome": "Check for deprecated attributes - IFC4.3",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given an .<Entity>.",
+      "Then .<Attribute>. ^is^ empty"
+     ],
+     "exemplos": [
+      {
+       "Entity": "IfcBuilding",
+       "Attribute": "BuildingAddress"
+      },
+      {
+       "Entity": "IfcBuilding",
+       "Attribute": "ElevationOfRefHeight"
+      },
+      {
+       "Entity": "IfcBuilding",
+       "Attribute": "ElevationOfTerrain"
+      },
+      {
+       "Entity": "IfcBuildingStorey",
+       "Attribute": "Elevation"
+      },
+      {
+       "Entity": "IfcFillAreaStyleHatching",
+       "Attribute": "PointOfReferenceHatchLine"
+      },
+      {
+       "Entity": "IfcOrganization",
+       "Attribute": "Addresses"
+      },
+      {
+       "Entity": "IfcPerson",
+       "Attribute": "Addresses"
+      },
+      {
+       "Entity": "IfcPile",
+       "Attribute": "ConstructionType"
+      },
+      {
+       "Entity": "IfcReinforcingElement",
+       "Attribute": "SteelGrade"
+      },
+      {
+       "Entity": "IfcRelAssigns",
+       "Attribute": "RelatedObjectsType"
+      },
+      {
+       "Entity": "IfcSite",
+       "Attribute": "LandTitleNumber"
+      },
+      {
+       "Entity": "IfcSite",
+       "Attribute": "SiteAddress"
+      },
+      {
+       "Entity": "IfcStairFlight",
+       "Attribute": "NumberOfRisers"
+      },
+      {
+       "Entity": "IfcStairFlight",
+       "Attribute": "NumberOfTreads"
+      },
+      {
+       "Entity": "IfcStairFlight",
+       "Attribute": "RiserHeight"
+      },
+      {
+       "Entity": "IfcStairFlight",
+       "Attribute": "TreadLength"
+      },
+      {
+       "Entity": "IfcSurfaceStyleRendering",
+       "Attribute": "DiffuseTransmissionColour"
+      },
+      {
+       "Entity": "IfcSurfaceStyleRendering",
+       "Attribute": "ReflectionColour"
+      },
+      {
+       "Entity": "IfcSurfaceStyleRendering",
+       "Attribute": "TransmissionColour"
+      },
+      {
+       "Entity": "IfcSurfaceTexture",
+       "Attribute": "Parameter"
+      },
+      {
+       "Entity": "IfcTendon",
+       "Attribute": "NominalDiameter"
+      },
+      {
+       "Entity": "IfcTendon",
+       "Attribute": "CrossSectionArea"
+      },
+      {
+       "Entity": "IfcTextureCoordinateGenerator",
+       "Attribute": "Parameter"
+      }
+     ]
+    },
+    {
+     "nome": "Check for deprecated attributes - IFC4",
+     "passos": [
+      "Given A model with Schema 'IFC4'",
+      "Given an .<Entity>.",
+      "Then .<Attribute>. ^is^ empty"
+     ],
+     "exemplos": [
+      {
+       "Entity": "IfcDoorLiningProperties",
+       "Attribute": "ShapeAspectStyle"
+      },
+      {
+       "Entity": "IfcDoorPanelProperties",
+       "Attribute": "ShapeAspectStyle"
+      },
+      {
+       "Entity": "IfcFillAreaStyleHatching",
+       "Attribute": "PointOfReferenceHatchLine"
+      },
+      {
+       "Entity": "IfcReinforcingElement",
+       "Attribute": "SteelGrade"
+      },
+      {
+       "Entity": "IfcRelAssignsToActor",
+       "Attribute": "RelatedObjectsType"
+      },
+      {
+       "Entity": "IfcRelAssignsToControl",
+       "Attribute": "RelatedObjectsType"
+      },
+      {
+       "Entity": "IfcRelAssignsToGroup",
+       "Attribute": "RelatedObjectsType"
+      },
+      {
+       "Entity": "IfcRelAssignsToGroupByFactor",
+       "Attribute": "RelatedObjectsType"
+      },
+      {
+       "Entity": "IfcRelAssignsToProcess",
+       "Attribute": "RelatedObjectsType"
+      },
+      {
+       "Entity": "IfcRelAssignsToProduct",
+       "Attribute": "RelatedObjectsType"
+      },
+      {
+       "Entity": "IfcRelAssignsToResource",
+       "Attribute": "RelatedObjectsType"
+      },
+      {
+       "Entity": "IfcStairFlight",
+       "Attribute": "NumberOfRisers"
+      },
+      {
+       "Entity": "IfcStairFlight",
+       "Attribute": "NumberOfTreads"
+      },
+      {
+       "Entity": "IfcStairFlight",
+       "Attribute": "RiserHeight"
+      },
+      {
+       "Entity": "IfcStairFlight",
+       "Attribute": "TreadLength"
+      },
+      {
+       "Entity": "IfcWindowPanelProperties",
+       "Attribute": "ShapeAspectStyle"
+      },
+      {
+       "Entity": "IfcWindowLiningProperties",
+       "Attribute": "ShapeAspectStyle"
+      },
+      {
+       "Entity": "IfcTendon",
+       "Attribute": "SteelGrade"
+      },
+      {
+       "Entity": "IfcTendon",
+       "Attribute": "NominalDiameter"
+      },
+      {
+       "Entity": "IfcTendon",
+       "Attribute": "CrossSectionArea"
+      },
+      {
+       "Entity": "IfcTendon",
+       "Attribute": "TensionForce"
+      },
+      {
+       "Entity": "IfcTendon",
+       "Attribute": "PreStress"
+      },
+      {
+       "Entity": "IfcTendon",
+       "Attribute": "FrictionCoefficient"
+      },
+      {
+       "Entity": "IfcTendon",
+       "Attribute": "AnchorageSlip"
+      },
+      {
+       "Entity": "IfcTendon",
+       "Attribute": "MinCurvatureRadius"
+      },
+      {
+       "Entity": "IfcTendonAnchor",
+       "Attribute": "SteelGrade"
+      },
+      {
+       "Entity": "IfcTendonType",
+       "Attribute": "NominalDiameter"
+      },
+      {
+       "Entity": "IfcTendonType",
+       "Attribute": "CrossSectionArea"
+      },
+      {
+       "Entity": "IfcTendonType",
+       "Attribute": "SheathDiameter"
+      }
+     ]
+    },
+    {
+     "nome": "Check for deprecated attributes - IFC2X3",
+     "passos": [
+      "Given A model with Schema 'IFC2X3'",
+      "Given an .<Entity>.",
+      "Then .<Attribute>. ^is^ empty"
+     ],
+     "exemplos": [
+      {
+       "Entity": "IfcFillAreaStyleHatching",
+       "Attribute": "PointOfReferenceHatchLine"
+      }
+     ]
+    },
+    {
+     "nome": "Check for deprecated enumerated values - IFC4.3",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given an .<Entity>.",
+      "Then .PredefinedType. ^is not^ <Value>"
+     ],
+     "exemplos": [
+      {
+       "Entity": "IfcBuildingElementProxy",
+       "Value": "'PROVISIONFORSPACE'"
+      },
+      {
+       "Entity": "IfcBuildingElementProxy",
+       "Value": "'PROVISIONFORVOID'"
+      },
+      {
+       "Entity": "IfcFireSuppressionTerminal",
+       "Value": "'SPRINKLERDEFLECTOR'"
+      },
+      {
+       "Entity": "IfcFireSuppressionTerminalType",
+       "Value": "'SPRINKLERDEFLECTOR'"
+      },
+      {
+       "Entity": "IfcCableCarrierFitting",
+       "Value": "'TEE' or 'CROSS' or 'REDUCER'"
+      },
+      {
+       "Entity": "IfcCableCarrierFittingType",
+       "Value": "'TEE' or 'CROSS' or 'REDUCER'"
+      },
+      {
+       "Entity": "IfcGeographicElement",
+       "Value": "'SOIL_BORING_POINT'"
+      },
+      {
+       "Entity": "IfcGeographicElementType",
+       "Value": "'SOIL_BORING_POINT'"
+      },
+      {
+       "Entity": "IfcSpace",
+       "Value": "'INTERNAL' or 'EXTERNAL'"
+      },
+      {
+       "Entity": "IfcSpaceType",
+       "Value": "'INTERNAL' or 'EXTERNAL'"
+      },
+      {
+       "Entity": "IfcWall",
+       "Value": "'POLYGONAL' or 'STANDARD'"
+      },
+      {
+       "Entity": "IfcWallType",
+       "Value": "'POLYGONAL' or 'STANDARD'"
+      }
+     ]
+    },
+    {
+     "nome": "Check for deprecated enumerated values - IFC4",
+     "passos": [
+      "Given A model with Schema 'IFC4'",
+      "Given an .<Entity>.",
+      "Then .PredefinedType. ^is not^ <Value>"
+     ],
+     "exemplos": [
+      {
+       "Entity": "IfcWall",
+       "Value": "'POLYGONAL' or 'STANDARD' or 'ELEMENTEDWALL'"
+      },
+      {
+       "Entity": "IfcWallType",
+       "Value": "'POLYGONAL' or 'STANDARD' or 'ELEMENTEDWALL'"
+      }
+     ]
+    },
+    {
+     "nome": "Check for deprecated enumerated values - IFC2X3",
+     "passos": [
+      "Given A model with Schema 'IFC2X3'",
+      "Given an .<Entity>.",
+      "Then .<Attribute>. ^is not^ <Value>"
+     ],
+     "exemplos": [
+      {
+       "Entity": "IfcOwnerHistory",
+       "Attribute": "ChangeAction",
+       "Value": "'MODIFIEDADDED' or 'MODIFIEDDELETED'"
+      }
+     ]
+    },
+    {
+     "nome": "Check for deprecated explicitly instantiated entities - IFC4.3",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given an .<Entity>.",
+      "Then [its type] ^is not^ '<Entity>' ^excluding subtypes^"
+     ],
+     "exemplos": [
+      {
+       "Entity": "IfcFlowFitting"
+      },
+      {
+       "Entity": "IfcFlowSegment"
+      },
+      {
+       "Entity": "IfcFlowTerminal"
+      },
+      {
+       "Entity": "IfcFlowController"
+      },
+      {
+       "Entity": "IfcFlowMovingDevice"
+      },
+      {
+       "Entity": "IfcFlowStorageDevice"
+      },
+      {
+       "Entity": "IfcFlowTreatmentDevice"
+      },
+      {
+       "Entity": "IfcEnergyConversionDevice"
+      }
+     ]
+    },
+    {
+     "nome": "Check for deprecated explicitly instantiated entities - IFC4",
+     "passos": [
+      "Given A model with Schema 'IFC4'",
+      "Given an .<Entity>.",
+      "Then [its type] ^is not^ '<Entity>' ^excluding subtypes^"
+     ],
+     "exemplos": [
+      {
+       "Entity": "IfcFlowFitting"
+      },
+      {
+       "Entity": "IfcFlowSegment"
+      },
+      {
+       "Entity": "IfcFlowTerminal"
+      },
+      {
+       "Entity": "IfcFlowController"
+      },
+      {
+       "Entity": "IfcFlowMovingDevice"
+      },
+      {
+       "Entity": "IfcFlowStorageDevice"
+      },
+      {
+       "Entity": "IfcFlowTreatmentDevice"
+      },
+      {
+       "Entity": "IfcEnergyConversionDevice"
+      }
+     ]
+    },
+    {
+     "nome": "Check for deprecated explicitly instantiated entities - IFC2X3",
+     "passos": [
+      "Given A model with Schema 'IFC2X3'",
+      "Given an .<Entity>.",
+      "Then [its type] ^is not^ '<Entity>' ^excluding subtypes^"
+     ],
+     "exemplos": [
+      {
+       "Entity": "IfcProductRepresentation"
+      },
+      {
+       "Entity": "IfcRepresentation"
+      },
+      {
+       "Entity": "IfcRepresentationContext"
+      },
+      {
+       "Entity": "IfcRelAssociates"
+      }
+     ]
+    },
+    {
+     "nome": "Check for deprecated attribute values - IFC4.3",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given an .IfcShapeRepresentation.",
+      "Then .RepresentationType. ^is not^ 'PointCloud'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Check for deprecated property set - IFC4.3",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given an .IfcPropertySet.",
+      "Then .Name. ^is not^ 'Pset_Draughting'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Check for deprecated property set - IFC4",
+     "passos": [
+      "Given A model with Schema 'IFC4'",
+      "Given an .IfcPropertySet.",
+      "Then .Name. ^is not^ 'Pset_Draughting'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Check for deprecated property set - IFC2X3",
+     "passos": [
+      "Given A model with Schema 'IFC2X3'",
+      "Given an .IfcPropertySet.",
+      "Then .Name. ^is not^ 'Pset_Draughting'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "IFC105",
+   "titulo": "Resource entities need to be referenced by rooted entity",
+   "arquivo": "IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "5",
+   "desativada": true,
+   "tags": [
+    "IFC",
+    "version5",
+    "implementer-agreement",
+    "disabled"
+   ],
+   "descricao": "The rule verifies that resource entities are directly or indirectly related to at least one rooted entity instance by means of forward or a small curated set of inverse attributes. Resource entities are the schema classes that do not inherit from IfcRoot, typically defined in the resource layer of the schema (e.g Geometry Resource). The inverse attributes that are followed are: StyledByItem HasCoordinateOperation LayerAssignments LayerAssignment HasSubContexts HasProperties (material and profile def) HasRepresentation (material) HasColours HasTextures (tessellated face sets) HasShapeAspects (representation map and product definition shape) WellKnownText (coordinate reference system)",
+   "cenarios": [
+    {
+     "nome": "Resource entities need to be referenced by rooted entity",
+     "passos": [
+      "Given a traversal over the full model originating from subtypes of .IfcRoot.",
+      "Given an .entity instance.",
+      "Given [its entity type] ^is not^ 'IfcRoot' ^including subtypes^",
+      "Then it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "IFC106",
+   "titulo": "Resource entities should be referenced by rooted entity",
+   "arquivo": "IFC106_Resource-entities-should-be-referenced-by-rooted-entity.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "IFC",
+    "version1",
+    "industry-practice"
+   ],
+   "descricao": "The rule verifies that resource entities are directly or indirectly related to at least one rooted entity instance by means of forward or a small curated set of inverse attributes. Resource entities are the schema classes that do not inherit from IfcRoot, typically defined in the resource layer of the schema (e.g Geometry Resource). The inverse attributes that are followed are: StyledByItem HasCoordinateOperation LayerAssignments LayerAssignment HasSubContexts HasProperties (material and profile def) HasRepresentation (material) HasColours HasTextures (tessellated face sets) HasShapeAspects (representation map and product definition shape) WellKnownText (coordinate reference system)",
+   "cenarios": [
+    {
+     "nome": "Resource entities need to be referenced by rooted entity",
+     "passos": [
+      "Given a traversal over the full model originating from subtypes of .IfcRoot.",
+      "Given an .entity instance.",
+      "Given [its entity type] ^is not^ 'IfcRoot' ^including subtypes^",
+      "Then it must be referenced by an entity instance inheriting from IfcRoot directly or indirectly"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "IFC430",
+   "titulo": "Entities in scope for IFC 4X3 ReferenceView MVD",
+   "arquivo": "IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "IFC",
+    "version1",
+    "industry-practice"
+   ],
+   "descricao": "The rule verifies that IFC models using schema version 4.3 and declaring the Reference View Model View Definition (MVD) do not export any entities that are outside the scope of this MVD.",
+   "cenarios": [
+    {
+     "nome": "Check for in-scope entities - IFC4.3 ReferenceView",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given A model with Model View Definition 'ReferenceView'",
+      "Given An IFC model",
+      "Then There must be less than 1 instance(s) of .<Entity>. ^excluding subtypes^"
+     ],
+     "exemplos": [
+      {
+       "Entity": "IfcAdvancedBrep"
+      },
+      {
+       "Entity": "IfcAdvancedBrepWithVoids"
+      },
+      {
+       "Entity": "IfcAdvancedFace"
+      },
+      {
+       "Entity": "IfcAlignmentCant"
+      },
+      {
+       "Entity": "IfcAlignmentCantSegment"
+      },
+      {
+       "Entity": "IfcAlignmentHorizontal"
+      },
+      {
+       "Entity": "IfcAlignmentHorizontalSegment"
+      },
+      {
+       "Entity": "IfcAlignmentVertical"
+      },
+      {
+       "Entity": "IfcAlignmentVerticalSegment"
+      },
+      {
+       "Entity": "IfcApproval"
+      },
+      {
+       "Entity": "IfcApprovalRelationship"
+      },
+      {
+       "Entity": "IfcArbitraryOpenProfileDef"
+      },
+      {
+       "Entity": "IfcAsymmetricIShapeProfileDef"
+      },
+      {
+       "Entity": "IfcAxis2PlacementLinear"
+      },
+      {
+       "Entity": "IfcBlobTexture"
+      },
+      {
+       "Entity": "IfcBlock"
+      },
+      {
+       "Entity": "IfcBooleanClippingResult"
+      },
+      {
+       "Entity": "IfcBooleanResult"
+      },
+      {
+       "Entity": "IfcBoundaryCondition"
+      },
+      {
+       "Entity": "IfcBoundaryCurve"
+      },
+      {
+       "Entity": "IfcBoundaryEdgeCondition"
+      },
+      {
+       "Entity": "IfcBoundaryFaceCondition"
+      },
+      {
+       "Entity": "IfcBoundaryNodeCondition"
+      },
+      {
+       "Entity": "IfcBoundaryNodeConditionWarping"
+      },
+      {
+       "Entity": "IfcBoundedSurface"
+      },
+      {
+       "Entity": "IfcBoxedHalfSpace"
+      },
+      {
+       "Entity": "IfcBSplineCurve"
+      },
+      {
+       "Entity": "IfcBSplineCurveWithKnots"
+      },
+      {
+       "Entity": "IfcBSplineSurface"
+      },
+      {
+       "Entity": "IfcBSplineSurfaceWithKnots"
+      },
+      {
+       "Entity": "IfcCenterLineProfileDef"
+      },
+      {
+       "Entity": "IfcCircle"
+      },
+      {
+       "Entity": "IfcCircleHollowProfileDef"
+      },
+      {
+       "Entity": "IfcCircleProfileDef"
+      },
+      {
+       "Entity": "IfcClothoid"
+      },
+      {
+       "Entity": "IfcComplexProperty"
+      },
+      {
+       "Entity": "IfcComplexPropertyTemplate"
+      },
+      {
+       "Entity": "IfcCompositeCurveOnSurface"
+      },
+      {
+       "Entity": "IfcCompositeCurveSegment"
+      },
+      {
+       "Entity": "IfcConic"
+      },
+      {
+       "Entity": "IfcConnectedFaceSet"
+      },
+      {
+       "Entity": "IfcConnectionCurveGeometry"
+      },
+      {
+       "Entity": "IfcConnectionGeometry"
+      },
+      {
+       "Entity": "IfcConnectionPointEccentricity"
+      },
+      {
+       "Entity": "IfcConnectionPointGeometry"
+      },
+      {
+       "Entity": "IfcConnectionSurfaceGeometry"
+      },
+      {
+       "Entity": "IfcConnectionVolumeGeometry"
+      },
+      {
+       "Entity": "IfcConstraint"
+      },
+      {
+       "Entity": "IfcContextDependentUnit"
+      },
+      {
+       "Entity": "IfcCosineSpiral"
+      },
+      {
+       "Entity": "IfcCostItem"
+      },
+      {
+       "Entity": "IfcCostSchedule"
+      },
+      {
+       "Entity": "IfcCsgPrimitive3D"
+      },
+      {
+       "Entity": "IfcCsgSolid"
+      },
+      {
+       "Entity": "IfcCShapeProfileDef"
+      },
+      {
+       "Entity": "IfcCurrencyRelationship"
+      },
+      {
+       "Entity": "IfcCurveBoundedPlane"
+      },
+      {
+       "Entity": "IfcCurveBoundedSurface"
+      },
+      {
+       "Entity": "IfcCurveSegment"
+      },
+      {
+       "Entity": "IfcCurveStyleFontAndScaling"
+      },
+      {
+       "Entity": "IfcCylindricalSurface"
+      },
+      {
+       "Entity": "IfcDerivedProfileDef"
+      },
+      {
+       "Entity": "IfcDirectrixCurveSweptAreaSolid"
+      },
+      {
+       "Entity": "IfcDirectrixDerivedReferenceSweptAreaSolid"
+      },
+      {
+       "Entity": "IfcDistributionCircuit"
+      },
+      {
+       "Entity": "IfcDocumentInformationRelationship"
+      },
+      {
+       "Entity": "IfcDoorLiningProperties"
+      },
+      {
+       "Entity": "IfcDoorPanelProperties"
+      },
+      {
+       "Entity": "IfcDraughtingPreDefinedColour"
+      },
+      {
+       "Entity": "IfcDraughtingPreDefinedCurveFont"
+      },
+      {
+       "Entity": "IfcEdge"
+      },
+      {
+       "Entity": "IfcEdgeCurve"
+      },
+      {
+       "Entity": "IfcEdgeLoop"
+      },
+      {
+       "Entity": "IfcElementarySurface"
+      },
+      {
+       "Entity": "IfcEllipse"
+      },
+      {
+       "Entity": "IfcEllipseProfileDef"
+      },
+      {
+       "Entity": "IfcExternallyDefinedHatchStyle"
+      },
+      {
+       "Entity": "IfcExternallyDefinedSurfaceStyle"
+      },
+      {
+       "Entity": "IfcExternallyDefinedTextFont"
+      },
+      {
+       "Entity": "IfcExternalReferenceRelationship"
+      },
+      {
+       "Entity": "IfcExtrudedAreaSolid"
+      },
+      {
+       "Entity": "IfcExtrudedAreaSolidTapered"
+      },
+      {
+       "Entity": "IfcFace"
+      },
+      {
+       "Entity": "IfcFaceBasedSurfaceModel"
+      },
+      {
+       "Entity": "IfcFaceBound"
+      },
+      {
+       "Entity": "IfcFaceOuterBound"
+      },
+      {
+       "Entity": "IfcFaceSurface"
+      },
+      {
+       "Entity": "IfcFacetedBrepWithVoids"
+      },
+      {
+       "Entity": "IfcFailureConnectionCondition"
+      },
+      {
+       "Entity": "IfcFillAreaStyleTiles"
+      },
+      {
+       "Entity": "IfcFixedReferenceSweptAreaSolid"
+      },
+      {
+       "Entity": "IfcGeomodel"
+      },
+      {
+       "Entity": "IfcGeoslice"
+      },
+      {
+       "Entity": "IfcGridPlacement"
+      },
+      {
+       "Entity": "IfcHalfSpaceSolid"
+      },
+      {
+       "Entity": "IfcIndexedPolygonalTextureMap"
+      },
+      {
+       "Entity": "IfcIntersectionCurve"
+      },
+      {
+       "Entity": "IfcIrregularTimeSeries"
+      },
+      {
+       "Entity": "IfcIrregularTimeSeriesValue"
+      },
+      {
+       "Entity": "IfcIShapeProfileDef"
+      },
+      {
+       "Entity": "IfcLagTime"
+      },
+      {
+       "Entity": "IfcLibraryInformation"
+      },
+      {
+       "Entity": "IfcLibraryReference"
+      },
+      {
+       "Entity": "IfcLightDistributionData"
+      },
+      {
+       "Entity": "IfcLightIntensityDistribution"
+      },
+      {
+       "Entity": "IfcLightSource"
+      },
+      {
+       "Entity": "IfcLightSourceAmbient"
+      },
+      {
+       "Entity": "IfcLightSourceDirectional"
+      },
+      {
+       "Entity": "IfcLightSourceGoniometric"
+      },
+      {
+       "Entity": "IfcLightSourcePositional"
+      },
+      {
+       "Entity": "IfcLightSourceSpot"
+      },
+      {
+       "Entity": "IfcLine"
+      },
+      {
+       "Entity": "IfcLinearPlacement"
+      },
+      {
+       "Entity": "IfcLoop"
+      },
+      {
+       "Entity": "IfcLShapeProfileDef"
+      },
+      {
+       "Entity": "IfcMaterialClassificationRelationship"
+      },
+      {
+       "Entity": "IfcMaterialDefinitionRepresentation"
+      },
+      {
+       "Entity": "IfcMaterialLayerSetUsage"
+      },
+      {
+       "Entity": "IfcMaterialLayerWithOffsets"
+      },
+      {
+       "Entity": "IfcMaterialList"
+      },
+      {
+       "Entity": "IfcMaterialProfileSetUsage"
+      },
+      {
+       "Entity": "IfcMaterialProfileSetUsageTapering"
+      },
+      {
+       "Entity": "IfcMaterialProfileWithOffsets"
+      },
+      {
+       "Entity": "IfcMaterialRelationship"
+      },
+      {
+       "Entity": "IfcMaterialUsageDefinition"
+      },
+      {
+       "Entity": "IfcMetric"
+      },
+      {
+       "Entity": "IfcMirroredProfileDef"
+      },
+      {
+       "Entity": "IfcObjective"
+      },
+      {
+       "Entity": "IfcOccupant"
+      },
+      {
+       "Entity": "IfcOffsetCurve"
+      },
+      {
+       "Entity": "IfcOffsetCurve2D"
+      },
+      {
+       "Entity": "IfcOffsetCurve3D"
+      },
+      {
+       "Entity": "IfcOffsetCurveByDistances"
+      },
+      {
+       "Entity": "IfcOpenCrossProfileDef"
+      },
+      {
+       "Entity": "IfcOpenShell"
+      },
+      {
+       "Entity": "IfcOrganizationRelationship"
+      },
+      {
+       "Entity": "IfcOrientedEdge"
+      },
+      {
+       "Entity": "IfcOuterBoundaryCurve"
+      },
+      {
+       "Entity": "IfcParameterizedProfileDef"
+      },
+      {
+       "Entity": "IfcPath"
+      },
+      {
+       "Entity": "IfcPcurve"
+      },
+      {
+       "Entity": "IfcPerformanceHistory"
+      },
+      {
+       "Entity": "IfcPermeableCoveringProperties"
+      },
+      {
+       "Entity": "IfcPhysicalComplexQuantity"
+      },
+      {
+       "Entity": "IfcPixelTexture"
+      },
+      {
+       "Entity": "IfcPlanarBox"
+      },
+      {
+       "Entity": "IfcPlanarExtent"
+      },
+      {
+       "Entity": "IfcPlane"
+      },
+      {
+       "Entity": "IfcPointByDistanceExpression"
+      },
+      {
+       "Entity": "IfcPointOnCurve"
+      },
+      {
+       "Entity": "IfcPointOnSurface"
+      },
+      {
+       "Entity": "IfcPolygonalBoundedHalfSpace"
+      },
+      {
+       "Entity": "IfcPolyLoop"
+      },
+      {
+       "Entity": "IfcPolynomialCurve"
+      },
+      {
+       "Entity": "IfcPreDefinedColour"
+      },
+      {
+       "Entity": "IfcPreDefinedCurveFont"
+      },
+      {
+       "Entity": "IfcPreDefinedProperties"
+      },
+      {
+       "Entity": "IfcPreDefinedPropertySet"
+      },
+      {
+       "Entity": "IfcPresentationLayerWithStyle"
+      },
+      {
+       "Entity": "IfcProfileProperties"
+      },
+      {
+       "Entity": "IfcPropertyDependencyRelationship"
+      },
+      {
+       "Entity": "IfcPropertyReferenceValue"
+      },
+      {
+       "Entity": "IfcQuantityNumber"
+      },
+      {
+       "Entity": "IfcRationalBSplineCurveWithKnots"
+      },
+      {
+       "Entity": "IfcRationalBSplineSurfaceWithKnots"
+      },
+      {
+       "Entity": "IfcRectangleHollowProfileDef"
+      },
+      {
+       "Entity": "IfcRectangleProfileDef"
+      },
+      {
+       "Entity": "IfcRectangularPyramid"
+      },
+      {
+       "Entity": "IfcRectangularTrimmedSurface"
+      },
+      {
+       "Entity": "IfcRecurrencePattern"
+      },
+      {
+       "Entity": "IfcReference"
+      },
+      {
+       "Entity": "IfcRegularTimeSeries"
+      },
+      {
+       "Entity": "IfcReinforcementBarProperties"
+      },
+      {
+       "Entity": "IfcReinforcementDefinitionProperties"
+      },
+      {
+       "Entity": "IfcRelAdheresToElement"
+      },
+      {
+       "Entity": "IfcRelAssignsToActor"
+      },
+      {
+       "Entity": "IfcRelAssignsToControl"
+      },
+      {
+       "Entity": "IfcRelAssignsToGroupByFactor"
+      },
+      {
+       "Entity": "IfcRelAssignsToProcess"
+      },
+      {
+       "Entity": "IfcRelAssignsToProduct"
+      },
+      {
+       "Entity": "IfcRelAssignsToResource"
+      },
+      {
+       "Entity": "IfcRelAssociatesApproval"
+      },
+      {
+       "Entity": "IfcRelAssociatesConstraint"
+      },
+      {
+       "Entity": "IfcRelAssociatesLibrary"
+      },
+      {
+       "Entity": "IfcRelAssociatesProfileDef"
+      },
+      {
+       "Entity": "IfcRelConnectsElements"
+      },
+      {
+       "Entity": "IfcRelConnectsPathElements"
+      },
+      {
+       "Entity": "IfcRelConnectsPortToElement"
+      },
+      {
+       "Entity": "IfcRelConnectsStructuralActivity"
+      },
+      {
+       "Entity": "IfcRelConnectsStructuralMember"
+      },
+      {
+       "Entity": "IfcRelConnectsWithEccentricity"
+      },
+      {
+       "Entity": "IfcRelConnectsWithRealizingElements"
+      },
+      {
+       "Entity": "IfcRelCoversSpaces"
+      },
+      {
+       "Entity": "IfcRelDefinesByObject"
+      },
+      {
+       "Entity": "IfcRelDefinesByTemplate"
+      },
+      {
+       "Entity": "IfcRelFlowControlElements"
+      },
+      {
+       "Entity": "IfcRelInterferesElements"
+      },
+      {
+       "Entity": "IfcRelPositions"
+      },
+      {
+       "Entity": "IfcRelProjectsElement"
+      },
+      {
+       "Entity": "IfcRelSequence"
+      },
+      {
+       "Entity": "IfcRelServicesBuildings"
+      },
+      {
+       "Entity": "IfcRelSpaceBoundary"
+      },
+      {
+       "Entity": "IfcRelSpaceBoundary1stLevel"
+      },
+      {
+       "Entity": "IfcRelSpaceBoundary2ndLevel"
+      },
+      {
+       "Entity": "IfcReparametrisedCompositeCurveSegment"
+      },
+      {
+       "Entity": "IfcResourceApprovalRelationship"
+      },
+      {
+       "Entity": "IfcResourceConstraintRelationship"
+      },
+      {
+       "Entity": "IfcResourceLevelRelationship"
+      },
+      {
+       "Entity": "IfcRevolvedAreaSolid"
+      },
+      {
+       "Entity": "IfcRevolvedAreaSolidTapered"
+      },
+      {
+       "Entity": "IfcRightCircularCone"
+      },
+      {
+       "Entity": "IfcRightCircularCylinder"
+      },
+      {
+       "Entity": "IfcRoundedRectangleProfileDef"
+      },
+      {
+       "Entity": "IfcSchedulingTime"
+      },
+      {
+       "Entity": "IfcSeamCurve"
+      },
+      {
+       "Entity": "IfcSecondOrderPolynomialSpiral"
+      },
+      {
+       "Entity": "IfcSectionedSolid"
+      },
+      {
+       "Entity": "IfcSectionedSolidHorizontal"
+      },
+      {
+       "Entity": "IfcSectionedSpine"
+      },
+      {
+       "Entity": "IfcSectionedSurface"
+      },
+      {
+       "Entity": "IfcSectionProperties"
+      },
+      {
+       "Entity": "IfcSectionReinforcementProperties"
+      },
+      {
+       "Entity": "IfcSegmentedReferenceCurve"
+      },
+      {
+       "Entity": "IfcSeventhOrderPolynomialSpiral"
+      },
+      {
+       "Entity": "IfcShapeAspect"
+      },
+      {
+       "Entity": "IfcShellBasedSurfaceModel"
+      },
+      {
+       "Entity": "IfcSimplePropertyTemplate"
+      },
+      {
+       "Entity": "IfcSineSpiral"
+      },
+      {
+       "Entity": "IfcSlippageConnectionCondition"
+      },
+      {
+       "Entity": "IfcSphere"
+      },
+      {
+       "Entity": "IfcSphericalSurface"
+      },
+      {
+       "Entity": "IfcSpiral"
+      },
+      {
+       "Entity": "IfcStructuralAction"
+      },
+      {
+       "Entity": "IfcStructuralActivity"
+      },
+      {
+       "Entity": "IfcStructuralConnection"
+      },
+      {
+       "Entity": "IfcStructuralConnectionCondition"
+      },
+      {
+       "Entity": "IfcStructuralCurveAction"
+      },
+      {
+       "Entity": "IfcStructuralCurveConnection"
+      },
+      {
+       "Entity": "IfcStructuralCurveMember"
+      },
+      {
+       "Entity": "IfcStructuralCurveMemberVarying"
+      },
+      {
+       "Entity": "IfcStructuralCurveReaction"
+      },
+      {
+       "Entity": "IfcStructuralLinearAction"
+      },
+      {
+       "Entity": "IfcStructuralLoad"
+      },
+      {
+       "Entity": "IfcStructuralLoadConfiguration"
+      },
+      {
+       "Entity": "IfcStructuralLoadLinearForce"
+      },
+      {
+       "Entity": "IfcStructuralLoadOrResult"
+      },
+      {
+       "Entity": "IfcStructuralLoadPlanarForce"
+      },
+      {
+       "Entity": "IfcStructuralLoadSingleDisplacement"
+      },
+      {
+       "Entity": "IfcStructuralLoadSingleDisplacementDistortion"
+      },
+      {
+       "Entity": "IfcStructuralLoadSingleForce"
+      },
+      {
+       "Entity": "IfcStructuralLoadSingleForceWarping"
+      },
+      {
+       "Entity": "IfcStructuralLoadStatic"
+      },
+      {
+       "Entity": "IfcStructuralLoadTemperature"
+      },
+      {
+       "Entity": "IfcStructuralPlanarAction"
+      },
+      {
+       "Entity": "IfcStructuralPointAction"
+      },
+      {
+       "Entity": "IfcStructuralPointConnection"
+      },
+      {
+       "Entity": "IfcStructuralPointReaction"
+      },
+      {
+       "Entity": "IfcStructuralReaction"
+      },
+      {
+       "Entity": "IfcStructuralSurfaceAction"
+      },
+      {
+       "Entity": "IfcStructuralSurfaceConnection"
+      },
+      {
+       "Entity": "IfcStructuralSurfaceReaction"
+      },
+      {
+       "Entity": "IfcStyledRepresentation"
+      },
+      {
+       "Entity": "IfcStyleModel"
+      },
+      {
+       "Entity": "IfcSubedge"
+      },
+      {
+       "Entity": "IfcSurfaceCurve"
+      },
+      {
+       "Entity": "IfcSurfaceCurveSweptAreaSolid"
+      },
+      {
+       "Entity": "IfcSurfaceOfLinearExtrusion"
+      },
+      {
+       "Entity": "IfcSurfaceOfRevolution"
+      },
+      {
+       "Entity": "IfcSurfaceReinforcementArea"
+      },
+      {
+       "Entity": "IfcSurfaceStyleLighting"
+      },
+      {
+       "Entity": "IfcSurfaceStyleRefraction"
+      },
+      {
+       "Entity": "IfcSurfaceStyleWithTextures"
+      },
+      {
+       "Entity": "IfcSweptDiskSolidPolygonal"
+      },
+      {
+       "Entity": "IfcSweptSurface"
+      },
+      {
+       "Entity": "IfcTable"
+      },
+      {
+       "Entity": "IfcTableColumn"
+      },
+      {
+       "Entity": "IfcTableRow"
+      },
+      {
+       "Entity": "IfcTaskTimeRecurring"
+      },
+      {
+       "Entity": "IfcTextLiteralWithExtent"
+      },
+      {
+       "Entity": "IfcTextureCoordinateGenerator"
+      },
+      {
+       "Entity": "IfcTextureCoordinateIndices"
+      },
+      {
+       "Entity": "IfcTextureCoordinateIndicesWithVoids"
+      },
+      {
+       "Entity": "IfcTextureMap"
+      },
+      {
+       "Entity": "IfcTextureVertex"
+      },
+      {
+       "Entity": "IfcThirdOrderPolynomialSpiral"
+      },
+      {
+       "Entity": "IfcTimePeriod"
+      },
+      {
+       "Entity": "IfcTimeSeries"
+      },
+      {
+       "Entity": "IfcTimeSeriesValue"
+      },
+      {
+       "Entity": "IfcTopologicalRepresentationItem"
+      },
+      {
+       "Entity": "IfcTopologyRepresentation"
+      },
+      {
+       "Entity": "IfcToroidalSurface"
+      },
+      {
+       "Entity": "IfcTrapeziumProfileDef"
+      },
+      {
+       "Entity": "IfcTriangulatedIrregularNetwork"
+      },
+      {
+       "Entity": "IfcTrimmedCurve"
+      },
+      {
+       "Entity": "IfcTShapeProfileDef"
+      },
+      {
+       "Entity": "IfcUShapeProfileDef"
+      },
+      {
+       "Entity": "IfcVertex"
+      },
+      {
+       "Entity": "IfcVertexLoop"
+      },
+      {
+       "Entity": "IfcVertexPoint"
+      },
+      {
+       "Entity": "IfcVirtualGridIntersection"
+      },
+      {
+       "Entity": "IfcWallStandardCase"
+      },
+      {
+       "Entity": "IfcWindowLiningProperties"
+      },
+      {
+       "Entity": "IfcWindowPanelProperties"
+      },
+      {
+       "Entity": "IfcWorkCalendar"
+      },
+      {
+       "Entity": "IfcWorkPlan"
+      },
+      {
+       "Entity": "IfcWorkSchedule"
+      },
+      {
+       "Entity": "IfcWorkTime"
+      },
+      {
+       "Entity": "IfcZShapeProfileDef"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "IFC431",
+   "titulo": "Entities in scope for IFC 4X3 Alignment-basedView MVD",
+   "arquivo": "IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "IFC",
+    "version1",
+    "industry-practice"
+   ],
+   "descricao": "The rule verifies that IFC models using schema version 4.3 and declaring the Alignment-basedView Model View Definition (MVD) do not export any entities that are outside the scope of this MVD.",
+   "cenarios": [
+    {
+     "nome": "Check for in-scope entities - IFC4.3 Alignment-basedView",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given A model with Model View Definition 'Alignment-basedView'",
+      "Given An IFC model",
+      "Then There must be less than 1 instance(s) of .<Entity>. ^excluding subtypes^"
+     ],
+     "exemplos": [
+      {
+       "Entity": "IfcAdvancedBrep"
+      },
+      {
+       "Entity": "IfcAdvancedBrepWithVoids"
+      },
+      {
+       "Entity": "IfcAdvancedFace"
+      },
+      {
+       "Entity": "IfcApproval"
+      },
+      {
+       "Entity": "IfcApprovalRelationship"
+      },
+      {
+       "Entity": "IfcArbitraryOpenProfileDef"
+      },
+      {
+       "Entity": "IfcAsymmetricIShapeProfileDef"
+      },
+      {
+       "Entity": "IfcBlobTexture"
+      },
+      {
+       "Entity": "IfcBlock"
+      },
+      {
+       "Entity": "IfcBooleanClippingResult"
+      },
+      {
+       "Entity": "IfcBooleanResult"
+      },
+      {
+       "Entity": "IfcBoundaryCondition"
+      },
+      {
+       "Entity": "IfcBoundaryCurve"
+      },
+      {
+       "Entity": "IfcBoundaryEdgeCondition"
+      },
+      {
+       "Entity": "IfcBoundaryFaceCondition"
+      },
+      {
+       "Entity": "IfcBoundaryNodeCondition"
+      },
+      {
+       "Entity": "IfcBoundaryNodeConditionWarping"
+      },
+      {
+       "Entity": "IfcBoundedSurface"
+      },
+      {
+       "Entity": "IfcBoxedHalfSpace"
+      },
+      {
+       "Entity": "IfcBSplineCurve"
+      },
+      {
+       "Entity": "IfcBSplineCurveWithKnots"
+      },
+      {
+       "Entity": "IfcBSplineSurface"
+      },
+      {
+       "Entity": "IfcBSplineSurfaceWithKnots"
+      },
+      {
+       "Entity": "IfcCenterLineProfileDef"
+      },
+      {
+       "Entity": "IfcCircleHollowProfileDef"
+      },
+      {
+       "Entity": "IfcCircleProfileDef"
+      },
+      {
+       "Entity": "IfcComplexProperty"
+      },
+      {
+       "Entity": "IfcComplexPropertyTemplate"
+      },
+      {
+       "Entity": "IfcCompositeCurveOnSurface"
+      },
+      {
+       "Entity": "IfcCompositeCurveSegment"
+      },
+      {
+       "Entity": "IfcConnectedFaceSet"
+      },
+      {
+       "Entity": "IfcConnectionCurveGeometry"
+      },
+      {
+       "Entity": "IfcConnectionPointEccentricity"
+      },
+      {
+       "Entity": "IfcConnectionPointGeometry"
+      },
+      {
+       "Entity": "IfcConnectionSurfaceGeometry"
+      },
+      {
+       "Entity": "IfcConnectionVolumeGeometry"
+      },
+      {
+       "Entity": "IfcConstraint"
+      },
+      {
+       "Entity": "IfcContextDependentUnit"
+      },
+      {
+       "Entity": "IfcCostItem"
+      },
+      {
+       "Entity": "IfcCostSchedule"
+      },
+      {
+       "Entity": "IfcCsgPrimitive3D"
+      },
+      {
+       "Entity": "IfcCsgSolid"
+      },
+      {
+       "Entity": "IfcCShapeProfileDef"
+      },
+      {
+       "Entity": "IfcCurrencyRelationship"
+      },
+      {
+       "Entity": "IfcCurveBoundedPlane"
+      },
+      {
+       "Entity": "IfcCurveBoundedSurface"
+      },
+      {
+       "Entity": "IfcCurveStyleFontAndScaling"
+      },
+      {
+       "Entity": "IfcCylindricalSurface"
+      },
+      {
+       "Entity": "IfcDerivedProfileDef"
+      },
+      {
+       "Entity": "IfcDirectrixCurveSweptAreaSolid"
+      },
+      {
+       "Entity": "IfcDirectrixDerivedReferenceSweptAreaSolid"
+      },
+      {
+       "Entity": "IfcDistributionCircuit"
+      },
+      {
+       "Entity": "IfcDocumentInformationRelationship"
+      },
+      {
+       "Entity": "IfcDoorLiningProperties"
+      },
+      {
+       "Entity": "IfcDoorPanelProperties"
+      },
+      {
+       "Entity": "IfcDraughtingPreDefinedColour"
+      },
+      {
+       "Entity": "IfcDraughtingPreDefinedCurveFont"
+      },
+      {
+       "Entity": "IfcEdge"
+      },
+      {
+       "Entity": "IfcEdgeCurve"
+      },
+      {
+       "Entity": "IfcEdgeLoop"
+      },
+      {
+       "Entity": "IfcElementarySurface"
+      },
+      {
+       "Entity": "IfcEllipse"
+      },
+      {
+       "Entity": "IfcEllipseProfileDef"
+      },
+      {
+       "Entity": "IfcExternallyDefinedHatchStyle"
+      },
+      {
+       "Entity": "IfcExternallyDefinedSurfaceStyle"
+      },
+      {
+       "Entity": "IfcExternallyDefinedTextFont"
+      },
+      {
+       "Entity": "IfcExternalReferenceRelationship"
+      },
+      {
+       "Entity": "IfcExtrudedAreaSolid"
+      },
+      {
+       "Entity": "IfcExtrudedAreaSolidTapered"
+      },
+      {
+       "Entity": "IfcFace"
+      },
+      {
+       "Entity": "IfcFaceBasedSurfaceModel"
+      },
+      {
+       "Entity": "IfcFaceBound"
+      },
+      {
+       "Entity": "IfcFaceOuterBound"
+      },
+      {
+       "Entity": "IfcFaceSurface"
+      },
+      {
+       "Entity": "IfcFacetedBrepWithVoids"
+      },
+      {
+       "Entity": "IfcFailureConnectionCondition"
+      },
+      {
+       "Entity": "IfcFillAreaStyleTiles"
+      },
+      {
+       "Entity": "IfcFixedReferenceSweptAreaSolid"
+      },
+      {
+       "Entity": "IfcGeomodel"
+      },
+      {
+       "Entity": "IfcGeoslice"
+      },
+      {
+       "Entity": "IfcGridPlacement"
+      },
+      {
+       "Entity": "IfcHalfSpaceSolid"
+      },
+      {
+       "Entity": "IfcIndexedPolygonalTextureMap"
+      },
+      {
+       "Entity": "IfcIntersectionCurve"
+      },
+      {
+       "Entity": "IfcIrregularTimeSeries"
+      },
+      {
+       "Entity": "IfcIrregularTimeSeriesValue"
+      },
+      {
+       "Entity": "IfcIShapeProfileDef"
+      },
+      {
+       "Entity": "IfcLagTime"
+      },
+      {
+       "Entity": "IfcLibraryInformation"
+      },
+      {
+       "Entity": "IfcLibraryReference"
+      },
+      {
+       "Entity": "IfcLightDistributionData"
+      },
+      {
+       "Entity": "IfcLightIntensityDistribution"
+      },
+      {
+       "Entity": "IfcLightSource"
+      },
+      {
+       "Entity": "IfcLightSourceAmbient"
+      },
+      {
+       "Entity": "IfcLightSourceDirectional"
+      },
+      {
+       "Entity": "IfcLightSourceGoniometric"
+      },
+      {
+       "Entity": "IfcLightSourcePositional"
+      },
+      {
+       "Entity": "IfcLightSourceSpot"
+      },
+      {
+       "Entity": "IfcLoop"
+      },
+      {
+       "Entity": "IfcLShapeProfileDef"
+      },
+      {
+       "Entity": "IfcMaterialClassificationRelationship"
+      },
+      {
+       "Entity": "IfcMaterialDefinitionRepresentation"
+      },
+      {
+       "Entity": "IfcMaterialLayerSetUsage"
+      },
+      {
+       "Entity": "IfcMaterialLayerWithOffsets"
+      },
+      {
+       "Entity": "IfcMaterialList"
+      },
+      {
+       "Entity": "IfcMaterialProfileSetUsage"
+      },
+      {
+       "Entity": "IfcMaterialProfileSetUsageTapering"
+      },
+      {
+       "Entity": "IfcMaterialProfileWithOffsets"
+      },
+      {
+       "Entity": "IfcMaterialRelationship"
+      },
+      {
+       "Entity": "IfcMaterialUsageDefinition"
+      },
+      {
+       "Entity": "IfcMetric"
+      },
+      {
+       "Entity": "IfcMirroredProfileDef"
+      },
+      {
+       "Entity": "IfcObjective"
+      },
+      {
+       "Entity": "IfcOccupant"
+      },
+      {
+       "Entity": "IfcOffsetCurve"
+      },
+      {
+       "Entity": "IfcOffsetCurve2D"
+      },
+      {
+       "Entity": "IfcOffsetCurve3D"
+      },
+      {
+       "Entity": "IfcOffsetCurveByDistances"
+      },
+      {
+       "Entity": "IfcOpenShell"
+      },
+      {
+       "Entity": "IfcOrganizationRelationship"
+      },
+      {
+       "Entity": "IfcOrientedEdge"
+      },
+      {
+       "Entity": "IfcOuterBoundaryCurve"
+      },
+      {
+       "Entity": "IfcParameterizedProfileDef"
+      },
+      {
+       "Entity": "IfcPath"
+      },
+      {
+       "Entity": "IfcPcurve"
+      },
+      {
+       "Entity": "IfcPerformanceHistory"
+      },
+      {
+       "Entity": "IfcPermeableCoveringProperties"
+      },
+      {
+       "Entity": "IfcPhysicalComplexQuantity"
+      },
+      {
+       "Entity": "IfcPixelTexture"
+      },
+      {
+       "Entity": "IfcPlanarBox"
+      },
+      {
+       "Entity": "IfcPlanarExtent"
+      },
+      {
+       "Entity": "IfcPlane"
+      },
+      {
+       "Entity": "IfcPointOnCurve"
+      },
+      {
+       "Entity": "IfcPointOnSurface"
+      },
+      {
+       "Entity": "IfcPolygonalBoundedHalfSpace"
+      },
+      {
+       "Entity": "IfcPolyLoop"
+      },
+      {
+       "Entity": "IfcPreDefinedColour"
+      },
+      {
+       "Entity": "IfcPreDefinedCurveFont"
+      },
+      {
+       "Entity": "IfcPreDefinedProperties"
+      },
+      {
+       "Entity": "IfcPreDefinedPropertySet"
+      },
+      {
+       "Entity": "IfcPresentationLayerWithStyle"
+      },
+      {
+       "Entity": "IfcProfileProperties"
+      },
+      {
+       "Entity": "IfcPropertyDependencyRelationship"
+      },
+      {
+       "Entity": "IfcPropertyReferenceValue"
+      },
+      {
+       "Entity": "IfcQuantityNumber"
+      },
+      {
+       "Entity": "IfcRationalBSplineCurveWithKnots"
+      },
+      {
+       "Entity": "IfcRationalBSplineSurfaceWithKnots"
+      },
+      {
+       "Entity": "IfcRectangleHollowProfileDef"
+      },
+      {
+       "Entity": "IfcRectangleProfileDef"
+      },
+      {
+       "Entity": "IfcRectangularPyramid"
+      },
+      {
+       "Entity": "IfcRectangularTrimmedSurface"
+      },
+      {
+       "Entity": "IfcRecurrencePattern"
+      },
+      {
+       "Entity": "IfcReference"
+      },
+      {
+       "Entity": "IfcRegularTimeSeries"
+      },
+      {
+       "Entity": "IfcReinforcementBarProperties"
+      },
+      {
+       "Entity": "IfcReinforcementDefinitionProperties"
+      },
+      {
+       "Entity": "IfcRelAdheresToElement"
+      },
+      {
+       "Entity": "IfcRelAssignsToActor"
+      },
+      {
+       "Entity": "IfcRelAssignsToControl"
+      },
+      {
+       "Entity": "IfcRelAssignsToGroupByFactor"
+      },
+      {
+       "Entity": "IfcRelAssignsToProcess"
+      },
+      {
+       "Entity": "IfcRelAssignsToProduct"
+      },
+      {
+       "Entity": "IfcRelAssignsToResource"
+      },
+      {
+       "Entity": "IfcRelAssociatesApproval"
+      },
+      {
+       "Entity": "IfcRelAssociatesConstraint"
+      },
+      {
+       "Entity": "IfcRelAssociatesLibrary"
+      },
+      {
+       "Entity": "IfcRelAssociatesProfileDef"
+      },
+      {
+       "Entity": "IfcRelConnectsElements"
+      },
+      {
+       "Entity": "IfcRelConnectsPathElements"
+      },
+      {
+       "Entity": "IfcRelConnectsPortToElement"
+      },
+      {
+       "Entity": "IfcRelConnectsStructuralActivity"
+      },
+      {
+       "Entity": "IfcRelConnectsStructuralMember"
+      },
+      {
+       "Entity": "IfcRelConnectsWithEccentricity"
+      },
+      {
+       "Entity": "IfcRelConnectsWithRealizingElements"
+      },
+      {
+       "Entity": "IfcRelCoversSpaces"
+      },
+      {
+       "Entity": "IfcRelDefinesByObject"
+      },
+      {
+       "Entity": "IfcRelDefinesByTemplate"
+      },
+      {
+       "Entity": "IfcRelFlowControlElements"
+      },
+      {
+       "Entity": "IfcRelProjectsElement"
+      },
+      {
+       "Entity": "IfcRelSequence"
+      },
+      {
+       "Entity": "IfcRelServicesBuildings"
+      },
+      {
+       "Entity": "IfcRelSpaceBoundary"
+      },
+      {
+       "Entity": "IfcRelSpaceBoundary1stLevel"
+      },
+      {
+       "Entity": "IfcRelSpaceBoundary2ndLevel"
+      },
+      {
+       "Entity": "IfcReparametrisedCompositeCurveSegment"
+      },
+      {
+       "Entity": "IfcResourceApprovalRelationship"
+      },
+      {
+       "Entity": "IfcResourceConstraintRelationship"
+      },
+      {
+       "Entity": "IfcResourceLevelRelationship"
+      },
+      {
+       "Entity": "IfcRevolvedAreaSolid"
+      },
+      {
+       "Entity": "IfcRevolvedAreaSolidTapered"
+      },
+      {
+       "Entity": "IfcRightCircularCone"
+      },
+      {
+       "Entity": "IfcRightCircularCylinder"
+      },
+      {
+       "Entity": "IfcRoundedRectangleProfileDef"
+      },
+      {
+       "Entity": "IfcSchedulingTime"
+      },
+      {
+       "Entity": "IfcSeamCurve"
+      },
+      {
+       "Entity": "IfcSectionedSpine"
+      },
+      {
+       "Entity": "IfcSectionProperties"
+      },
+      {
+       "Entity": "IfcSectionReinforcementProperties"
+      },
+      {
+       "Entity": "IfcShapeAspect"
+      },
+      {
+       "Entity": "IfcShellBasedSurfaceModel"
+      },
+      {
+       "Entity": "IfcSimplePropertyTemplate"
+      },
+      {
+       "Entity": "IfcSlippageConnectionCondition"
+      },
+      {
+       "Entity": "IfcSphere"
+      },
+      {
+       "Entity": "IfcSphericalSurface"
+      },
+      {
+       "Entity": "IfcStructuralAction"
+      },
+      {
+       "Entity": "IfcStructuralActivity"
+      },
+      {
+       "Entity": "IfcStructuralConnection"
+      },
+      {
+       "Entity": "IfcStructuralConnectionCondition"
+      },
+      {
+       "Entity": "IfcStructuralCurveAction"
+      },
+      {
+       "Entity": "IfcStructuralCurveConnection"
+      },
+      {
+       "Entity": "IfcStructuralCurveMember"
+      },
+      {
+       "Entity": "IfcStructuralCurveMemberVarying"
+      },
+      {
+       "Entity": "IfcStructuralCurveReaction"
+      },
+      {
+       "Entity": "IfcStructuralLinearAction"
+      },
+      {
+       "Entity": "IfcStructuralLoad"
+      },
+      {
+       "Entity": "IfcStructuralLoadConfiguration"
+      },
+      {
+       "Entity": "IfcStructuralLoadLinearForce"
+      },
+      {
+       "Entity": "IfcStructuralLoadOrResult"
+      },
+      {
+       "Entity": "IfcStructuralLoadPlanarForce"
+      },
+      {
+       "Entity": "IfcStructuralLoadSingleDisplacement"
+      },
+      {
+       "Entity": "IfcStructuralLoadSingleDisplacementDistortion"
+      },
+      {
+       "Entity": "IfcStructuralLoadSingleForce"
+      },
+      {
+       "Entity": "IfcStructuralLoadSingleForceWarping"
+      },
+      {
+       "Entity": "IfcStructuralLoadStatic"
+      },
+      {
+       "Entity": "IfcStructuralLoadTemperature"
+      },
+      {
+       "Entity": "IfcStructuralPlanarAction"
+      },
+      {
+       "Entity": "IfcStructuralPointAction"
+      },
+      {
+       "Entity": "IfcStructuralPointConnection"
+      },
+      {
+       "Entity": "IfcStructuralPointReaction"
+      },
+      {
+       "Entity": "IfcStructuralReaction"
+      },
+      {
+       "Entity": "IfcStructuralSurfaceAction"
+      },
+      {
+       "Entity": "IfcStructuralSurfaceConnection"
+      },
+      {
+       "Entity": "IfcStructuralSurfaceReaction"
+      },
+      {
+       "Entity": "IfcStyledRepresentation"
+      },
+      {
+       "Entity": "IfcStyleModel"
+      },
+      {
+       "Entity": "IfcSubedge"
+      },
+      {
+       "Entity": "IfcSurfaceCurve"
+      },
+      {
+       "Entity": "IfcSurfaceCurveSweptAreaSolid"
+      },
+      {
+       "Entity": "IfcSurfaceOfLinearExtrusion"
+      },
+      {
+       "Entity": "IfcSurfaceOfRevolution"
+      },
+      {
+       "Entity": "IfcSurfaceReinforcementArea"
+      },
+      {
+       "Entity": "IfcSurfaceStyleLighting"
+      },
+      {
+       "Entity": "IfcSurfaceStyleRefraction"
+      },
+      {
+       "Entity": "IfcSurfaceStyleWithTextures"
+      },
+      {
+       "Entity": "IfcSweptDiskSolidPolygonal"
+      },
+      {
+       "Entity": "IfcSweptSurface"
+      },
+      {
+       "Entity": "IfcTable"
+      },
+      {
+       "Entity": "IfcTableColumn"
+      },
+      {
+       "Entity": "IfcTableRow"
+      },
+      {
+       "Entity": "IfcTaskTimeRecurring"
+      },
+      {
+       "Entity": "IfcTextLiteralWithExtent"
+      },
+      {
+       "Entity": "IfcTextureCoordinateGenerator"
+      },
+      {
+       "Entity": "IfcTextureCoordinateIndices"
+      },
+      {
+       "Entity": "IfcTextureCoordinateIndicesWithVoids"
+      },
+      {
+       "Entity": "IfcTextureMap"
+      },
+      {
+       "Entity": "IfcTextureVertex"
+      },
+      {
+       "Entity": "IfcTimePeriod"
+      },
+      {
+       "Entity": "IfcTimeSeries"
+      },
+      {
+       "Entity": "IfcTimeSeriesValue"
+      },
+      {
+       "Entity": "IfcTopologicalRepresentationItem"
+      },
+      {
+       "Entity": "IfcTopologyRepresentation"
+      },
+      {
+       "Entity": "IfcToroidalSurface"
+      },
+      {
+       "Entity": "IfcTrapeziumProfileDef"
+      },
+      {
+       "Entity": "IfcTriangulatedIrregularNetwork"
+      },
+      {
+       "Entity": "IfcTrimmedCurve"
+      },
+      {
+       "Entity": "IfcTShapeProfileDef"
+      },
+      {
+       "Entity": "IfcUShapeProfileDef"
+      },
+      {
+       "Entity": "IfcVertex"
+      },
+      {
+       "Entity": "IfcVertexLoop"
+      },
+      {
+       "Entity": "IfcVertexPoint"
+      },
+      {
+       "Entity": "IfcVirtualGridIntersection"
+      },
+      {
+       "Entity": "IfcWallStandardCase"
+      },
+      {
+       "Entity": "IfcWindowLiningProperties"
+      },
+      {
+       "Entity": "IfcWindowPanelProperties"
+      },
+      {
+       "Entity": "IfcWorkCalendar"
+      },
+      {
+       "Entity": "IfcWorkPlan"
+      },
+      {
+       "Entity": "IfcWorkSchedule"
+      },
+      {
+       "Entity": "IfcWorkTime"
+      },
+      {
+       "Entity": "IfcZShapeProfileDef"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "LAY000",
+   "titulo": "Presentation Layer Assignment",
+   "arquivo": "LAY000_Presentation-layer-assignment.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "LAY",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to assign layers (also known as, CAD layer) to collection of elements. This is used mainly for grouping and visibility control, and in general to organise geometry into groups that may be shown or hidden. https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Product_Shape/Product_Geometry_Layer/content.html",
+   "cenarios": [
+    {
+     "nome": "Layer assignment to representation",
+     "passos": [
+      "Given an .IfcProduct.",
+      "Given its attribute .Representation.",
+      "Given its attribute .Representations.",
+      "Given its attribute .LayerAssignments.",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Layer assignment to representation items",
+     "passos": [
+      "Given an .IfcProduct.",
+      "Given its attribute .Representation.",
+      "Given its attribute .Representations.",
+      "Given its attribute .Items.",
+      "Given its attribute .LayerAssignment.",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "LIP000",
+   "titulo": "Linear Placement",
+   "arquivo": "LIP000_Linear-Placement.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "LIP",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to position elements relative to an IfcLinearPositioningElement in accordance with the ISO 19148 Linear referencing standard. https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Product_Shape/Product_Placement/Product_Linear_Placement/content.html",
+   "cenarios": [
+    {
+     "nome": "Check for activation",
+     "passos": [
+      "Given an .IfcProduct.",
+      "Given its attribute .ObjectPlacement.",
+      "Given [its entity type] ^is^ 'IfcLinearPlacement'",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "LIP002",
+   "titulo": "Linear placement fallback coordinates",
+   "arquivo": "LIP002_Linear-placement-fallback-coordinates.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "industry-practice",
+    "LIP",
+    "version1"
+   ],
+   "descricao": "The rule verifies that all linear placements include the CartesianPosition attribute and that the provided values correspond to the calculated placement defined by the RelativePlacement attribute Background: Given A model with Schema 'IFC4.3' Given An .IfcLinearPlacement.",
+   "cenarios": [
+    {
+     "nome": "Confirm the presence of CartesianPosition",
+     "passos": [
+      "Then the value of attribute .CartesianPosition. must be ^not empty^"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Confirm the values of CartesianPosition",
+     "passos": [
+      "Then .CartesianPosition. must be *equal to* [the calculated linear placement]"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "LOP000",
+   "titulo": "Local placement",
+   "arquivo": "LOP000_Local-placement.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "LOP",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to position a product in relation to the placement of another product; or its absolute placement within the geometric representation context of the project.",
+   "cenarios": [
+    {
+     "nome": "Check for activation .",
+     "passos": [
+      "Given An .IfcObject.",
+      "Given Its attribute .ObjectPlacement.",
+      "Given [Its entity type] ^is^ 'IfcLocalPlacement'",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "MAT000",
+   "titulo": "Materials",
+   "arquivo": "MAT000_Materials.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "MAT",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to define materials assigned to elements. https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Association/Material_Association/Material_Single/content.html",
+   "cenarios": [
+    {
+     "nome": "Check for activation of Materials - IFC4 & IFC4.3",
+     "passos": [
+      "Given A model with Schema 'IFC4' or 'IFC4.3'",
+      "Given an .IfcObjectDefinition.",
+      "Given its attribute .HasAssociations.",
+      "Given [its entity type] ^is^ 'IfcRelAssociatesMaterial'",
+      "Given its attribute .RelatingMaterial.",
+      "Given [its entity type] ^is^ 'IfcMaterialDefinition' ^including subtypes^",
+      "Then The IFC model contains information on materials assigned to elements"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Check for activation of Materials - IFC2X3",
+     "passos": [
+      "Given A model with Schema 'IFC2X3'",
+      "Given an .IfcObjectDefinition.",
+      "Given its attribute .HasAssociations.",
+      "Given [its entity type] ^is^ 'IfcRelAssociatesMaterial'",
+      "Then The IFC model contains information on materials assigned to elements"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "MPD001",
+   "titulo": "Correct use of RepresentationType and RepresentationIdentifier in the context of IfcMappedItem",
+   "arquivo": "MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "MPD",
+    "version1"
+   ],
+   "descricao": "The rule verifies that the shape representations being mapped as part of an IfcMappedItem all have the same RepresentationType and that the RepresentationIdentifier correspond to that of the representation that owns the mapped item.",
+   "cenarios": [
+    {
+     "nome": "Agreement on the equality of RepresentationIdentifier",
+     "passos": [
+      "Given an .IfcShapeRepresentation.",
+      "Given its attribute .RepresentationIdentifier. [stored as 'ParentIdentifier']",
+      "Given the instances '2' steps up",
+      "Given its attribute .Items.",
+      "Given [its entity type] ^is^ 'IfcMappedItem'",
+      "Given its attribute .MappingSource.",
+      "Given its attribute .MappedRepresentation.",
+      "Given its attribute .RepresentationIdentifier. [stored as 'ChildIdentifier']",
+      "Then the value 'ChildIdentifier' must be ^equal to^ the value 'ParentIdentifier'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on the equality of RepresentationType",
+     "passos": [
+      "Given an .IfcShapeRepresentation.",
+      "Given its attribute .Items.",
+      "Given [its entity type] ^is^ 'IfcMappedItem'",
+      "Given its attribute .MappingSource.",
+      "Given its attribute .MappedRepresentation.",
+      "Given its attribute .RepresentationType.",
+      "Then the values must be identical at depth 1"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "OJP000",
+   "titulo": "Object placement",
+   "arquivo": "OJP000_Object-placement.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "OJP",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to define an object placement, which in turns establishes the local coordinate system and spatial position of the product.",
+   "cenarios": [
+    {
+     "nome": "Check for activation .",
+     "passos": [
+      "Given An .IfcObject.",
+      "Given Its attribute .ObjectPlacement.",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "OJP001",
+   "titulo": "Relative placement for elements aggregated to another element",
+   "arquivo": "OJP001_Relative-placement-for-elements-aggregated-to-another-element.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "3",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "OJP",
+    "version3"
+   ],
+   "descricao": "The rule verifies that if an IfcElement is a part of another IfcElement (the container) through the relationship IfcRelAggregates, then the relative placement of that IfcElement shall be provided by an IfcLocalPlacement with an PlacementRelTo attribute pointing to the IfcLocalPlacement of the container element.",
+   "cenarios": [
+    {
+     "nome": "Agreement on the relative placement of IfcElements being a part of another IfcElement through the relationship IfcRelAggregates",
+     "passos": [
+      "Given A model with Schema 'IFC2X3' or 'IFC4'",
+      "Given An .IfcElement.",
+      "Given A relationship .IfcRelAggregates. from .IfcElement. to .IfcElement. and following that",
+      "Then The relative placement of that IfcElement must be provided by an IfcLocalPlacement entity",
+      "Then The PlacementRelTo attribute must point to the IfcLocalPlacement of the container element established with IfcRelAggregates relationship"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "OJT001",
+   "titulo": "Object Predefined Type",
+   "arquivo": "OJT001_Object-predefined-type.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "3",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "OJT",
+    "version3"
+   ],
+   "descricao": "The rule verifies that the attribute 'PredefinedType' for object occurrences is used in accordance with Concept Template 4.1.3.2 - Object Predefined Type. Ref: https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/concepts/Object_Attributes/Object_Predefined_Type/content.html Background: Given a model with Schema 'IFC4' or 'IFC4.3'",
+   "cenarios": [
+    {
+     "nome": "Validating the proper use of USERDEFINED PredefinedType for an object typed at the occurrence",
+     "passos": [
+      "Given An .IfcObject. ^with subtypes^",
+      "Given .IsTypedBy. ^is^ empty",
+      "Given .PredefinedType. ^is^ 'USERDEFINED'",
+      "Then The value of attribute .ObjectType. must be ^not empty^"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating the proper use of USERDEFINED PredefinedType for an object typed by IfcTypeObject",
+     "passos": [
+      "Given An .IfcTypeObject. ^with subtypes^",
+      "Given .PredefinedType. ^is^ 'USERDEFINED'",
+      "Then The value of attribute .ElementType. must be ^not empty^"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating the proper use of PredefinedType for an Object typed by IfcTypeObject",
+     "passos": [
+      "Given A model with Schema 'IFC4' or 'IFC4.3'",
+      "Given An .IfcTypeObject. ^with subtypes^",
+      "Given Its .PredefinedType. attribute ^does not start^ with 'NOTDEFINED'",
+      "Given A relationship .IfcRelDefinesByType. from .IfcTypeObject. to .IfcObject. and following that",
+      "Then The value of attribute .PredefinedType. must be ^empty^ [and display entity instance]"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "PJS000",
+   "titulo": "Project",
+   "arquivo": "PJS000_Project.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "PJS",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to define the overall context and a directory of objects contained within. https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project_Context/content.html",
+   "cenarios": [
+    {
+     "nome": "Check for activation.",
+     "passos": [
+      "Given An .IfcProject.",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "PJS001",
+   "titulo": "Correct conversion based units",
+   "arquivo": "PJS001_Correct-conversion-based-units.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "PJS",
+    "version2"
+   ],
+   "descricao": "The rule verifies that conversion-based units used per Concept Template 4.1.9.9 (https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project_Context/Project_Units/content.html) have names and corresponding conversion factors per the table of recommended values. This table is not considered to be a normative reference. Therefore all schema versions are checked against the latest table from IFC 4X3: https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcConversionBasedUnit.htm. Background: Selection of conversion-based units in default unit assignment Given an .IfcProject. Given its attribute .UnitsInContext. Given its attribute .Units. Given [its entity type] ^is^ 'IfcConversionBasedUnit'",
+   "cenarios": [
+    {
+     "nome": "Validating correct names for area, length, and volume units",
+     "passos": [
+      "Given .UnitType. ^is^ 'AREAUNIT' or 'LENGTHUNIT' or 'VOLUMEUNIT' or 'PLANEANGLEUNIT'",
+      "Then its attribute .Name. must be defined [according to the table] 'valid_ConversionBasedUnits'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating correct conversion factors",
+     "passos": [
+      "Then its attribute .ConversionFactor. must be defined [according to the table] 'valid_ConversionBasedUnits'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating that the conversion is based on SI units",
+     "passos": [
+      "Given its attribute .ConversionFactor.",
+      "Given its attribute .UnitComponent.",
+      "Then [its entity type] ^is^ 'IfcSIUnit'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating that the conversion is based on the correct SI unit",
+     "passos": [
+      "Given .UnitType. ^is^ '<UnitType>'",
+      "Given its attribute .ConversionFactor.",
+      "Given its attribute .UnitComponent.",
+      "Then the value of attribute .Name. must be '<CorrespondingSIUnit>'"
+     ],
+     "exemplos": [
+      {
+       "UnitType": "AREAUNIT",
+       "CorrespondingSIUnit": "SQUARE_METRE"
+      },
+      {
+       "UnitType": "LENGTHUNIT",
+       "CorrespondingSIUnit": "METRE"
+      },
+      {
+       "UnitType": "VOLUMEUNIT",
+       "CorrespondingSIUnit": "CUBIC_METRE"
+      },
+      {
+       "UnitType": "PLANEANGLEUNIT",
+       "CorrespondingSIUnit": "RADIAN"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "PJS002",
+   "titulo": "Correct elements related to project",
+   "arquivo": "PJS002_Correct-elements-related-to-project.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "PJS",
+    "version2"
+   ],
+   "descricao": "The rule verifies that object occurrences (e.g. beams, walls) used within the context of a project are not related to the project using the the declaration relationship. See the Spatial Containment template for relating object occurrences to the spatial structure. https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Project_Context/Project_Declaration/content.html",
+   "cenarios": [
+    {
+     "nome": "Validating correct elements relationship from IfcProject",
+     "passos": [
+      "Given An .IfcProject.",
+      "Given a relationship .IfcRelDeclares. from .IfcProject. to .IfcRoot. and following that",
+      "Then the type must be in 'valid_ProjectDeclaration.csv'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "PJS003",
+   "titulo": "Globally Unique Identifiers",
+   "arquivo": "PJS003_Globally-Unique-Identifiers.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "PJS",
+    "version1"
+   ],
+   "descricao": "The rule verifies that the GUID of each element adheres to the Global Unique Identifier format and ensures compliance with constraints that are not yet validated by other methods. Specifically, the characters must be within the official encoding character set \"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$,\" , the resulting string must be exactly 22 characters in length, and the first character must be either 0, 1, 2, or 3. https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcGloballyUniqueId.htm",
+   "cenarios": [
+    {
+     "nome": "Valid globally unique identifiers",
+     "passos": [
+      "Given An .IfcRoot.",
+      "Given Its attribute .GlobalId.",
+      "Then <Constraint>"
+     ],
+     "exemplos": [
+      {
+       "Constraint": "The string length must be exactly '22' characters"
+      },
+      {
+       "Constraint": "The characters must be within the official encoding character set"
+      },
+      {
+       "Constraint": "Its value ^starts^ with '0' or '1' or '2' or '3'"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "PJS101",
+   "titulo": "Project presence",
+   "arquivo": "PJS101_Project-presence.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "PJS",
+    "industry-practice",
+    "version1"
+   ],
+   "descricao": "The rule verifies that there is exactly one instance of IfcProject. While this is a common industry practice, it does not make the IFC model invalid. For example, project libraries, including type libraries or property definition libraries, may not necessarily follow this rule.",
+   "cenarios": [
+    {
+     "nome": "Check project existence",
+     "passos": [
+      "Given an IFC Model",
+      "Then There must be exactly 1 instance(s) of .IfcProject."
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "POR000",
+   "titulo": "Port Connectivity and Nesting",
+   "arquivo": "POR000_Port-connectivity-and-nesting.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "POR",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to define ports (as means for an element to connect to other elements) and the relationship that is made between two ports. https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Connectivity/Element_Connectivity/Port_Connectivity/content.html",
+   "cenarios": [
+    {
+     "nome": "Check for activation",
+     "passos": [
+      "Given an .IfcDistributionPort.",
+      "Given its attribute .ConnectedFrom.",
+      "Given [its entity type] ^is^ 'IfcRelConnectsPorts'",
+      "Given its attribute .RelatingPort.",
+      "Given [its entity type] ^is^ 'IfcDistributionPort'",
+      "Then The IFC model contains information on port connectivity and nesting"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "PSE001",
+   "titulo": "Standard properties and property sets validation",
+   "arquivo": "PSE001_Standard-properties-and-property-sets-validation.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "3",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "PSE",
+    "version3"
+   ],
+   "descricao": "The rule verifies that each IfcPropertySet starting with 'Pset_' is defined correctly. Background: Given An .IfcPropertySet. Given its .Name. attribute ^starts^ with 'Pset_'",
+   "cenarios": [
+    {
+     "nome": "IfcPropertySet Name",
+     "passos": [
+      "Then The .IfcPropertySet. attribute .Name. must use standard values [according to the table] 'pset_definitions'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Property Name",
+     "passos": [
+      "Then Each associated .IfcProperty. must be named [according to the table] 'pset_definitions'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "PropertySet definitions",
+     "passos": [
+      "Then The .IfcPropertySet. must be related to a valid entity type [according to the table] 'pset_definitions'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Property Type",
+     "passos": [
+      "Then Each associated .IfcProperty. must be of valid entity type [according to the table] 'pset_definitions'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Property Data Type",
+     "passos": [
+      "Then Each associated .IfcProperty. value must be of valid data type [according to the table] 'pset_definitions'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "PSE002",
+   "titulo": "Custom properties and property sets validation",
+   "arquivo": "PSE002_Custom-properties-and-property-sets-validation.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "industry-practice",
+    "PSE",
+    "version1"
+   ],
+   "descricao": "The rule verifies that property set names do not start with any upper- and lowercase variation of 'pset' in order to prevent confusion with standardized property sets in the IFC specification. The property sets defined in the IFC specification all start with 'Pset_'",
+   "cenarios": [
+    {
+     "nome": "Raise a warning for unstandardized property set names",
+     "passos": [
+      "Given An .IfcPropertySet.",
+      "Given Its attribute .Name.",
+      "Given Its value ^does not start^ with 'Pset_'",
+      "Then Its value must not conform to the expression /^[Pp][Ss][Ee][Tt]/"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "QTY000",
+   "titulo": "Quantities for Objects",
+   "arquivo": "QTY000_Quantities-for-objects.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "QTY",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to define quantities of elements, such as their dimensions, volume, area, weight. https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Definition/Quantity_Sets/content.html",
+   "cenarios": [
+    {
+     "nome": "Check for activation",
+     "passos": [
+      "Given an .IfcObject.",
+      "Given its attribute .IsDefinedBy.",
+      "Given [its entity type] ^is^ 'IfcRelDefinesByProperties'",
+      "Given its attribute .RelatingPropertyDefinition.",
+      "Given [its entity type] ^is^ 'IfcElementQuantity'",
+      "Then The IFC model contains information on quantities of elements"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "QTY001",
+   "titulo": "Standard quantities and quantity sets validation",
+   "arquivo": "QTY001_Standard-quantities-and-quantity-sets-validation.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "QTY",
+    "version1"
+   ],
+   "descricao": "The rule verifies that each IfcElementQuantity starting with 'Qto_' is defined correctly. Background: Given An .IfcElementQuantity. Given its .Name. attribute ^starts^ with 'Qto_'",
+   "cenarios": [
+    {
+     "nome": "IfcElementQuantity Name",
+     "passos": [
+      "Then The .IfcElementQuantity. attribute .Name. must use standard values [according to the table] 'qto_definitions'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "PhysicalQuantity Name",
+     "passos": [
+      "Then Each associated .IfcPhysicalQuantity. must be named [according to the table] 'qto_definitions'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "ElementQuantity definitions",
+     "passos": [
+      "Then The .IfcElementQuantity. must be related to a valid entity type [according to the table] 'qto_definitions'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "PhysicalQuantity Type",
+     "passos": [
+      "Then Each associated .IfcPhysicalQuantity. must be of valid entity type [according to the table] 'qto_definitions'"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Correct value for Method of Measurement",
+     "passos": [
+      "Then The value of attribute .MethodOfMeasurement. must be 'BaseQuantities'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "SPA000",
+   "titulo": "Spaces Information",
+   "arquivo": "SPA000_Spaces-information.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "SPA",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to model spaces, such as rooms, hallways, clearance zones, and circulation areas.",
+   "cenarios": [
+    {
+     "nome": "Check for activation of Spaces Information",
+     "passos": [
+      "Given an .<Entity>.",
+      "Then The IFC model contains information on spaces information"
+     ],
+     "exemplos": [
+      {
+       "Entity": "IfcSpace"
+      },
+      {
+       "Entity": "IfcSpatialZone"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "SPS001",
+   "titulo": "Basic spatial structure for buildings",
+   "arquivo": "SPS001_Basic-spatial-structure-for-buildings.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "SPS",
+    "version2"
+   ],
+   "descricao": "The rule verifies that there's maximum one instance of IfcSite and at least one instance of IfcBuilding as part of the spatial structure. Background: Given A file with Model View Definition 'CoordinationView_V2.0' Given A file with Schema 'IFC2X3'",
+   "cenarios": [
+    {
+     "nome": "Agreement141 - Agreement on having maximum of one instance of IfcSite",
+     "passos": [
+      "Then There must be at most 1 instance(s) of .IfcSite."
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement142(1) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure",
+     "passos": [
+      "Then There must be at least 1 instance(s) of .IfcBuilding."
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement142(2) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure",
+     "passos": [
+      "Given An .IfcSite.",
+      "Given an .IfcBuilding.",
+      "Then It must be assigned to the .IfcSite."
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement142(3) - Agreement on having at least one instance of IfcBuilding as part of the spatial structure",
+     "passos": [
+      "Given no .IfcSite.",
+      "Given An .IfcBuilding.",
+      "Then It must be assigned to the .IfcProject."
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "SPS002",
+   "titulo": "Correct spatial breakdown",
+   "arquivo": "SPS002_Correct-spatial-breakdown.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "3",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "SPS",
+    "version3"
+   ],
+   "descricao": "The rule verifies that spatial elements are aggregated as per the Spatial Composition Table. The possible allowed breakdown can be found in the csv file in the folder 'features/resources/spatial_CompositionTable.csv'",
+   "cenarios": [
+    {
+     "nome": "Agreement on each IfcSpatialElement being aggregated as per spatial composition table.",
+     "passos": [
+      "Given A model with Schema 'IFC4' or 'IFC4.3'",
+      "Given An .IfcSpatialElement.",
+      "Then It must be aggregated as per spatial_CompositionTable.csv"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on the IfcProject being aggregated as per spatial composition table.",
+     "passos": [
+      "Given A model with Schema 'IFC4' or 'IFC4.3'",
+      "Given An .IfcProject.",
+      "Then It must be aggregated as per spatial_CompositionTable.csv"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "SPS003",
+   "titulo": "Correct containment of assemblies",
+   "arquivo": "SPS003_Correct-containment-of-assemblies.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "SPS",
+    "version1"
+   ],
+   "descricao": "The rule verifies that IfcElement that are aggregated in another IfcElement must not be contained using IfcRelContainedInSpatialStructure.",
+   "cenarios": [
+    {
+     "nome": "Agreement on aggregated elements not being contained",
+     "passos": [
+      "Given An .IfcElement.",
+      "Given .Decomposes. ^is not^ empty",
+      "Then The value of attribute .ContainedInStructure. must be ^empty^"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "SPS004",
+   "titulo": "No combination of containment and positioning",
+   "arquivo": "SPS004_No-combination-of-containment-and-positioning.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": true,
+   "tags": [
+    "implementer-agreement",
+    "SPS",
+    "version2",
+    "disabled"
+   ],
+   "descricao": "The rule verifies that each IfcProduct can either be contained in one and only one IfcSpatialStructureElement, or contained in one and only one IfcLinearPositioningElement, but not both.",
+   "cenarios": [
+    {
+     "nome": "Agreement on elements being contained cannot be positioned",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given An .IfcProduct.",
+      "Given .ContainedInStructure. ^is not^ empty",
+      "Then The value of attribute .PositionedRelativeTo. must be ^empty^"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on elements being positioned cannot be contained",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given An .IfcProduct.",
+      "Given .PositionedRelativeTo. ^is not^ empty",
+      "Then The value of attribute .ContainedInStructure. must be ^empty^"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "SPS005",
+   "titulo": "Simultaneous spatial relationships",
+   "arquivo": "SPS005_Simultaneous-spatial-relationships.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "SPS",
+    "version2"
+   ],
+   "descricao": "The rule verifies that an IfcElement does not simultaneously act as a child in two or more spatial relationships. For example, an element cannot participate in both nesting and aggregating children roles.",
+   "cenarios": [
+    {
+     "nome": "Constraints on spatial relationships",
+     "passos": [
+      "Given An .IfcElement.",
+      "Then ^Exactly^ 1 of the following relationships must be non-empty: 'Nests', 'Decomposes', 'ContainedInStructure', 'AdheresToElement', 'VoidsElements'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "SPS006",
+   "titulo": "Elements referenced in Spatial structures",
+   "arquivo": "SPS006_Elements-referenced-in-Spatial-structures.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": true,
+   "tags": [
+    "implementer-agreement",
+    "SPS",
+    "disabled",
+    "version2"
+   ],
+   "descricao": "The rule verifies that if an IfcElement is positioned in relation to an IfcPositioningElement, then it must be also referenced (instead of contained) into a IfcSpatialStructureElement",
+   "cenarios": [
+    {
+     "nome": "Agreement on elements being positioned to be referenced",
+     "passos": [
+      "Given A model with Schema 'IFC4.3'",
+      "Given An .IfcElement.",
+      "Given .PositionedRelativeTo. ^is not^ empty",
+      "Then The value of attribute .ReferencedInStructures. must be ^not empty^"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "SPS007",
+   "titulo": "Spatial Containment",
+   "arquivo": "SPS007_Spatial-containment.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "6",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "SPS",
+    "version6"
+   ],
+   "descricao": "The rule verifies that spatial containment via IfcRelContainedInSpatialStructure is utilised in accordance with Concept Template for Spatial Containment",
+   "cenarios": [
+    {
+     "nome": "Instances of IfcGrid must be contained within a spatial structure",
+     "passos": [
+      "Given an .IfcGrid.",
+      "Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcGrid. from .IfcSpatialStructureElement."
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Instances of IfcAnnotation must be contained within a spatial structure, except when the annotation is nested under another annotation",
+     "passos": [
+      "Given an .IfcAnnotation.",
+      "Given A relationship .IfcRelNests. ^does not exist^ to .IfcAnnotation. from .IfcAnnotation.",
+      "Then a relationship .IfcRelContainedInSpatialStructure. ^must exist^ to .IfcAnnotation. from .IfcSpatialStructureElement."
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Instances of IfcElement must be part of a spatial structure, with certain exceptions",
+     "passos": [
+      "Given an .IfcElement.",
+      "Given [Its Type] ^is not^ 'IfcFeatureElement' ^including subtypes^",
+      "Given .Decomposes. ^is^ empty",
+      "Then a *required* relationship .IfcRelContainedInSpatialStructure. to .IfcElement. from .IfcSpatialStructureElement."
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Entities that are an aggregated part of another element must not also be part of a spatial structure",
+     "passos": [
+      "Given an .IfcElement.",
+      "Given a relationship .IfcRelAggregates. to .IfcElement. from .IfcElement.",
+      "Then .ContainedInStructure. ^is^ empty"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "All other IFC entities must not be contained within a spatial structure",
+     "passos": [
+      "Given An .IfcProduct.",
+      "Given [Its Type] ^is not^ 'IfcElement' ^including subtypes^",
+      "Given [Its Type] ^is not^ 'IfcGrid'",
+      "Given [Its Type] ^is not^ 'IfcAnnotation'",
+      "Then .ContainedInStructure. ^is^ empty"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "SPS008",
+   "titulo": "Spatial Container Representations",
+   "arquivo": "SPS008_Spatial-container-representations.feature",
+   "tipo": "industry-practice",
+   "categoria": "boa_pratica",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "industry-practice",
+    "SPS",
+    "version1"
+   ],
+   "descricao": "The rule verifies that certain spatial containers do not have a geometric representation, but are rather solely a container for other elements or aggregated into other facility parts.",
+   "cenarios": [
+    {
+     "nome": "Instances of IfcBuildingStorey must not have an independent representation",
+     "passos": [
+      "Given an .IfcBuildingStorey.",
+      "Then .Representation. ^is^ empty"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Instances of IfcSite must not have an independent representation",
+     "passos": [
+      "Given a model with Schema 'IFC4' or 'IFC4.3'",
+      "Given an .IfcSite.",
+      "Then .Representation. ^is^ empty"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Instances of infrastructure facilities must not have an independent representation",
+     "passos": [
+      "Given a model with Schema 'IFC4.3'",
+      "Given an .<infrastructure_facility>.",
+      "Then .Representation. ^is^ empty"
+     ],
+     "exemplos": [
+      {
+       "infrastructure_facility": "IfcBridge"
+      },
+      {
+       "infrastructure_facility": "IfcMarineFacility"
+      },
+      {
+       "infrastructure_facility": "IfcRailway"
+      },
+      {
+       "infrastructure_facility": "IfcRoad"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "SWE001",
+   "titulo": "Arbitrary profile boundary no self-intersections",
+   "arquivo": "SWE001_Arbitrary-profile-boundary-no-self-intersections.feature",
+   "tipo": "informal-proposition",
+   "categoria": "normativa",
+   "versao": "4",
+   "desativada": false,
+   "tags": [
+    "informal-proposition",
+    "SWE",
+    "version4"
+   ],
+   "descricao": "The rule verifies that IfcArbitraryClosedProfileDefs and IfcArbitraryProfileDefWithVoids do not have any self-intersections in their boundaries. Profile definitions are the basis of geometrical sweeps such as extrusions.",
+   "cenarios": [
+    {
+     "nome": "Validating that IfcArbitraryClosedProfileDef instances do not have self-intersections in their boundaries",
+     "passos": [
+      "Given An .IfcArbitraryClosedProfileDef.",
+      "Given Its attribute .OuterCurve.",
+      "Then There must be no self-intersections"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating that IfcArbitraryProfileDefWithVoids instances do not have self-intersections in their inner boundaries",
+     "passos": [
+      "Given An .IfcArbitraryClosedProfileDef.",
+      "Given Its attribute .InnerCurves.",
+      "Then There must be no self-intersections"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "SWE002",
+   "titulo": "Mirroring within IfcDerivedProfileDef shall not be used",
+   "arquivo": "SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.feature",
+   "tipo": "informal-proposition",
+   "categoria": "normativa",
+   "versao": "3",
+   "desativada": false,
+   "tags": [
+    "informal-proposition",
+    "SWE",
+    "version3"
+   ],
+   "descricao": "The rule verifies that the transformation defined in IfcDerivedProfileDef.Operator does not introduce mirroring. The subtype IfcMirroredProfileDef should be used for that. For the tapered sweeps, which tend to rely on IfcDerivedProfileDef, by expressing the tapering operation as a change in profile, mirroring should not be used altogether.",
+   "cenarios": [
+    {
+     "nome": "IfcDerivedProfileDef must not use mirroring as there is a dedicated subtype for that",
+     "passos": [
+      "Given A model with Schema 'IFC4' or 'IFC4.3'",
+      "Given An .IfcDerivedProfileDef. ^without subtypes^",
+      "Given Its attribute .Operator.",
+      "Given The determinant of the placement matrix",
+      "Then The resulting value must be ^greater than 0^"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Tapered sweeps must not use mirroring altogether",
+     "passos": [
+      "Given An .<entity>.",
+      "Given Its attribute .<attribute>.",
+      "Given [Its entity type] ^is^ 'IfcDerivedProfileDef' or 'IfcMirroredProfileDef'",
+      "Given Its attribute .Operator.",
+      "Given The determinant of the placement matrix",
+      "Then The resulting value must be ^greater than 0^"
+     ],
+     "exemplos": [
+      {
+       "entity": "IfcExtrudedAreaSolidTapered",
+       "attribute": "SweptArea"
+      },
+      {
+       "entity": "IfcExtrudedAreaSolidTapered",
+       "attribute": "EndSweptArea"
+      },
+      {
+       "entity": "IfcRevolvedAreaSolidTapered",
+       "attribute": "SweptArea"
+      },
+      {
+       "entity": "IfcRevolvedAreaSolidTapered",
+       "attribute": "EndSweptArea"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "SYS001",
+   "titulo": "Cable signal flow",
+   "arquivo": "SYS001_Cable-signal-flow.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": true,
+   "tags": [
+    "implementer-agreement",
+    "SYS",
+    "version2",
+    "disabled"
+   ],
+   "descricao": "The rule verifies that IfcCableSegment must define 2 distribution ports, 1 as a SOURCE, one as a SINK Background: Given A model with Schema 'IFC4.3' Given an .IfcCableSegment.",
+   "cenarios": [
+    {
+     "nome": "Agreement on IfcCableSegment having ports",
+     "passos": [
+      "Then It [must be nested by] ^exactly^ [2] instance(s) of .IfcDistributionPort."
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Agreement on port directions",
+     "passos": [
+      "Given a relationship .IfcRelNests. from .IfcAlignment. to .IfcDistributionPort. and following that",
+      "Given Its attribute .FlowDirection.",
+      "Then at least '1' value must be 'SOURCE'",
+      "Then at least '1' value must be 'SINK'"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "TAS001",
+   "titulo": "Polygonal face boundary no self-intersections",
+   "arquivo": "TAS001_Polygonal-face-boundary-no-self-intersections.feature",
+   "tipo": "informal-proposition",
+   "categoria": "normativa",
+   "versao": "2",
+   "desativada": true,
+   "tags": [
+    "disabled",
+    "informal-proposition",
+    "TAS",
+    "version2"
+   ],
+   "descricao": "The rule verifies that IfcFace instances do not have any self-intersections in their boundaries. IfcFace with polygonal loops are used in IFC's Boundary Representation (BRep) mechanism.",
+   "cenarios": [
+    {
+     "nome": "Validating that tessellated face instances do not have self-intersections in their boundaries",
+     "passos": [
+      "Given An .IfcPolygonalFaceSet.",
+      "Given Its attribute .Faces.",
+      "Then There must be no self-intersections for attribute CoordIndex"
+     ],
+     "exemplos": []
+    },
+    {
+     "nome": "Validating that tessellated face instances with voids do not have self-intersections in their inner boundaries",
+     "passos": [
+      "Given An .IfcPolygonalFaceSet.",
+      "Given Its attribute .Faces.",
+      "Given [Its Entity Type] ^is^ 'IfcIndexedPolygonalFaceWithVoids'",
+      "Then There must be no self-intersections for attribute InnerCoordIndices"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "VER000",
+   "titulo": "Versioning and revision control",
+   "arquivo": "VER000_Versioning-and-revision-control.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "VER",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to track changes to building data over time and maintain a comprehensive history of those changes. https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Attributes/Revision_Control/content.html",
+   "cenarios": [
+    {
+     "nome": "Check for activation",
+     "passos": [
+      "Given an .IfcRoot.",
+      "Given its attribute .OwnerHistory.",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  },
+  {
+   "id": "VRT000",
+   "titulo": "Virtual Elements",
+   "arquivo": "VRT000_Virtual-elements.feature",
+   "tipo": "implementer-agreement",
+   "categoria": "normativa",
+   "versao": "1",
+   "desativada": false,
+   "tags": [
+    "implementer-agreement",
+    "VRT",
+    "version1"
+   ],
+   "descricao": "The rule verifies the presence of IFC entities used to model special elements providing imaginary, placeholder, or provisional areas (e.g. clearance), volumes, and boundaries.",
+   "cenarios": [
+    {
+     "nome": "Check for activation",
+     "passos": [
+      "Given an .IfcVirtualElement.",
+      "Then The IFC model contains information on the selected functional part"
+     ],
+     "exemplos": []
+    }
+   ]
+  }
+ ]
+}

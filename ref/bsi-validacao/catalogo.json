@@ -1,0 +1,841 @@
+{
+ "fonte": "buildingSMART Validation Service – Rule Definitions (ifc-gherkin-rules, branch main)",
+ "documentacao": "https://buildingsmart.github.io/validate/",
+ "versao_servico": "0.8.4",
+ "consultado_em": "2026-10-28",
+ "observacao": "Índice para consulta offline (código, título, versão, categoria). O texto completo de cada regra fica no link; não é copiado aqui.",
+ "regras": [
+  {
+   "id": "ALB000",
+   "titulo": "Alignment layout",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB000_Alignment-layout.html"
+  },
+  {
+   "id": "ALB002",
+   "titulo": "Alignment layout relationships",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB002_Alignment-layout-relationships.html"
+  },
+  {
+   "id": "ALB003",
+   "titulo": "Alignment nesting",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB003_Alignment-nesting.html"
+  },
+  {
+   "id": "ALB004",
+   "titulo": "Alignment in spatial structure relationships",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB004_Alignment-in-spatial-structure-relationships.html"
+  },
+  {
+   "id": "ALB005",
+   "titulo": "Positioning of referents",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": true,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB005_Positioning-of-referents.html"
+  },
+  {
+   "id": "ALB010",
+   "titulo": "Alignment nesting referents",
+   "versao": 2,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB010_Alignment-nesting-referents.html"
+  },
+  {
+   "id": "ALB012",
+   "titulo": "Alignment vertical segment radius of curvature",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB012_Alignment-vertical-segment-radius-of-curvature.html"
+  },
+  {
+   "id": "ALB015",
+   "titulo": "Alignment business logic zero length final segment",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB015_Alignment-business-logic-zero-length-final-segment.html"
+  },
+  {
+   "id": "ALB021",
+   "titulo": "Alignment overall agreement of business logic and geometry",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB021_Alignment-overall-agreement-of-business-logic-and-geometry.html"
+  },
+  {
+   "id": "ALB022",
+   "titulo": "Alignment agreement on number of segments",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB022_Alignment-agreement-on-number-of-segments.html"
+  },
+  {
+   "id": "ALB023",
+   "titulo": "Alignment same segment types in business logic and geometry",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB023_Alignment-same-segment-types-in-business-logic-and-geometry.html"
+  },
+  {
+   "id": "ALB030",
+   "titulo": "Alignment local placement",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB030_Alignment-local-placement.html"
+  },
+  {
+   "id": "ALB031",
+   "titulo": "Alignment layouts default case",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB031_Alignment-layouts-default-case.html"
+  },
+  {
+   "id": "ALB032",
+   "titulo": "Alignment layouts reusing horizontal",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALB032_Alignment-layouts-reusing-horizontal.html"
+  },
+  {
+   "id": "ALS000",
+   "titulo": "Alignment geometry",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALS000_Alignment-geometry.html"
+  },
+  {
+   "id": "ALS004",
+   "titulo": "Alignment segment shape representation",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALS004_Alignment-segment-shape-representation.html"
+  },
+  {
+   "id": "ALS005",
+   "titulo": "Alignment shape representation",
+   "versao": 3,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALS005_Alignment-shape-representation.html"
+  },
+  {
+   "id": "ALS006",
+   "titulo": "Alignment horizontal shape representation",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALS006_Alignment-horizontal-shape-representation.html"
+  },
+  {
+   "id": "ALS007",
+   "titulo": "Alignment vertical shape representation",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALS007_Alignment-vertical-shape-representation.html"
+  },
+  {
+   "id": "ALS008",
+   "titulo": "Alignment cant shape representation",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALS008_Alignment-cant-shape-representation.html"
+  },
+  {
+   "id": "ALS010",
+   "titulo": "Alignment segment shape representation has the correct number of items",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALS010_Alignment-segment-shape-representation-has-the-correct-number-of-items.html"
+  },
+  {
+   "id": "ALS011",
+   "titulo": "Alignment segment entity type consistency",
+   "versao": 3,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALS011_Alignment-segment-entity-type-consistency.html"
+  },
+  {
+   "id": "ALS012",
+   "titulo": "Alignment segment start and length attribute types",
+   "versao": 1,
+   "categoria": "normativa – proposição informal",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALS012_Alignment-segment-start-and-length-attribute-types.html"
+  },
+  {
+   "id": "ALS015",
+   "titulo": "Alignment representation zero length final segment",
+   "versao": 3,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALS015_Alignment-representation-zero-length-final-segment.html"
+  },
+  {
+   "id": "ALS016",
+   "titulo": "Alignment horizontal segment geometric continuity",
+   "versao": 3,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALS016_Alignment-horizontal-segment-geometric-continuity.html"
+  },
+  {
+   "id": "ALS017",
+   "titulo": "Alignment vertical segment geometric continuity",
+   "versao": 4,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ALS017_Alignment-vertical-segment-geometric-continuity.html"
+  },
+  {
+   "id": "ANN000",
+   "titulo": "Annotations",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ANN000_Annotations.html"
+  },
+  {
+   "id": "ASM000",
+   "titulo": "Composed elements",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/ASM000_Composed-elements.html"
+  },
+  {
+   "id": "AXG000",
+   "titulo": "Axis Geometry",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/AXG000_Axis-Geometry.html"
+  },
+  {
+   "id": "BBX000",
+   "titulo": "Bounding box",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/BBX000_Bounding-box.html"
+  },
+  {
+   "id": "BBX001",
+   "titulo": "Bounding box shape representation",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/BBX001_Bounding-box-shape-representation.html"
+  },
+  {
+   "id": "BLT000",
+   "titulo": "Built elements",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/BLT000_Built-elements.html"
+  },
+  {
+   "id": "BLT001",
+   "titulo": "Correct use of operation type attributes for doors",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/BLT001_Correct-use-of-operation-type-attributes-for-doors.html"
+  },
+  {
+   "id": "BLT002",
+   "titulo": "Correct use of partitioning type attributes for windows",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/BLT002_Correct-use-of-partitioning-type-attributes-for-windows.html"
+  },
+  {
+   "id": "BLT003",
+   "titulo": "Stair decomposition",
+   "versao": 2,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/BLT003_Stair-decomposition.html"
+  },
+  {
+   "id": "BRP001",
+   "titulo": "Polyhedral IfcFace boundary no self intersections",
+   "versao": 2,
+   "categoria": "normativa – proposição informal",
+   "desativada": true,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/BRP001_Polyhedral-IfcFace-boundary-no-self-intersections.html"
+  },
+  {
+   "id": "BRP002",
+   "titulo": "Single component in connected faceset",
+   "versao": 2,
+   "categoria": "normativa – proposição informal",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/BRP002_Single-component-in-connected-faceset.html"
+  },
+  {
+   "id": "BRP003",
+   "titulo": "Planar faces are planar",
+   "versao": 2,
+   "categoria": "normativa – proposição informal",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/BRP003_Planar-faces-are-planar.html"
+  },
+  {
+   "id": "CLS000",
+   "titulo": "Classification association",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/CLS000_Classification-association.html"
+  },
+  {
+   "id": "CTX000",
+   "titulo": "Presentation colours and textures",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/CTX000_Presentation-colours-and-textures.html"
+  },
+  {
+   "id": "DOC000",
+   "titulo": "Document information",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/DOC000_Document-information.html"
+  },
+  {
+   "id": "GDP000",
+   "titulo": "Grid placement",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GDP000_Grid-placement.html"
+  },
+  {
+   "id": "GEM001",
+   "titulo": "Closed shell edge usage",
+   "versao": 4,
+   "categoria": "normativa – proposição informal",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GEM001_Closed-shell-edge-usage.html"
+  },
+  {
+   "id": "GEM002",
+   "titulo": "Space representation",
+   "versao": 2,
+   "categoria": "normativa – proposição informal",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GEM002_Space-representation.html"
+  },
+  {
+   "id": "GEM003",
+   "titulo": "Unique representation identifier",
+   "versao": 1,
+   "categoria": "normativa – proposição informal",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GEM003_Unique-representation-identifier.html"
+  },
+  {
+   "id": "GEM004",
+   "titulo": "Constraints on representation identifiers",
+   "versao": 3,
+   "categoria": "normativa – proposição informal",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GEM004_Constraints-on-representation-identifiers.html"
+  },
+  {
+   "id": "GEM005",
+   "titulo": "Building shape representation",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": true,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GEM005_Building-shape-representation.html"
+  },
+  {
+   "id": "GEM011",
+   "titulo": "Curve segments consistency",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GEM011_Curve-segments-consistency.html"
+  },
+  {
+   "id": "GEM051",
+   "titulo": "Presence of geometric context",
+   "versao": 2,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GEM051_Presence-of-geometric-context.html"
+  },
+  {
+   "id": "GEM052",
+   "titulo": "Correct geometric subcontexts",
+   "versao": 2,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GEM052_Correct-geometric-subcontexts.html"
+  },
+  {
+   "id": "GEM111",
+   "titulo": "No duplicated points within a polyloop or polyline",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GEM111_No-duplicated-points-within-a-polyloop-or-polyline.html"
+  },
+  {
+   "id": "GEM112",
+   "titulo": "No duplicated points within an indexed poly curve",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GEM112_No-duplicated-points-within-an-indexed-poly-curve.html"
+  },
+  {
+   "id": "GEM113",
+   "titulo": "Indexed poly curve arcs must not be defined using colinear points",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GEM113_Indexed-poly-curve-arcs-must-not-be-defined-using-colinear-points.html"
+  },
+  {
+   "id": "GRF000",
+   "titulo": "Georeferencing",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GRF000_Georeferencing.html"
+  },
+  {
+   "id": "GRF001",
+   "titulo": "Identical coordinate operations",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GRF001_Identical-coordinate-operations.html"
+  },
+  {
+   "id": "GRF002",
+   "titulo": "EPSG code in coordinate reference system",
+   "versao": 1,
+   "categoria": "boa prática (aviso)",
+   "desativada": true,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GRF002_EPSG-code-in-coordinate-reference-system.html"
+  },
+  {
+   "id": "GRF003",
+   "titulo": "CRS presence with spatial entities",
+   "versao": 1,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GRF003_CRS-presence-with-spatial-entities.html"
+  },
+  {
+   "id": "GRF004",
+   "titulo": "Valid EPSG prefix in coordinate reference system",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GRF004_Valid-EPSG-prefix-in-coordinate-reference-system.html"
+  },
+  {
+   "id": "GRF005",
+   "titulo": "CRS unit type differences",
+   "versao": 1,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GRF005_CRS-unit-type-differences.html"
+  },
+  {
+   "id": "GRF006",
+   "titulo": "WKT specification for missing EPSG",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GRF006_WKT-specification-for-missing-EPSG.html"
+  },
+  {
+   "id": "GRF007",
+   "titulo": "valid vertical datum crs type",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GRF007_valid-vertical-datum-crs-type.html"
+  },
+  {
+   "id": "GRF008",
+   "titulo": "Rigid operation units",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GRF008_Rigid-operation-units.html"
+  },
+  {
+   "id": "GRP000",
+   "titulo": "Groups",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GRP000_Groups.html"
+  },
+  {
+   "id": "GRP001",
+   "titulo": "Acyclic groups",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/GRP001_Acyclic-groups.html"
+  },
+  {
+   "id": "IFC101",
+   "titulo": "Only official ifc versions allowed",
+   "versao": 1,
+   "categoria": "schema – versão",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/IFC101_Only-official-ifc-versions-allowed.html"
+  },
+  {
+   "id": "IFC102",
+   "titulo": "Absence of deprecated entities",
+   "versao": 5,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/IFC102_Absence-of-deprecated-entities.html"
+  },
+  {
+   "id": "IFC105",
+   "titulo": "Resource entities need to be referenced by rooted entity",
+   "versao": 5,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": true,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/IFC105_Resource-entities-need-to-be-referenced-by-rooted-entity.html"
+  },
+  {
+   "id": "IFC106",
+   "titulo": "Resource entities should be referenced by rooted entity",
+   "versao": 1,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/IFC106_Resource-entities-should-be-referenced-by-rooted-entity.html"
+  },
+  {
+   "id": "IFC430",
+   "titulo": "Entities in scope for IFC 4X3 ReferenceView MVD",
+   "versao": 1,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/IFC430_Entities-in-scope-for-IFC-4X3-ReferenceView-MVD.html"
+  },
+  {
+   "id": "IFC431",
+   "titulo": "Entities in scope for IFC 4X3 Alignment basedView MVD",
+   "versao": 1,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/IFC431_Entities-in-scope-for-IFC-4X3-Alignment-basedView-MVD.html"
+  },
+  {
+   "id": "LAY000",
+   "titulo": "Presentation layer assignment",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/LAY000_Presentation-layer-assignment.html"
+  },
+  {
+   "id": "LIP000",
+   "titulo": "Linear Placement",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/LIP000_Linear-Placement.html"
+  },
+  {
+   "id": "LIP002",
+   "titulo": "Linear placement fallback coordinates",
+   "versao": 1,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/LIP002_Linear-placement-fallback-coordinates.html"
+  },
+  {
+   "id": "LOP000",
+   "titulo": "Local placement",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/LOP000_Local-placement.html"
+  },
+  {
+   "id": "MAT000",
+   "titulo": "Materials",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/MAT000_Materials.html"
+  },
+  {
+   "id": "MPD001",
+   "titulo": "Correct use of RepresentationType and RepresentationIdentifier in the context of IfcMappedItem",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/MPD001_Correct-use-of-RepresentationType-and-RepresentationIdentifier-in-the-context-of-IfcMappedItem.html"
+  },
+  {
+   "id": "OJP000",
+   "titulo": "Object placement",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/OJP000_Object-placement.html"
+  },
+  {
+   "id": "OJP001",
+   "titulo": "Relative placement for elements aggregated to another element",
+   "versao": 3,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/OJP001_Relative-placement-for-elements-aggregated-to-another-element.html"
+  },
+  {
+   "id": "OJT001",
+   "titulo": "Object predefined type",
+   "versao": 3,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/OJT001_Object-predefined-type.html"
+  },
+  {
+   "id": "PJS000",
+   "titulo": "Project",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/PJS000_Project.html"
+  },
+  {
+   "id": "PJS001",
+   "titulo": "Correct conversion based units",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/PJS001_Correct-conversion-based-units.html"
+  },
+  {
+   "id": "PJS002",
+   "titulo": "Correct elements related to project",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/PJS002_Correct-elements-related-to-project.html"
+  },
+  {
+   "id": "PJS003",
+   "titulo": "Globally Unique Identifiers",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/PJS003_Globally-Unique-Identifiers.html"
+  },
+  {
+   "id": "PJS101",
+   "titulo": "Project presence",
+   "versao": 1,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/PJS101_Project-presence.html"
+  },
+  {
+   "id": "POR000",
+   "titulo": "Port connectivity and nesting",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/POR000_Port-connectivity-and-nesting.html"
+  },
+  {
+   "id": "PSE001",
+   "titulo": "Standard properties and property sets validation",
+   "versao": 3,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/PSE001_Standard-properties-and-property-sets-validation.html"
+  },
+  {
+   "id": "PSE002",
+   "titulo": "Custom properties and property sets validation",
+   "versao": 1,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/PSE002_Custom-properties-and-property-sets-validation.html"
+  },
+  {
+   "id": "QTY000",
+   "titulo": "Quantities for objects",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/QTY000_Quantities-for-objects.html"
+  },
+  {
+   "id": "QTY001",
+   "titulo": "Standard quantities and quantity sets validation",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/QTY001_Standard-quantities-and-quantity-sets-validation.html"
+  },
+  {
+   "id": "SPA000",
+   "titulo": "Spaces information",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/SPA000_Spaces-information.html"
+  },
+  {
+   "id": "SPS001",
+   "titulo": "Basic spatial structure for buildings",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/SPS001_Basic-spatial-structure-for-buildings.html"
+  },
+  {
+   "id": "SPS002",
+   "titulo": "Correct spatial breakdown",
+   "versao": 3,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/SPS002_Correct-spatial-breakdown.html"
+  },
+  {
+   "id": "SPS003",
+   "titulo": "Correct containment of assemblies",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/SPS003_Correct-containment-of-assemblies.html"
+  },
+  {
+   "id": "SPS004",
+   "titulo": "No combination of containment and positioning",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": true,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/SPS004_No-combination-of-containment-and-positioning.html"
+  },
+  {
+   "id": "SPS005",
+   "titulo": "Simultaneous spatial relationships",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/SPS005_Simultaneous-spatial-relationships.html"
+  },
+  {
+   "id": "SPS006",
+   "titulo": "Elements referenced in Spatial structures",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": true,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/SPS006_Elements-referenced-in-Spatial-structures.html"
+  },
+  {
+   "id": "SPS007",
+   "titulo": "Spatial containment",
+   "versao": 6,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/SPS007_Spatial-containment.html"
+  },
+  {
+   "id": "SPS008",
+   "titulo": "Spatial container representations",
+   "versao": 1,
+   "categoria": "boa prática (aviso)",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/SPS008_Spatial-container-representations.html"
+  },
+  {
+   "id": "SWE001",
+   "titulo": "Arbitrary profile boundary no self intersections",
+   "versao": 4,
+   "categoria": "normativa – proposição informal",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/SWE001_Arbitrary-profile-boundary-no-self-intersections.html"
+  },
+  {
+   "id": "SWE002",
+   "titulo": "Mirroring within IfcDerivedProfileDef shall not be used",
+   "versao": 3,
+   "categoria": "normativa – proposição informal",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/SWE002_Mirroring-within-IfcDerivedProfileDef-shall-not-be-used.html"
+  },
+  {
+   "id": "SYS001",
+   "titulo": "Cable signal flow",
+   "versao": 2,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": true,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/SYS001_Cable-signal-flow.html"
+  },
+  {
+   "id": "TAS001",
+   "titulo": "Polygonal face boundary no self intersections",
+   "versao": 2,
+   "categoria": "normativa – proposição informal",
+   "desativada": true,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/TAS001_Polygonal-face-boundary-no-self-intersections.html"
+  },
+  {
+   "id": "VER000",
+   "titulo": "Versioning and revision control",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/VER000_Versioning-and-revision-control.html"
+  },
+  {
+   "id": "VRT000",
+   "titulo": "Virtual elements",
+   "versao": 1,
+   "categoria": "normativa – acordo de implementadores",
+   "desativada": false,
+   "url": "https://buildingsmart.github.io/ifc-gherkin-rules/branches/main/features/VRT000_Virtual-elements.html"
+  }
+ ]
+}

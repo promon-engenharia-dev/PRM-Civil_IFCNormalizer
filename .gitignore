@@ -1,0 +1,17 @@
+# IFCs reais de cliente e saídas – NÃO versionar
+samples/
+out/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+build/
+dist/
+*.log
+
+# Excel lock files
+~$*.xlsx

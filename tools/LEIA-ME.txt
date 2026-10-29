@@ -1,0 +1,64 @@
+NORMALIZADOR IFC - PROMON ENGENHARIA
+====================================
+
+Converte IFCs do Revit, Tekla e Civil 3D para IFC 4.3 e aplica as regras do padrão Promon,
+com relatório (Excel) de tudo o que foi alterado e do que ficou pendente.
+Os arquivos de origem nunca são alterados.
+
+INSTALAÇÃO
+- Copie a pasta inteira "NormalizadorIFC" para um caminho CURTO, por exemplo:
+      C:\Promon\NormalizadorIFC
+  Caminhos longos (como pastas do OneDrive) podem impedir a abertura: o Windows limita
+  caminhos a 260 caracteres e a ferramenta tem arquivos internos em subpastas.
+- Não é preciso instalar Python nem outro programa.
+- Abra com dois cliques em NormalizadorIFC.exe.
+
+USO (aba Normalização)
+1. Adicionar arquivos (ou uma pasta) com IFCs.
+2. Marcar uma ou mais ações: Normalizar, Só converter para IFC 4.3, Verificar coordenadas,
+   Diagnóstico. Elas rodam na ordem diagnóstico -> normalizar/converter -> coordenadas; quando
+   coordenadas vem junto com normalizar, a conferência e a correção valem para os arquivos gerados.
+3. Processar. Os resultados ficam na pasta de saída (padrão: "saida_normalizador" ao lado
+   dos arquivos de origem), com um relatório .xlsx por arquivo. Coordenadas ficam na subpasta
+   "coordenadas". Cada ação tem a sua aba de resultado.
+
+VISUALIZADOR 3D (aba Visualizador 3D)
+- Somente leitura. Escolha um arquivo da lista (origem ou gerado) e clique em Carregar, ou use
+  "Abrir outro IFC...". O botão "3D" nos resultados abre o arquivo direto no visualizador.
+- Vários modelos podem ficar abertos juntos: a sobreposição mostra se as coordenadas batem.
+- Mouse: botão esquerdo gira, direito/meio desloca, roda aproxima; clique seleciona (Ctrl soma),
+  duplo clique enquadra o elemento, Esc limpa a seleção, F enquadra.
+- Painel de propriedades: atributos, tipo, estrutura espacial, layer, material, Psets,
+  quantidades e coordenadas do elemento no arquivo.
+- Armaduras (barras e telas) ficam fora por padrão: marque "Incluir armaduras" para carregá-las.
+
+REGRAS
+- As regras ficam em rules\normalizacao.json (formato em rules\LEIA-ME-regras.md).
+- Regras novas entram como "proposta"; só as "aprovada" rodam por padrão.
+  Marque "Incluir regras propostas (simulação)" para ver o efeito antes de aprovar.
+- Depois de editar o arquivo, use "Recarregar" na tela.
+
+VERIFICAÇÃO E CORREÇÃO (padrão buildingSMART)
+- Ao Normalizar ou Converter, a ferramenta confere o arquivo nas 4 categorias do validador da
+  buildingSMART (sintaxe, schema IFC, regras normativas e boas práticas) e corrige o que não
+  depende de escolha. O relatório <arquivo>.verificacao.xlsx mostra o que foi corrigido (antes/depois)
+  e o que ficou pendente, com sugestão. As abas Familias, Preenchimento_Atributos e Relacoes_por_Classe
+  mostram, por classe, o que está preenchido (nome, descrição, tipo, Psets, material, layer), no estilo
+  do IFC File Analyzer da NIST. A aba Cobertura_bSI lista as regras do validador buildingSMART
+  e diz quais a ferramenta verifica.
+- As correções estão em rules\verificacao.json ("automatica" corrige, "pendencia" só aponta).
+
+ESTRUTURA ESPACIAL E NOMES
+- O cartão "Estrutura espacial e nomes" (aba Normalização) define os nomes de IfcProject, IfcSite e
+  IfcBuilding (um por prédio, reconhecido pelo nome do arquivo). Vale ao Normalizar. Campo vazio mantém
+  o nome que veio do arquivo.
+- "Salvar nas regras" grava os nomes em rules\estrutura.json; "Recarregar" volta ao que está gravado.
+- Arquivos do Civil 3D (IH): o IfcBuilding exportado vira IfcSite; a pavimentação vai para um IfcRoad.
+  Tudo fica registrado na aba Alteracoes do relatório.
+
+TEMA CLARO / ESCURO
+- A janela segue o tema do Windows (Configurações > Personalização > Cores > modo do aplicativo).
+- O botão "Tema" no canto superior direito alterna entre sistema, claro e escuro; a escolha
+  fica guardada neste computador.
+- A logo acompanha o tema: preferencial (positiva) no claro, negativa no escuro
+  (arquivos em _internal\ifc_normalizer\gui\ui\assets\).
